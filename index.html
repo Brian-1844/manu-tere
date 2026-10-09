@@ -1,0 +1,1066 @@
+<!doctype html>
+<html lang="en" translate="no" class="notranslate">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="google" content="notranslate">
+<meta name="theme-color" content="#0E4C6B">
+<meta name="description" content="Manu Tere: sail the islands of French Polynesia with a voyaging bird, steer by the stars and learn Reo Māʻohi.">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+<title>Manu Tere</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+/* Layout: a one-screen phone app. The island scene fills the stage and the manu walks its beach; activity pins sit on the drawing; the dock sits below; activities and the voyage open full screen, information opens in bottom sheets. */
+:root{
+  --bg:#E8F3F2;          /* lagoon-tinted white */
+  --surface:#FFFFFF;
+  --surface-2:#DAECEB;
+  --fg:#0D2C3D;          /* deep ocean ink */
+  --muted:#4F6F7D;
+  --line:#C3DCDB;
+  --ocean:#0E4C6B;       /* brand: open sea */
+  --lagoon:#1AA3B1;
+  --sunset:#D9562E;      /* accent: the voyage */
+  --reo:#B8431F;         /* Reo words in text (5:1 on white) */
+  --gold:#E9B93A;        /* stars, stamps */
+  --fern:#2F7D4C;
+  --btn:#0E6A80; --btn-ink:#FFFFFF;
+  --scrim:rgba(6,24,34,.5);
+  --shadow:0 10px 28px rgba(13,44,61,.16);
+  --display:"Fredoka","Nunito","Trebuchet MS","Segoe UI",sans-serif;
+  --body:"Nunito","Segoe UI",Helvetica,Arial,sans-serif;
+  --r:18px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0A1A26; --surface:#122E3E; --surface-2:#0F2533; --fg:#E6F2F2; --muted:#9DBAC3; --line:#24465A;
+    --ocean:#8FD3EA; --lagoon:#38C8D3; --sunset:#FF8A5C; --reo:#FFA27E; --gold:#F5D46A; --fern:#62C486;
+    --btn:#38C8D3; --btn-ink:#0A1A26; --scrim:rgba(0,0,0,.6); --shadow:0 10px 28px rgba(0,0,0,.5); color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0A1A26; --surface:#122E3E; --surface-2:#0F2533; --fg:#E6F2F2; --muted:#9DBAC3; --line:#24465A;
+  --ocean:#8FD3EA; --lagoon:#38C8D3; --sunset:#FF8A5C; --reo:#FFA27E; --gold:#F5D46A; --fern:#62C486;
+  --btn:#38C8D3; --btn-ink:#0A1A26; --scrim:rgba(0,0,0,.6); --shadow:0 10px 28px rgba(0,0,0,.5); color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none !important}
+html,body{height:100%}
+body{margin:0;font-family:var(--body);font-size:16px;line-height:1.45;background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;overflow:hidden}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid var(--lagoon);outline-offset:2px}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.15;margin:0;text-wrap:balance}
+h1{font-size:1.6rem} h2{font-size:1.3rem} h3{font-size:1.05rem}
+p{margin:0}
+.muted{color:var(--muted)} .small{font-size:.86rem}
+.eyebrow{font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.reo{font-family:var(--display);font-weight:600;color:var(--reo)}
+.stack{display:flex;flex-direction:column;gap:10px;min-width:0}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* buttons */
+.btn{border:0;border-radius:14px;padding:12px 16px;min-height:46px;background:var(--surface-2);font-family:var(--display);font-weight:600;font-size:1rem;display:inline-flex;align-items:center;justify-content:center;gap:8px;color:var(--fg)}
+.btn.primary{background:var(--btn);color:var(--btn-ink)}
+.btn.sun{background:var(--sunset);color:#fff}
+.btn.ghost{background:transparent;border:1.5px solid var(--line)}
+.btn.sm{padding:8px 12px;min-height:38px;font-size:.9rem;border-radius:12px}
+.btn:disabled{opacity:.45;cursor:default}
+.ibtn{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);display:grid;place-items:center;padding:0;flex:none}
+.ibtn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.spk{width:36px;height:36px;border-radius:50%;border:0;background:var(--surface-2);display:inline-grid;place-items:center;padding:0;flex:none;color:var(--fg)}
+.spk svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* app frame */
+.app{height:100%;max-width:520px;margin:0 auto;display:flex;flex-direction:column;position:relative;background:var(--bg)}
+.top{display:flex;align-items:center;gap:10px;padding:8px 16px;background:var(--bg);position:relative;z-index:5}
+.brand{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.logo{width:40px;height:40px;border-radius:13px;background:var(--ocean);display:grid;place-items:center;flex:none;overflow:hidden}
+.logo svg{width:40px;height:40px}
+.brand .t{min-width:0}
+.brand h1{font-size:1.2rem;color:var(--fg)}
+.brand .isl{font-size:.82rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand .isl b{font-family:var(--display);font-weight:600;color:var(--reo)}
+.stage{flex:1;position:relative;overflow:hidden;min-height:0;background:#BFE5F2}
+.stage>svg.scene{position:absolute;inset:0;width:100%;height:100%;display:block}
+.pins{position:absolute;inset:0;pointer-events:none;z-index:3}
+.pin{position:absolute;left:0;top:0;pointer-events:auto;border:0;background:var(--surface);color:var(--fg);border-radius:999px;padding:5px 12px 5px 5px;display:flex;align-items:center;gap:8px;box-shadow:0 6px 16px rgba(6,24,34,.28);font-family:var(--display);font-weight:600;font-size:.86rem;line-height:1.05;text-align:left;transform:translate(-50%,-50%);width:max-content;max-width:200px}
+.pin .ic{width:34px;height:34px;border-radius:50%;background:var(--sunset);display:grid;place-items:center;flex:none;position:relative}
+.pin .ic svg{width:21px;height:21px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pin .ic::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:2px solid var(--sunset);opacity:0;animation:ping 2.4s ease-out infinite}
+.pin.done .ic{background:var(--fern)}
+.pin.done .ic::after{display:none}
+.pin small{display:block;font-family:var(--body);font-weight:400;font-size:.72rem;color:var(--muted)}
+@keyframes ping{0%{transform:scale(.8);opacity:.8}80%,100%{transform:scale(1.5);opacity:0}}
+.dock{display:grid;grid-template-columns:repeat(4,1fr);background:var(--surface);border-top:1.5px solid var(--line);position:relative;z-index:5}
+.dock button{border:0;background:none;padding:9px 4px 8px;display:flex;flex-direction:column;align-items:center;gap:2px;font-family:var(--display);font-weight:600;font-size:.8rem;color:var(--fg);min-height:58px}
+.dock button small{font-family:var(--body);font-weight:400;font-size:.68rem;color:var(--muted)}
+.dock svg{width:23px;height:23px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* bird (from Manu Ora) */
+.birdlayer{position:absolute;inset:0;pointer-events:none;z-index:4;overflow:hidden}
+.bird{position:absolute;left:0;top:0;width:84px;height:77px;pointer-events:auto;cursor:pointer;will-change:transform;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.bird .flip,.bird .bob{width:100%;height:100%;transform-origin:50% 50%}
+.bird svg,.birdbox svg{width:100%;height:100%;overflow:visible;display:block;filter:drop-shadow(0 6px 6px rgba(0,0,0,.18))}
+.bird .wing,.birdbox .wing{transform-origin:48px 60px;transform-box:view-box}
+.bird .leg{transform-origin:50px 88px;transform-box:view-box}
+.bird .eye,.birdbox .eye{transform-origin:89px 42px;transform-box:view-box;animation:blink 5.5s infinite}
+.bird .head,.birdbox .head{transform-origin:70px 60px;transform-box:view-box}
+.bird.flying .wing,.birdbox.flying .wing{animation:flap .22s ease-in-out infinite alternate}
+.bird.walking .leg.l1{animation:step .36s ease-in-out infinite alternate}
+.bird.walking .leg.l2{animation:step .36s ease-in-out infinite alternate-reverse}
+.bird.walking .bob{animation:bob .36s ease-in-out infinite alternate}
+.bird.pecking .head{animation:peck .5s ease-in-out 2}
+.bird.petted .eye{animation:none;transform:scaleY(.12)}
+.bird.petted .bob{animation:purr .55s ease-in-out infinite alternate}
+.birdbox.dancing .bob,.bird.dancing .bob{animation:ori .26s ease-in-out infinite alternate}
+.birdbox.dancing .wing{animation:flap .26s ease-in-out infinite alternate}
+.birdbox .bob{width:100%;height:100%}
+@keyframes flap{from{transform:rotate(-38deg)}to{transform:rotate(22deg)}}
+@keyframes step{from{transform:rotate(-22deg)}to{transform:rotate(22deg)}}
+@keyframes bob{from{transform:translateY(0)}to{transform:translateY(-3px)}}
+@keyframes blink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+@keyframes peck{0%,100%{transform:rotate(0)}50%{transform:rotate(22deg)}}
+@keyframes purr{from{transform:rotate(-3deg) scale(1.03)}to{transform:rotate(3deg) scale(1.07)}}
+@keyframes ori{from{transform:translateX(-5px) rotate(-8deg)}to{transform:translateX(5px) rotate(8deg)}}
+.bubble{position:absolute;left:0;top:0;z-index:6;background:var(--surface);color:var(--fg);border-radius:16px;padding:8px 12px;box-shadow:var(--shadow);max-width:230px;font-size:.92rem;line-height:1.3;opacity:0;transition:opacity .25s;pointer-events:none}
+.bubble.show{opacity:1}
+.bubble b{font-family:var(--display);font-weight:600;color:var(--reo);font-size:1.05rem;display:block}
+.heart{position:absolute;left:0;top:0;width:20px;height:20px;pointer-events:none;animation:floatUp 1.3s ease-out forwards;z-index:6}
+@keyframes floatUp{from{opacity:.95;margin-top:0}to{opacity:0;margin-top:-70px}}
+
+/* scene ambience */
+.sc-cloud{animation:drift 60s linear infinite}
+.sc-sway{animation:sway 4s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:50% 100%}
+.sc-wave{animation:waveY 3.2s ease-in-out infinite}
+.sc-bob{animation:bobY 3s ease-in-out infinite;transform-box:fill-box}
+.sc-ferry{animation:ferry 46s linear infinite}
+.sc-glide{animation:glide 22s linear infinite}
+.sc-vaa{animation:vaa 18s linear infinite}
+.sc-flame{animation:flame .5s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:50% 100%}
+.sc-twinkle{animation:twinkle 2.4s ease-in-out infinite alternate}
+.sc-flow{stroke-dasharray:6 10;animation:flow 1.4s linear infinite}
+.sc-foam{animation:foam 4s ease-in-out infinite}
+.sc-curl{animation:curl 5s ease-in-out infinite;transform-box:fill-box;transform-origin:0% 100%}
+.sc-pop{animation:pop 9s ease-in-out infinite;transform-box:fill-box}
+@keyframes drift{from{transform:translateX(-80px)}to{transform:translateX(480px)}}
+@keyframes sway{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+@keyframes waveY{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes bobY{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-3px) rotate(2deg)}}
+@keyframes ferry{from{transform:translateX(120px)}to{transform:translateX(-480px)}}
+@keyframes glide{0%{transform:translate(-80px,0)}50%{transform:translate(220px,14px)}100%{transform:translate(520px,0)}}
+@keyframes vaa{from{transform:translateX(-120px)}to{transform:translateX(480px)}}
+@keyframes flame{from{transform:scale(1,1)}to{transform:scale(.85,1.15)}}
+@keyframes twinkle{from{opacity:.35}to{opacity:1}}
+@keyframes flow{to{stroke-dashoffset:-32}}
+@keyframes foam{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+@keyframes curl{0%,100%{transform:scale(1)}50%{transform:scale(1.05,1.1)}}
+@keyframes pop{0%,70%,100%{transform:translateY(14px);opacity:0}76%,92%{transform:translateY(0);opacity:1}}
+
+/* full-screen layers (activities, map, voyage, welcome) */
+.full{position:fixed;inset:0;z-index:40;display:flex;justify-content:center;background:var(--scrim)}
+.full .in{width:100%;max-width:520px;height:100%;background:var(--bg);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);overflow:hidden}
+.fhead{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:10px 16px 8px}
+.fhead h2{font-size:1.45rem}
+.fbody{flex:1;overflow:auto;padding:0 16px 20px;display:flex;flex-direction:column;gap:12px;min-height:0;position:relative}
+.fbody>*,.result>*,.sheet>*{flex-shrink:0}
+.x{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);font-size:1.5rem;line-height:1;flex:none;color:var(--fg)}
+.card{background:var(--surface);border-radius:var(--r);padding:14px 16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px;min-width:0}
+.card.flat{box-shadow:none;border:1.5px solid var(--line)}
+.art{width:100%;border-radius:var(--r);overflow:hidden;position:relative;background:#0E4C6B;flex:none}
+.art svg{display:block;width:100%;height:auto}
+.prog{display:flex;gap:6px;align-items:center}
+.prog i{width:12px;height:12px;border-radius:50%;background:var(--line);display:block}
+.prog i.on{background:var(--sunset)}
+.fb{min-height:1.5em;font-weight:700}
+.fb.good{color:var(--fern)} .fb.bad{color:var(--reo)}
+.shake{animation:shake .4s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+/* market */
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{border:2px solid var(--line);background:var(--surface);border-radius:16px;padding:10px;display:flex;flex-direction:column;align-items:center;gap:4px;min-height:118px;justify-content:center}
+.opt svg{width:84px;height:84px}
+.opt span{font-size:.82rem;color:var(--muted);min-height:1.2em}
+.opt.ok{border-color:var(--fern);box-shadow:inset 0 0 0 2px var(--fern)}
+.basket{display:flex;gap:6px;flex-wrap:wrap;min-height:40px;align-items:center}
+.basket svg{width:36px;height:36px}
+
+/* games: big hold/tap buttons */
+.pad{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pad .btn{min-height:64px;font-size:1.1rem;touch-action:none;user-select:none;-webkit-user-select:none}
+.pad .btn.held{filter:brightness(1.15);transform:scale(.98)}
+.meter{height:14px;border-radius:99px;background:var(--surface-2);overflow:hidden;position:relative}
+.meter .f{position:absolute;left:0;top:0;bottom:0;background:var(--lagoon);border-radius:99px;width:0}
+.meter .z{position:absolute;top:0;bottom:0;background:var(--fern);opacity:.35}
+.meter .m{position:absolute;top:-3px;bottom:-3px;width:4px;border-radius:2px;background:var(--fg)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.plant{border:0;border-radius:16px;background:#8C4A2F;aspect-ratio:1;max-width:100%;padding:4px;display:grid;place-items:center}
+.plant svg{width:100%;height:100%}
+.tapable{cursor:pointer}
+
+/* result */
+.result{position:absolute;inset:0;background:var(--bg);padding:8px 16px 20px;overflow:auto;display:flex;flex-direction:column;gap:12px;z-index:3}
+.stamp{width:132px;height:132px;margin:6px auto 0;animation:stampIn .55s cubic-bezier(.2,1.6,.4,1)}
+@keyframes stampIn{from{transform:scale(2.2) rotate(-18deg);opacity:0}to{transform:scale(1) rotate(-8deg);opacity:1}}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.wchip{display:flex;align-items:center;gap:8px;border:1.5px solid var(--line);border-radius:14px;padding:6px 6px 6px 12px;background:var(--surface)}
+.wchip b{font-family:var(--display);font-weight:600;color:var(--reo)}
+.wchip span{font-size:.82rem;color:var(--muted)}
+
+/* sheets */
+.sheetwrap{position:fixed;inset:0;z-index:50;background:var(--scrim);display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--bg);width:100%;max-width:520px;max-height:88%;overflow:auto;border-radius:24px 24px 0 0;padding:16px 16px calc(22px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px;animation:up .28s ease-out}
+@keyframes up{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+.shead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.wlist{display:flex;flex-direction:column;gap:0}
+.wrow{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.wrow b{font-family:var(--display);font-weight:600;font-size:1.1rem;color:var(--reo)}
+.wrow .en{font-size:.92rem}
+.wrow .ph{font-size:.8rem;color:var(--muted);font-style:italic}
+.wrow .spk{grid-row:1/span 3;grid-column:2}
+.wrow.lock b{color:var(--muted)}
+.facts{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:6px}
+.swatches{display:flex;gap:8px;flex-wrap:wrap}
+.sw{width:38px;height:38px;border-radius:50%;border:3px solid var(--surface);box-shadow:0 0 0 1.5px var(--line);padding:0}
+.sw.on{box-shadow:0 0 0 3px var(--btn)}
+.toggles{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.tg{border:1.5px solid var(--line);background:var(--surface);border-radius:14px;padding:10px 12px;text-align:left;display:flex;flex-direction:column;gap:2px;min-height:58px}
+.tg b{font-family:var(--display);font-weight:600}
+.tg span{font-size:.76rem;color:var(--muted)}
+.tg.on{border-color:var(--btn);box-shadow:inset 0 0 0 2px var(--btn)}
+.tg:disabled{opacity:.6}
+input[type=text]{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface);font-size:1rem;min-height:46px}
+.pstamps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.pst{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.pst svg{width:100%;max-width:112px;height:auto}
+.pst .acts{display:flex;gap:4px}
+.pst .acts i{width:12px;height:12px;border-radius:50%;border:2px solid var(--line);display:block}
+.pst .acts i.on{background:var(--fern);border-color:var(--fern)}
+.soon{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.soon .card{padding:12px}
+.soon b{font-family:var(--display);font-weight:600}
+
+/* map */
+.mapwrap{position:relative;border-radius:var(--r);overflow:hidden;flex:none}
+.mapwrap svg{display:block;width:100%;height:auto}
+.isle{cursor:pointer}
+.isle:focus-visible{outline:none}
+.isle:focus-visible .hit{stroke:#fff;stroke-width:3}
+
+/* voyage */
+.vy{position:relative;flex:1;min-height:0;overflow:hidden;touch-action:none}
+.vy>svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hud{position:absolute;left:12px;right:12px;top:10px;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.hud .card{padding:10px 12px;background:rgba(9,28,44,.72);color:#F1F7FA;box-shadow:none;backdrop-filter:blur(4px)}
+.hud .reo{color:#FFD08A}
+.hud .muted{color:#BFD3DC}
+.vbar{height:8px;border-radius:99px;background:rgba(255,255,255,.18);overflow:hidden}
+.vbar i{display:block;height:100%;width:0;background:#FFD08A;border-radius:99px}
+.vctl{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;padding:10px 16px 12px;align-items:center;background:var(--bg)}
+.vctl .btn{min-height:60px;font-size:1.05rem;touch-action:none;user-select:none;-webkit-user-select:none}
+.vstat{font-family:var(--display);font-weight:600;text-align:center;min-width:92px;font-size:.92rem}
+
+/* welcome */
+.welcome .in{background:linear-gradient(#1C4F78,#F08A5D 62%,#F6C177)}
+.welcome .fbody{justify-content:flex-end;gap:14px;padding-bottom:24px}
+.welcome .card{background:var(--surface)}
+.birdbox{width:150px;height:138px;margin:0 auto}
+.welcome .in{position:relative}
+.welcome .fbody{position:relative;z-index:1}
+.wplane{position:absolute;left:0;top:9%;width:300px;pointer-events:none;animation:planeCross 18s linear infinite;animation-delay:-7s}
+.wplane svg,.fplane svg{width:100%;height:auto;display:block}
+@keyframes planeCross{from{transform:translate(-300px,12px)}to{transform:translate(560px,-16px)}}
+.flyin{position:relative;flex:1;overflow:hidden}
+.flyin>svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.fplane{position:absolute;left:0;top:14%;width:86%;transform-origin:70% 50%;animation:planeLand 2.9s ease-in-out forwards}
+@keyframes planeLand{0%{transform:translate(-75%,0) rotate(-3deg)}55%{transform:translate(0%,calc(22vh - 20px)) rotate(5deg) scale(.6)}100%{transform:translate(20%,calc(47vh - 42px)) rotate(6deg) scale(.2)}}
+.flycap{position:absolute;left:16px;right:16px;bottom:28px;margin:0;text-align:center;color:#FFFFFF;font-family:var(--display);font-weight:600;font-size:1.3rem;text-shadow:0 2px 10px rgba(0,0,0,.4)}
+
+.toast{position:fixed;left:50%;top:calc(70px + env(safe-area-inset-top,0px));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:14px;font-weight:700;font-size:.92rem;z-index:70;max-width:min(92vw,440px);text-align:center;box-shadow:var(--shadow);animation:tIn .25s ease-out}
+@keyframes tIn{from{opacity:0;transform:translate(-50%,-8px)}to{opacity:1;transform:translate(-50%,0)}}
+.toast b{font-family:var(--display);font-weight:600}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001s !important;animation-iteration-count:1 !important;transition:none !important}
+}
+</style>
+
+</head>
+<body>
+<div class="app" id="app">
+  <header class="top">
+    <div class="brand">
+      <div class="logo" id="logo" aria-hidden="true"></div>
+      <div class="t"><h1>Manu Tere</h1><div class="isl" id="islLabel"></div></div>
+    </div>
+    <button class="ibtn" id="infoBtn" aria-label="About this island"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg></button>
+    <button class="ibtn" id="soundBtn" aria-label="Sound on"></button>
+  </header>
+  <main class="stage" id="stage">
+    <svg class="scene" id="scene" viewBox="0 0 360 640" preserveAspectRatio="xMidYMax slice" aria-hidden="true"></svg>
+    <div class="birdlayer" id="birdlayer">
+      <div class="bird" id="bird" role="button" tabindex="0" aria-label="Your manu"><div class="bob"><div class="flip" id="birdFlip"></div></div></div>
+      <div class="bubble" id="bubble" aria-live="polite"></div>
+    </div>
+    <div class="pins" id="pins"></div>
+  </main>
+  <nav class="dock" aria-label="Main">
+    <button id="dMap"><svg viewBox="0 0 24 24"><path d="M3 6.5 9 4l6 2.5L21 4v13.5L15 20l-6-2.5L3 20Z"/><path d="M9 4v13.5M15 6.5V20"/></svg>Islands<small>Fenua</small></button>
+    <button id="dWords"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4Z"/><path d="M8 9h8M8 12.5h5"/></svg>Words<small>Parau</small></button>
+    <button id="dPass"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><circle cx="12" cy="10.5" r="3.2"/><path d="M8.5 17h7"/></svg>Passport<small>Stamps</small></button>
+    <button id="dManu"><svg viewBox="0 0 24 24"><path d="M5 13c0-4 3-7 7-7 3 0 5 2 6 4l3 1-3 1c-1 3-3 6-7 6-4 0-6-2-6-5Z"/><circle cx="15" cy="9.5" r=".6"/><path d="M5 13 2 11l1 4"/></svg>My manu<small>Manu</small></button>
+  </nav>
+</div>
+<div class="full" id="full" hidden><div class="in" id="fullIn"></div></div>
+<div class="sheetwrap" id="sheetwrap" hidden><section class="sheet" id="sheet" role="dialog" aria-modal="true"></section></div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(()=>{
+'use strict';
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const rnd=(a,b)=>a+Math.random()*(b-a);
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+
+/* ---------- saved progress (this phone only) ---------- */
+const KEY='manutere.v1';
+const DEF={name:'Tere', body:'#E4583F', belly:'#F6F1E7', acc:{tiare:true,hei:false,pareu:false,titia:false}, island:'tahiti', visited:[], done:{}, words:[], sound:true, onboarded:false, voyages:0, best:{}};
+function load(){ try{ const raw=localStorage.getItem(KEY); if(raw){ const o=JSON.parse(raw); return Object.assign(JSON.parse(JSON.stringify(DEF)),o,{acc:Object.assign({},DEF.acc,o.acc||{})}); } }catch(e){} return JSON.parse(JSON.stringify(DEF)); }
+let S=load();
+function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
+
+/* ---------- words (Reo Tahiti) ---------- */
+const W={
+  iaorana:{r:'ʻIa ora na', en:'hello', ph:'yah OH-rah nah', g:'greet'},
+  maeva:{r:'Maeva', en:'welcome', ph:'mah-EH-vah', g:'greet'},
+  mauruuru:{r:'Māuruuru', en:'thank you', ph:'MAH-oo-roo-OO-roo', g:'greet'},
+  huru:{r:'E aha te huru?', en:'how are you?', ph:'eh AH-hah teh HOO-roo', g:'greet'},
+  maitai:{r:'Maitaʻi', en:'good, fine', ph:'my-TAH-ee', g:'greet'},
+  nana:{r:'Nana', en:'bye', ph:'NAH-nah', g:'greet'},
+  haeremai:{r:'Haere mai', en:'come here', ph:'HAH-eh-reh MAH-ee', g:'greet'},
+  aita:{r:'ʻAita peʻapeʻa', en:'no worries', ph:'AH-ee-tah peh-AH-peh-ah', g:'greet'},
+  faaitoito:{r:'Faʻaitoito', en:'keep going, courage', ph:'fah-ah-ee-toh-EE-toh', g:'greet'},
+  manu:{r:'manu', en:'bird', ph:'MAH-noo', g:'greet'},
+  tere:{r:'tere', en:'journey; to travel', ph:'TEH-reh', g:'greet'},
+  fenua:{r:'fenua', en:'land, home island', ph:'feh-NOO-ah', g:'greet'},
+  matete:{r:'mātete', en:'market', ph:'MAH-teh-teh', g:'tahiti'},
+  meia:{r:'meiʻa', en:'banana', ph:'meh-EE-ah', g:'tahiti'},
+  vi:{r:'vī', en:'mango', ph:'VEE', g:'tahiti'},
+  uru:{r:'ʻuru', en:'breadfruit', ph:'OO-roo', g:'tahiti'},
+  haari:{r:'haʻari', en:'coconut', ph:'hah-AH-ree', g:'tahiti'},
+  ia:{r:'ʻiʻa', en:'fish', ph:'EE-ah', g:'tahiti'},
+  tiare:{r:'tiare', en:'flower; the tiare Tahiti gardenia', ph:'tee-AH-reh', g:'tahiti'},
+  faahee:{r:'faʻaheʻe', en:'to surf', ph:'fah-ah-HEH-eh', g:'tahiti'},
+  ori:{r:'ʻori', en:'to dance', ph:'OH-ree', g:'tahiti'},
+  toere:{r:'tōʻere', en:'wooden slit drum', ph:'TOH-eh-reh', g:'tahiti'},
+  heiva:{r:'Heiva', en:'festival of dance, song and sport', ph:'HAY-vah', g:'tahiti'},
+  tairoto:{r:'tairoto', en:'lagoon', ph:'tah-ee-ROH-toh', g:'moorea'},
+  honu:{r:'honu', en:'sea turtle', ph:'HOH-noo', g:'moorea'},
+  fai:{r:'fai', en:'stingray', ph:'FAH-ee', g:'moorea'},
+  mao:{r:'maʻo', en:'shark', ph:'MAH-oh', g:'moorea'},
+  hou:{r:'hōʻū', en:'parrotfish', ph:'HOH-oo', g:'moorea'},
+  oua:{r:'ʻōuʻa', en:'dolphin', ph:'OH-oo-ah', g:'moorea'},
+  tohora:{r:'tohorā', en:'humpback whale', ph:'toh-hoh-RAH', g:'moorea'},
+  painapo:{r:'painapo', en:'pineapple', ph:'pah-ee-NAH-poh', g:'moorea'},
+  toa:{r:'toʻa', en:'coral', ph:'TOH-ah', g:'moorea'},
+  vaa:{r:'vaʻa', en:'outrigger canoe', ph:'VAH-ah', g:'bora'},
+  hoe:{r:'hoe', en:'paddle; to paddle', ph:'HOH-eh', g:'bora'},
+  fafapiti:{r:'fāfā piti', en:'manta ray', ph:'FAH-fah PEE-tee', g:'bora'},
+  motu:{r:'motu', en:'islet on the reef', ph:'MOH-too', g:'bora'},
+  fetia:{r:'fetiʻa', en:'star', ph:'feh-TEE-ah', g:'sky'},
+  matarii:{r:'Matariʻi', en:'the Pleiades', ph:'mah-tah-REE-ee', g:'sky'},
+  tautoru:{r:'Tautoru', en:'Orion’s Belt', ph:'tah-oo-TOH-roo', g:'sky'},
+  taurua:{r:'Taʻurua-faupapa', en:'Sirius', ph:'tah-OO-roo-ah fow-PAH-pah', g:'sky'},
+  anamua:{r:'ʻAna-mua', en:'Antares', ph:'AH-nah MOO-ah', g:'sky'},
+  mahana:{r:'mahana', en:'sun; day', ph:'mah-HAH-nah', g:'sky'},
+  moana:{r:'moana', en:'ocean', ph:'moh-AH-nah', g:'sky'}
+};
+const WGROUPS=[['greet','Greetings'],['tahiti','Tahiti'],['moorea','Moʻorea'],['bora','Porapora · Bora Bora'],['sky','Sky and sea']];
+function learn(ids, quiet){ const fresh=[]; (Array.isArray(ids)?ids:[ids]).forEach(id=>{ if(W[id] && !S.words.includes(id)){ S.words.push(id); fresh.push(id); } }); if(fresh.length){ save(); if(!quiet) toast(`New word: <b>${esc(W[fresh[0]].r)}</b> · ${esc(W[fresh[0]].en)}`); } return fresh; }
+
+/* ---------- voice: an approximate computer voice for Reo words ---------- */
+let VOICE=null;
+function pickVoice(){ try{ const vs=speechSynthesis.getVoices(); for(const p of ['mi','id','ms','es','it']){ const v=vs.find(v=>(v.lang||'').toLowerCase().startsWith(p)); if(v) return v; } }catch(e){} return null; }
+try{ if('speechSynthesis' in window){ speechSynthesis.onvoiceschanged=()=>{ VOICE=pickVoice(); }; } }catch(e){}
+function speak(txt){ if(!S.sound) return; try{ if(!('speechSynthesis' in window)) return; VOICE=VOICE||pickVoice(); const clean=txt.replace(/[ʻ’'?!]/g,'').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/-/g,' '); const u=new SpeechSynthesisUtterance(clean); if(VOICE){ u.voice=VOICE; u.lang=VOICE.lang; } else u.lang='id-ID'; u.rate=.78; speechSynthesis.cancel(); speechSynthesis.speak(u); }catch(e){} }
+function sayWord(id){ if(W[id]) speak(W[id].r); }
+const SPK='<svg viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4Z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>';
+function spkBtn(id){ return `<button class="spk" data-say="${id}" aria-label="Listen to ${esc(W[id]?W[id].r:id)}">${SPK}</button>`; }
+document.addEventListener('click',e=>{ const b=e.target.closest('[data-say]'); if(b){ e.stopPropagation(); sayWord(b.dataset.say); } });
+
+/* ---------- sound effects, synthesised ---------- */
+let AC=null;
+function ac(){ if(!AC){ try{ AC=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ return null; } } if(AC.state==='suspended') AC.resume(); return AC; }
+function pluck(f,t,v,len){ const a=AC, o=a.createOscillator(), o2=a.createOscillator(), g=a.createGain(); o.type='triangle'; o2.type='sine'; o.frequency.value=f; o2.frequency.value=f*2; g.gain.setValueAtTime(.0001,t); g.gain.linearRampToValueAtTime(v,t+.006); g.gain.exponentialRampToValueAtTime(.0001,t+(len||.8)); o.connect(g); o2.connect(g); g.connect(a.destination); o.start(t); o2.start(t); o.stop(t+(len||.8)+.05); o2.stop(t+(len||.8)+.05); }
+let NOISE=null;
+function noiseBuf(){ if(NOISE) return NOISE; const a=AC, b=a.createBuffer(1,a.sampleRate*.5,a.sampleRate), d=b.getChannelData(0); for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1; NOISE=b; return b; }
+function hit(t,freq,q,vol,len){ const a=AC, s=a.createBufferSource(), f=a.createBiquadFilter(), g=a.createGain(); s.buffer=noiseBuf(); f.type='bandpass'; f.frequency.value=freq; f.Q.value=q; g.gain.setValueAtTime(vol,t); g.gain.exponentialRampToValueAtTime(.0001,t+len); s.connect(f); f.connect(g); g.connect(a.destination); s.start(t); s.stop(t+len+.02); }
+function drum(t){ const a=AC, o=a.createOscillator(), g=a.createGain(); o.type='sine'; o.frequency.setValueAtTime(130,t); o.frequency.exponentialRampToValueAtTime(52,t+.16); g.gain.setValueAtTime(.0001,t); g.gain.linearRampToValueAtTime(.32,t+.005); g.gain.exponentialRampToValueAtTime(.0001,t+.3); o.connect(g); g.connect(a.destination); o.start(t); o.stop(t+.32); }
+function sfx(k){ if(!S.sound) return; const a=ac(); if(!a) return; const t=a.currentTime+.01; try{
+  if(k==='good'){ pluck(659.25,t,.16,.5); pluck(987.77,t+.1,.14,.7); }
+  else if(k==='bad'){ pluck(220,t,.12,.35); }
+  else if(k==='tap'){ pluck(783.99,t,.08,.25); }
+  else if(k==='toere'){ hit(t,1700,6,.55,.07); hit(t,900,4,.25,.05); }
+  else if(k==='pahu'){ drum(t); }
+  else if(k==='splash'){ hit(t,900,.7,.25,.28); }
+  else if(k==='stamp'){ drum(t); [523.25,659.25,783.99,1046.5].forEach((f,i)=>pluck(f,t+.12+i*.08,.12,.8)); }
+  else if(k==='uke'){ [392,523.25,659.25,880].forEach((f,i)=>pluck(f,t+i*.03,.1,1)); }
+}catch(e){} }
+
+/* ---------- toast ---------- */
+function toast(html,ms){ const el=$('#toast'); el.innerHTML=html; el.hidden=false; el.style.animation='none'; void el.offsetWidth; el.style.animation=''; clearTimeout(toast.t); toast.t=setTimeout(()=>{ el.hidden=true; },ms||2800); }
+
+/* ---------- timers owned by whatever full-screen layer is open ---------- */
+const RUN={timers:[],rafs:[],stops:[]};
+function later(fn,ms){ const id=setTimeout(fn,ms); RUN.timers.push(id); return id; }
+function every(fn,ms){ const id=setInterval(fn,ms); RUN.timers.push(id); return id; }
+function frames(fn){ let last=performance.now(), alive=true; const step=now=>{ if(!alive) return; const dt=Math.min(.05,(now-last)/1000); last=now; if(fn(dt,now)===false){ alive=false; return; } RUN.rafs.push(requestAnimationFrame(step)); }; RUN.rafs.push(requestAnimationFrame(step)); const stop=()=>{ alive=false; }; RUN.stops.push(stop); return stop; }
+function clearRun(){ RUN.timers.forEach(id=>{ clearTimeout(id); clearInterval(id); }); RUN.rafs.forEach(id=>cancelAnimationFrame(id)); RUN.stops.forEach(f=>{ try{ f(); }catch(e){} }); RUN.timers=[]; RUN.rafs=[]; RUN.stops=[]; }
+
+/* ---------- full-screen layer and bottom sheet ---------- */
+let FULL_ON_CLOSE=null;
+function openFull(html, cls, onClose){ clearRun(); const f=$('#full'); f.className='full'+(cls?' '+cls:''); $('#fullIn').innerHTML=html; f.hidden=false; FULL_ON_CLOSE=onClose||null; birdPause(true); const x=$('#fullIn [data-close]'); if(x) x.addEventListener('click',()=>closeFull()); }
+function closeFull(){ clearRun(); const f=$('#full'); f.hidden=true; $('#fullIn').innerHTML=''; birdPause(false); const cb=FULL_ON_CLOSE; FULL_ON_CLOSE=null; if(cb) cb(); renderAll(); }
+function openSheet(html){ const w=$('#sheetwrap'); $('#sheet').innerHTML=html; w.hidden=false; const x=$('#sheet [data-close]'); if(x) x.addEventListener('click',closeSheet); const f=$('#sheet button, #sheet input'); if(f) try{ f.focus({preventScroll:true}); }catch(e){} }
+function closeSheet(){ $('#sheetwrap').hidden=true; $('#sheet').innerHTML=''; }
+$('#sheetwrap').addEventListener('click',e=>{ if(e.target.id==='sheetwrap') closeSheet(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ if(!$('#sheetwrap').hidden) closeSheet(); else if(!$('#full').hidden && !$('#full').classList.contains('welcome')) closeFull(); } });
+const XBTN='<button class="x" data-close aria-label="Close">×</button>';
+
+/* ---------- the manu, drawn as in Manu Ora ---------- */
+function shade(hex,f){ const n=parseInt(hex.slice(1),16); let r=n>>16,g=(n>>8)&255,b=n&255; r=Math.round(r*f);g=Math.round(g*f);b=Math.round(b*f); return '#'+[r,g,b].map(v=>Math.max(0,Math.min(255,v)).toString(16).padStart(2,'0')).join(''); }
+function lum(hex){ const n=parseInt(hex.slice(1),16); return (0.299*(n>>16)+0.587*((n>>8)&255)+0.114*(n&255))/255; }
+const LOOK={g:4,s:1,hs:1,er:4.2,wl:20,tl:1.2,crest:2,dx:0,dy:0};
+function wingSVG(body){ const wl=LOOK.wl, F=wl*1.5; const px=44+wl*.8, py=66-wl*.5; const dark=shade(body,.78), mid=shade(body,.9), edge=shade(body,.58);
+  const fe=(len,w,ang,pt,base)=>{ const tx=-len*(1.03-pt*.22), ty=w*(1.08-pt*.55);
+    const d=`M0 ${(-w*.45).toFixed(1)} C${(-len*.3).toFixed(1)} ${(-w).toFixed(1)} ${tx.toFixed(1)} ${(-ty).toFixed(1)} ${(-len).toFixed(1)} 0 C${tx.toFixed(1)} ${ty.toFixed(1)} ${(-len*.3).toFixed(1)} ${w.toFixed(1)} 0 ${(w*.45).toFixed(1)}Z`;
+    return `<g transform="translate(${px.toFixed(1)} ${py.toFixed(1)}) rotate(${(180-ang).toFixed(1)})"><path d="${d}" fill="${base}" stroke="${edge}" stroke-width=".55" stroke-linejoin="round"/><path d="M${(-len*.18).toFixed(1)} 0 H${(-len*.86).toFixed(1)}" stroke="#fff" stroke-width=".6" stroke-linecap="round" opacity=".38"/></g>`; };
+  let h=''; for(let j=6;j>=0;j--) h+=fe(F*(.8+j*.07), wl*.27, 176+j*6, j/6, j%2?dark:mid);
+  for(let j=6;j>=0;j--) h+=fe(F*(.46+j*.025), wl*.26, 173+j*6.5, 0, j%2?mid:dark);
+  h+=`<ellipse cx="${(px-wl*.12).toFixed(1)}" cy="${(py+wl*.1).toFixed(1)}" rx="${(wl*.46).toFixed(1)}" ry="${(wl*.36).toFixed(1)}" transform="rotate(28 ${px.toFixed(1)} ${py.toFixed(1)})" fill="${mid}" stroke="${edge}" stroke-width=".5"/>`;
+  return h; }
+function accParts(c){ const a=c.acc||{};
+  const hei = a.hei ? ['#FFF4C2','#F28CB1','#F0A23A','#FFF4C2','#F28CB1','#F0A23A','#FFF4C2'].map((col,i)=>{ const t=(200+i*24)*Math.PI/180; return `<circle cx="${(82+18*Math.cos(t)).toFixed(1)}" cy="${(46+18*Math.sin(t)).toFixed(1)}" r="3.4" fill="${col}" stroke="#3B8C58" stroke-width=".8"/>`; }).join('') : '';
+  const pet=(r,fill,stroke)=>[0,72,144,216,288].map(t=>`<circle cx="${(4.6*Math.cos(t*Math.PI/180)).toFixed(1)}" cy="${(4.6*Math.sin(t*Math.PI/180)).toFixed(1)}" r="${r}" fill="${fill}" stroke="${stroke}" stroke-width=".6"/>`).join('');
+  const flower = a.tiare && !a.hei ? `<g transform="translate(66 36)">${pet(3.6,'#FFF9EE','#E8D9B5')}<circle r="2.2" fill="#F2C94C"/></g>` : '';
+  const titia = a.titia ? `<g><line x1="83" y1="40" x2="66" y2="38" stroke="#10202A" stroke-width="2" stroke-linecap="round"/><rect x="82" y="37" width="15" height="9.5" rx="3.6" fill="#10202A"/><line x1="85" y1="39.6" x2="90" y2="39.6" stroke="#fff" stroke-width="1" opacity=".55" stroke-linecap="round"/></g>` : '';
+  return {top:hei+flower, eyes:titia}; }
+function birdSVG(c,id){
+  const L=LOOK, wing=shade(c.body,.78), A=accParts(c);
+  const pareu = c.acc && c.acc.pareu ? `<rect x="18" y="74" width="72" height="30" fill="url(#${id}-pareu)" clip-path="url(#${id}-clip)"/><path d="M26 74 L84 74" stroke="#FFF6E3" stroke-width="2"/>` : '';
+  return `<svg viewBox="0 0 120 110" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><pattern id="${id}-pareu" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#1AA3B1"/><circle cx="4" cy="4" r="1.6" fill="#FFF6E3"/></pattern><clipPath id="${id}-clip"><ellipse cx="55" cy="68" rx="30" ry="24"/></clipPath></defs>
+    <g class="tail"><g transform="translate(30 71) scale(${L.tl} 1) translate(-30 -71)"><polygon points="30,69 -4,66 -2,71 -4,76 30,73" fill="${wing}"/><polygon points="30,66 4,56 10,74 4,86 30,76" fill="${wing}"/><polygon points="30,70 12,66 14,80 30,76" fill="${c.body}"/></g></g>
+    <g class="legs"><g class="leg l1"><line x1="48" y1="88" x2="46" y2="103" stroke="#F0A23A" stroke-width="3" stroke-linecap="round"/><polyline points="38,104 46,103 54,105" fill="none" stroke="#F0A23A" stroke-width="3" stroke-linecap="round"/></g><g class="leg l2"><line x1="58" y1="88" x2="60" y2="103" stroke="#D98B2B" stroke-width="3" stroke-linecap="round"/><polyline points="52,104 60,103 68,105" fill="none" stroke="#D98B2B" stroke-width="3" stroke-linecap="round"/></g></g>
+    <g class="body"><ellipse cx="55" cy="68" rx="30" ry="24" fill="${c.body}"/><ellipse cx="60" cy="74" rx="18" ry="14" fill="${c.belly}"/>${pareu}</g>
+    <g class="wing">${wingSVG(c.body)}</g>
+    <g class="head">${(!(c.acc&&c.acc.hei))?[[76,31,69,16,80,27],[80,30,77,12,86,26]].map((q,i)=>`<polygon points="${q[0]},${q[1]} ${q[2]},${q[3]} ${q[4]},${q[5]}" fill="${i%2?wing:c.body}" stroke="${wing}" stroke-width=".6"/>`).join(''):''}<circle cx="82" cy="46" r="18" fill="${c.body}"/><circle cx="84" cy="52" r="9" fill="${c.belly}" opacity=".9"/><polygon points="98,45 114,50 98,55" fill="#F0A23A"/><circle cx="92" cy="50" r="3.6" fill="#F28CB1" opacity=".6"/><g class="eye"><circle cx="89" cy="42" r="${L.er}" fill="#10303B"/><circle cx="${(89+L.er*.36).toFixed(1)}" cy="${(42-L.er*.36).toFixed(1)}" r="${(L.er*.33).toFixed(1)}" fill="#fff"/></g>${A.top}${A.eyes}</g>
+  </svg>`; }
+function logoSVG(){ const c=S.body; return `<svg viewBox="0 0 40 40"><rect width="40" height="40" fill="#0E4C6B"/><path d="M0 30 Q10 26 20 30 T40 30 V40 H0Z" fill="#1AA3B1"/><circle cx="18" cy="19" r="9" fill="${c}"/><circle cx="19" cy="22" r="4.5" fill="${S.belly}" opacity=".9"/><polygon points="26,18 33,20.5 26,23" fill="#F0A23A"/><circle cx="21.5" cy="17" r="2.1" fill="#10303B"/><circle cx="22.2" cy="16.3" r=".7" fill="#fff"/><circle cx="33" cy="8" r="1.4" fill="#F5D46A"/></svg>`; }
+
+/* ---------- the manu walks the beach of the current island ---------- */
+const birdEl=$('#bird'), flipEl=$('#birdFlip'), bubbleEl=$('#bubble'), stageEl=$('#stage');
+const BW=84, BH=77;
+const B={x:80,y:0,dir:1,state:'idle',t:1.2,to:null,from:null,p:0,dur:1,paused:false,onArrive:null};
+function geom(){ const W=stageEl.clientWidth, H=stageEl.clientHeight, s=Math.max(W/360,H/640); return {W,H,s,vx:x=>(x-180)*s+W/2, vy:y=>H-(640-y)*s}; }
+function groundY(){ const g=geom(), I=ISL[S.island]; return g.vy(I.ground)-BH*.95; }
+function walkRange(){ const g=geom(), I=ISL[S.island]; return [Math.max(4,g.vx(I.walk[0])), Math.min(g.W-BW-4,g.vx(I.walk[1])-BW)]; }
+function renderBird(){ flipEl.innerHTML=birdSVG(S,'live'); $('#logo').innerHTML=logoSVG(); }
+function place(){ birdEl.style.transform=`translate(${B.x}px,${B.y}px)`; flipEl.style.transform=`scaleX(${B.dir})`; placeBubble(); }
+function setState(s){ B.state=s; birdEl.classList.toggle('walking',s==='walk'); birdEl.classList.toggle('flying',s==='fly'); birdEl.classList.toggle('petted',s==='pet'); }
+function idle(sec){ setState('idle'); B.t=sec||rnd(2,5); }
+function startWalk(){ const [a,b]=walkRange(); B.to={x:rnd(a,b),y:groundY()}; B.dir=B.to.x>B.x?1:-1; setState('walk'); }
+function startFly(target,cb){ B.from={x:B.x,y:B.y}; B.to=target; B.dir=target.x>B.x?1:-1; B.p=0; B.dur=Math.max(.9,Math.hypot(target.x-B.x,target.y-B.y)/260); B.onArrive=cb||null; setState('fly'); }
+function nextMove(){ if(RM){ idle(8); return; } const r=Math.random(); if(r<.55) startWalk(); else if(r<.75){ birdEl.classList.add('pecking'); setTimeout(()=>birdEl.classList.remove('pecking'),1100); idle(2.4); } else if(r<.85){ const [a,b]=walkRange(); startFly({x:rnd(a,b),y:groundY()}); } else idle(3); }
+let lastT=0;
+function loop(ts){ const dt=Math.min(.05,(ts-lastT)/1000||0); lastT=ts;
+  if(!B.paused){
+    if(B.state==='idle'){ B.t-=dt; if(B.t<=0) nextMove(); B.y=groundY(); }
+    else if(B.state==='walk'){ const dx=B.to.x-B.x; if(Math.abs(dx)<2){ B.x=B.to.x; idle(); } else B.x+=Math.sign(dx)*58*dt; B.y=groundY(); }
+    else if(B.state==='fly'){ B.p=Math.min(1,B.p+dt/B.dur); const t=B.p, e=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2; const cx=(B.from.x+B.to.x)/2, cy=Math.min(B.from.y,B.to.y)-120; B.x=(1-e)*(1-e)*B.from.x+2*(1-e)*e*cx+e*e*B.to.x; B.y=(1-e)*(1-e)*B.from.y+2*(1-e)*e*cy+e*e*B.to.y; if(B.p>=1){ idle(1.5); const f=B.onArrive; B.onArrive=null; if(f) f(); } }
+    place();
+  }
+  requestAnimationFrame(loop); }
+function birdPause(on){ B.paused=on; }
+function placeBubble(){ if(!bubbleEl.classList.contains('show')) return; const W=stageEl.clientWidth; const bw=bubbleEl.offsetWidth, bh=bubbleEl.offsetHeight; let x=B.x+BW/2-bw/2; x=clamp(x,8,W-bw-8); let y=B.y-bh-8; if(y<6) y=B.y+BH+8; bubbleEl.style.transform=`translate(${x}px,${y}px)`; }
+function bubble(reo,en,ms){ bubbleEl.innerHTML=(reo?`<b>${esc(reo)}</b>`:'')+esc(en||''); bubbleEl.classList.add('show'); placeBubble(); clearTimeout(bubble.t); bubble.t=setTimeout(()=>bubbleEl.classList.remove('show'),ms||4200); }
+const PHRASES=[['iaorana','Hello!'],['maeva','Welcome!'],['huru','How are you?'],['maitai','I’m fine, thanks!'],['mauruuru','Thank you!'],['haeremai','Come here!'],['aita','No worries.'],['faaitoito','Keep going!'],['nana','Bye for now!']];
+function birdTalk(){ const I=ISL[S.island]; if(Math.random()<.4){ const l=pick(I.lines); bubble(l[0],l[1],5200); if(l[2]) speak(l[0]); return; } const p=pick(PHRASES); bubble(W[p[0]].r,p[1]); speak(W[p[0]].r); learn(p[0]); }
+/* tap to talk, stroke to pet */
+const PET={down:false,active:false,dist:0,total:0,lx:0,ly:0,lastP:0,just:false};
+birdEl.addEventListener('click',()=>{ if(PET.just) return; ac(); birdTalk(); birdEl.classList.add('pecking'); setTimeout(()=>birdEl.classList.remove('pecking'),900); });
+birdEl.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); birdTalk(); } });
+birdEl.addEventListener('pointerdown',e=>{ PET.down=true; PET.dist=0; PET.lx=e.clientX; PET.ly=e.clientY; try{ birdEl.setPointerCapture(e.pointerId); }catch(_){} });
+birdEl.addEventListener('pointermove',e=>{ if(!PET.down) return; const d=Math.hypot(e.clientX-PET.lx,e.clientY-PET.ly); PET.lx=e.clientX; PET.ly=e.clientY; PET.dist+=d;
+  if(!PET.active && PET.dist>22){ PET.active=true; setState('pet'); bubble(W.mauruuru.r,'Mmm… that feels nice.'); }
+  if(PET.active){ PET.total+=d; const now=performance.now(); if(now-PET.lastP>120){ heart(e.clientX,e.clientY); PET.lastP=now; } if(PET.total>900){ PET.total=0; sfx('uke'); } } });
+function petEnd(){ PET.down=false; if(!PET.active) return; PET.active=false; PET.just=true; setTimeout(()=>{ PET.just=false; },350); setTimeout(()=>{ if(B.state==='pet') idle(1.5); },1200); }
+birdEl.addEventListener('pointerup',petEnd); birdEl.addEventListener('pointercancel',petEnd);
+function heart(cx,cy){ const r=stageEl.getBoundingClientRect(); const d=document.createElement('div'); d.className='heart'; d.innerHTML=Math.random()<.5?'<svg viewBox="0 0 20 20"><path d="M10 17 3 10a4 4 0 0 1 7-4 4 4 0 0 1 7 4Z" fill="#E05D8A"/></svg>':'<svg viewBox="-10 -10 20 20"><g fill="#FFF9EE" stroke="#E8D9B5" stroke-width=".6"><circle cx="5" cy="0" r="4"/><circle cx="1.5" cy="4.8" r="4"/><circle cx="-4" cy="2.9" r="4"/><circle cx="-4" cy="-2.9" r="4"/><circle cx="1.5" cy="-4.8" r="4"/></g><circle r="2.4" fill="#F2C94C"/></svg>'; d.style.transform=`translate(${cx-r.left-10+rnd(-12,12)}px,${cy-r.top-26}px)`; $('#birdlayer').appendChild(d); setTimeout(()=>d.remove(),1400); }
+
+/* ---------- island scenes (viewBox 360 x 640, anchored to the bottom) ---------- */
+const skyG=(id,a,b,y2)=>`<defs><linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="${y2||440}"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs><rect x="-400" y="-300" width="1160" height="1000" fill="url(#${id})"/>`;
+const vgrad=(id,a,b,y1,y2)=>`<linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="0" y1="${y1}" x2="0" y2="${y2}"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient>`;
+const sunG=(x,y,c1,c2)=>`<circle cx="${x}" cy="${y}" r="46" fill="${c1||'#FFFFFF'}" opacity=".3"/><circle cx="${x}" cy="${y}" r="27" fill="${c2||'#FFE08A'}"/>`;
+const cloudG=(y,s,d)=>`<g class="sc-cloud" style="animation-delay:${d}s"><g transform="translate(0 ${y}) scale(${s})" fill="#fff" opacity=".92"><ellipse cx="0" cy="0" rx="34" ry="13"/><ellipse cx="-16" cy="-9" rx="17" ry="12"/><ellipse cx="10" cy="-13" rx="20" ry="15"/></g></g>`;
+const palmG=(x,y,s,flip)=>{ let fr=''; [[-150,1],[-115,1.05],[-75,1],[-35,1.05],[5,.95],[-178,.8],[25,.75]].forEach(q=>{ fr+=`<path d="M0 0 Q${28*q[1]} ${-22*q[1]} ${62*q[1]} ${4*q[1]} Q${30*q[1]} ${-6*q[1]} 0 0Z" transform="rotate(${q[0]})" fill="${q[1]>1?'#3F9A63':'#2F8A50'}"/>`; });
+  return `<g transform="translate(${x} ${y}) scale(${flip?-s:s} ${s})"><path d="M-6 0 Q-12 -70 22 -140 L30 -137 Q2 -70 7 0Z" fill="#9A7748"/><path d="M-3 -20 q6 -3 9 0 M-3 -50 q7 -3 10 0 M3 -80 q7 -3 10 1 M12 -108 q7 -2 9 2" stroke="#6B4A2A" stroke-width="1.6" fill="none"/><g transform="translate(26 -140)"><g class="sc-sway">${fr}</g><circle cx="-3" cy="6" r="5.5" fill="#7A5230"/><circle cx="6" cy="8" r="5.5" fill="#8A5F36"/></g></g>`; };
+const tiareG=(x,y,s)=>`<g transform="translate(${x} ${y}) scale(${s||1})">${[0,60,120,180,240,300].map(a=>`<ellipse cx="0" cy="-5" rx="2.6" ry="5.5" transform="rotate(${a+15})" fill="#FFFDF5" stroke="#E6DAB8" stroke-width=".5"/>`).join('')}<circle r="1.8" fill="#F2C94C"/></g>`;
+const bushG=(x,y,flower)=>`<g transform="translate(${x} ${y})"><ellipse cx="0" cy="0" rx="34" ry="20" fill="#2F7D4C"/><ellipse cx="-16" cy="-8" rx="18" ry="14" fill="#3B8C58"/><ellipse cx="14" cy="-10" rx="20" ry="15" fill="#3B8C58"/>${flower==='aute'?[[-18,-12],[6,-18],[20,-4],[-4,-2]].map(p=>`<g transform="translate(${p[0]} ${p[1]})">${[0,72,144,216,288].map(a=>`<circle cx="${(4*Math.cos(a*Math.PI/180)).toFixed(1)}" cy="${(4*Math.sin(a*Math.PI/180)).toFixed(1)}" r="3.6" fill="#E0303A"/>`).join('')}<circle r="1.6" fill="#8E1420"/></g>`).join(''):[[-18,-12],[6,-18],[22,-6],[-4,-2],[-26,2]].map(p=>tiareG(p[0],p[1],.9)).join('')}</g>`;
+const waveLines=(y0,n,gap,col)=>{ let h=''; for(let i=0;i<n;i++){ const y=y0+i*gap; h+=`<g class="sc-wave" style="animation-delay:${-i*.7}s"><path d="M-400 ${y} ${Array.from({length:30},(_,k)=>`q20 -5 40 0`).join(' ')}" fill="none" stroke="${col}" stroke-width="2" stroke-linecap="round" opacity="${.55-i*.08}" transform="translate(${(i%2)*20} 0)"/></g>`; } return h; };
+const houseG=(x,y,w,h,body,roof)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${body}"/><path d="M${x-2} ${y} L${x+w/2} ${y-h*.6} L${x+w+2} ${y}Z" fill="${roof}"/><rect x="${x+w*.38}" y="${y+h*.45}" width="${w*.24}" height="${h*.55}" fill="#3A5A66"/>`;
+
+function sceneTahiti(){
+  return skyG('tSky','#86CDEE','#E6F6F4',430)+`<defs>${vgrad('tSea','#138EA3','#55C6CD',426,520)}</defs>`
+  +sunG(298,92)+cloudG(118,1,0)+cloudG(176,.7,-26)+cloudG(92,.55,-46)
+  +`<path d="M-400 384 L-10 356 L28 266 L62 302 L96 200 L124 248 L158 152 L186 228 L214 180 L248 262 L286 224 L330 300 L372 286 L760 360 V470 H-400Z" fill="#86BFA5"/>`
+  +`<path d="M158 262 Q156 298 161 336" stroke="#EAF8FB" stroke-width="3" stroke-linecap="round" fill="none" opacity=".75"/><path class="sc-flow" d="M158 262 Q156 298 161 336" stroke="#fff" stroke-width="1.4" fill="none"/>`
+  +`<path d="M-400 424 L0 396 L46 336 L104 376 L166 324 L226 370 L288 330 L360 380 L760 424 V470 H-400Z" fill="#4F9E72"/>`
+  +houseG(132,410,18,16,'#F6E3C0','#B85B3A')+houseG(158,412,15,14,'#E9F2F4','#2F7FD8')+houseG(286,410,17,16,'#FCEBD0','#3B8C58')+houseG(310,413,14,13,'#F5DCDC','#C8402F')
+  +`<g><rect x="196" y="398" width="66" height="28" fill="#F4E3C3"/><path d="M190 400 L229 378 L268 400Z" fill="#C8402F"/><rect x="201" y="404" width="56" height="9" rx="2" fill="#0E4C6B"/><text x="229" y="411.5" text-anchor="middle" font-family="Fredoka,Nunito,sans-serif" font-weight="600" font-size="7.4" fill="#fff" letter-spacing=".8">MĀTETE</text><rect x="206" y="415" width="10" height="11" fill="#7A4A2A"/><rect x="224" y="415" width="10" height="11" fill="#7A4A2A"/><rect x="242" y="415" width="10" height="11" fill="#7A4A2A"/></g>`
+  +`<rect x="-400" y="426" width="1160" height="110" fill="url(#tSea)"/>`+waveLines(446,4,18,'#E8FBFC')
+  +`<g class="sc-ferry"><g transform="translate(300 448)"><path d="M-26 0 L28 0 L22 9 L-20 9Z" fill="#FFFFFF"/><rect x="-16" y="-8" width="30" height="8" rx="2" fill="#F2F6F7"/><rect x="-12" y="-6" width="22" height="3" fill="#2F7FD8"/><path d="M-26 0 L28 0" stroke="#0E4C6B" stroke-width="1.4"/></g></g>`
+  +`<g class="sc-curl"><path d="M-80 506 Q-16 506 16 474 Q38 442 74 440 Q102 440 110 460 Q96 452 86 460 Q78 474 94 494 Q102 504 140 506 Z" fill="#0D6F86"/><path d="M16 474 Q38 442 74 440 Q102 440 110 460" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/><path d="M86 460 Q80 470 88 482" fill="none" stroke="#BFF0F2" stroke-width="2"/><g transform="translate(48 462) rotate(-18)"><ellipse cx="0" cy="6" rx="11" ry="2.4" fill="#F2C94C"/><circle cx="0" cy="-3" r="3" fill="#3A2A1E"/><path d="M0 0 L0 5" stroke="#3A2A1E" stroke-width="2.4"/></g></g>`
+  +`<path d="M-400 520 Q90 500 200 510 Q300 518 760 502 V700 H-400Z" fill="#F1DDAE"/><path class="sc-foam" d="M-400 522 Q90 502 200 512 Q300 520 760 504" fill="none" stroke="#fff" stroke-width="3" opacity=".8"/>`
+  +`<g transform="translate(126 560)"><rect x="-26" y="2" width="52" height="8" rx="2" fill="#8A5A2B"/><rect x="-22" y="-14" width="44" height="18" rx="9" fill="#9A6A3A"/><rect x="-16" y="-8" width="32" height="4" rx="2" fill="#4A2E16"/><path d="M-38 10 L-38 -30 M38 10 L38 -30" stroke="#6B4A2A" stroke-width="3"/><path class="sc-flame" d="M-38 -30 q-6 -8 0 -18 q6 10 0 18Z" fill="#F0A23A"/><path class="sc-flame" d="M38 -30 q-6 -8 0 -18 q6 10 0 18Z" fill="#F0A23A" style="animation-delay:-.25s"/></g>`
+  +palmG(300,628,.95,true)+palmG(352,612,.8,true)+bushG(232,600)
+  +`<path d="M-400 640 L760 640 V700 H-400Z" fill="#E6CF9C"/>`;
+}
+function sceneMoorea(){
+  return skyG('mSky','#9AD6F0','#EEF8F3',440)+`<defs>${vgrad('mLag','#2EC3C6','#9EE8DE',440,530)}</defs>`
+  +sunG(72,96)+cloudG(130,.9,-8)+cloudG(186,.6,-34)
+  +`<path d="M-400 396 L-20 376 L20 304 L44 322 L70 236 L88 266 L108 154 L118 186 L132 136 L146 214 L170 190 L198 252 L224 172 L246 154 L262 176 L290 266 L322 240 L360 304 L760 384 V480 H-400Z" fill="#79B497"/>`
+  +`<path d="M-400 436 L0 408 L40 356 L86 396 L140 344 L196 400 L250 356 L300 396 L360 370 L760 424 V480 H-400Z" fill="#4C9A6C"/>`
+  +`<path d="M30 416 L50 376 L152 368 L144 414Z" fill="#A85A38"/>`+[0,1,2,3].map(r=>Array.from({length:7},(_,i)=>{ const x=50+i*13.6-r*4.2+ (r*2), y=382+r*9; return `<g transform="translate(${x.toFixed(1)} ${y})"><ellipse cx="0" cy="0" rx="2.6" ry="3.4" fill="#E9B93A"/><path d="M0 -3 l-3 -4 M0 -3 l0 -5 M0 -3 l3 -4" stroke="#3B8C58" stroke-width="1.4" stroke-linecap="round"/></g>`; }).join('')).join('')
+  +`<rect x="-400" y="430" width="1160" height="14" fill="#1C6E9A"/><path d="M-400 444 ${Array.from({length:40},()=> 'l14 -3 l14 3').join(' ')}" fill="none" stroke="#fff" stroke-width="2.4" opacity=".85" class="sc-foam"/>`
+  +`<rect x="-400" y="444" width="1160" height="96" fill="url(#mLag)"/>`+waveLines(462,3,20,'#FFFFFF')
+  +`<g class="sc-glide" style="animation-duration:26s"><g transform="translate(0 500)" opacity=".35"><path d="M0 -10 L18 0 L0 10 L-18 0Z" fill="#0D4C5C"/><path d="M-18 0 L-44 2" stroke="#0D4C5C" stroke-width="2"/></g></g>`
+  +`<g class="sc-pop"><g transform="translate(222 474)"><ellipse cx="0" cy="0" rx="6" ry="5" fill="#6E8B5A"/><circle cx="2.5" cy="-1.5" r="1" fill="#10303B"/></g></g>`
+  +`<g class="sc-bob"><g transform="translate(292 470)"><path d="M0 4 L0 20" stroke="#0E4C6B" stroke-width="1.4"/><circle cx="0" cy="0" r="7" fill="#F07B3F"/><path d="M-7 0 H7" stroke="#fff" stroke-width="2"/></g></g>`
+  +`<path d="M-400 534 Q100 518 200 526 Q300 534 760 518 V700 H-400Z" fill="#F5E6C4"/><path class="sc-foam" d="M-400 536 Q100 520 200 528 Q300 536 760 520" fill="none" stroke="#fff" stroke-width="3" opacity=".8"/>`
+  +palmG(30,612,1,false)+palmG(344,600,.85,true)+bushG(300,590,'aute')
+  +`<path d="M-400 640 L760 640 V700 H-400Z" fill="#E8D4A8"/>`;
+}
+function sceneBora(){
+  const stars=[[262,70,1.4],[300,100,2.4],[330,62,1.2],[244,118,1.1],[318,140,1.6],[276,150,1]].map((s,i)=>`<circle class="sc-twinkle" style="animation-delay:${-i*.5}s" cx="${s[0]}" cy="${s[1]}" r="${s[2]}" fill="#FFF6D8"/>`).join('');
+  return skyG('bSky','#3E79B4','#FCD3A6',410)+`<defs>${vgrad('bLag','#22BCC2','#A8EFE4',404,548)}</defs>`
+  +stars+sunG(70,262,'#FFE2B0','#FFD27A')+cloudG(214,.8,-14)
+  +`<path d="M30 432 Q86 382 128 374 Q160 368 178 380 L318 384 Q352 400 384 432 Z" fill="#5E9B74"/>`
+  +`<path d="M148 396 L158 334 L164 268 L169 222 L177 198 L193 190 L205 198 L209 244 L214 304 L226 396 Z" fill="#46765D"/><path d="M193 190 L205 198 L209 244 L214 304 L226 396 L206 396 L201 300 L198 232 Z" fill="#355E4A"/>`
+  +`<path d="M210 396 L238 320 L252 304 L266 322 L300 396 Z" fill="#4E8466"/>`
+  +`<rect x="-400" y="396" width="1160" height="10" fill="#1B6C98"/><rect x="-400" y="404" width="1160" height="146" fill="url(#bLag)"/>`
+  +`<g><path d="M300 404 Q330 396 380 400 L380 410 L300 410Z" fill="#F7EBD0"/>${palmG(318,404,.22,false)}${palmG(338,404,.2,true)}${palmG(356,404,.22,false)}</g>`
+  +[0,1,2,3].map(i=>{ const x=262+i*24, y=446+i*3; return `<g transform="translate(${x} ${y})"><path d="M-8 6 V16 M8 6 V16" stroke="#7A5A3A" stroke-width="1.6"/><rect x="-10" y="-2" width="20" height="9" fill="#E9D3A8"/><path d="M-13 -1 L0 -11 L13 -1Z" fill="#9A6A3A"/></g>`; }).join('')+`<path d="M250 466 L340 474" stroke="#7A5A3A" stroke-width="2"/>`
+  +waveLines(430,4,22,'#FFFFFF')
+  +`<g class="sc-vaa"><g transform="translate(0 488)"><path d="M-34 0 Q0 6 34 0 L30 4 Q0 9 -30 4Z" fill="#B23A2A"/><path d="M-20 -10 Q0 -12 20 -10" stroke="#5A3A1E" stroke-width="1.2" fill="none"/><path d="M-14 -1 L-14 -10 M10 -1 L10 -10" stroke="#5A3A1E" stroke-width="1.2"/><ellipse cx="0" cy="-11" rx="22" ry="1.8" fill="#EADBB8"/>${[-20,-6,8,22].map(x=>`<circle cx="${x}" cy="-4" r="3" fill="#3A2A1E"/><path d="M${x} -2 l6 8" stroke="#3A2A1E" stroke-width="1.4"/>`).join('')}</g></g>`
+  +`<g class="sc-glide" style="animation-duration:30s;animation-delay:-9s"><g transform="translate(0 524)" opacity=".38"><path d="M-22 0 Q-8 -14 0 -6 Q8 -14 22 0 Q8 4 0 10 Q-8 4 -22 0Z" fill="#0D3D52"/></g></g>`
+  +`<path d="M-400 552 Q100 534 200 542 Q300 550 760 534 V700 H-400Z" fill="#FFF3DC"/><path class="sc-foam" d="M-400 554 Q100 536 200 544 Q300 552 760 536" fill="none" stroke="#fff" stroke-width="3" opacity=".9"/>`
+  +palmG(26,628,1.15,false)+bushG(318,600)
+  +`<path d="M-400 640 L760 640 V700 H-400Z" fill="#F1E2C2"/>`;
+}
+
+/* ---------- islands ---------- */
+const ISL={
+  tahiti:{r:'Tahiti', en:'Tahiti', tag:'The big island', color:'#C8402F', scene:sceneTahiti, ground:606, walk:[24,336], acts:['market','surf','ori'], reward:'hei',
+    map:{x:304,y:226},
+    lines:[['Tahiti Nui, Tahiti Iti','Two old volcanoes joined by a narrow neck of land.'],['Mātete','The market smells of tiare and fresh mango.',1],['Heiva','In July the whole island dances.',1]],
+    facts:['The largest island of French Polynesia: two volcanoes, Tahiti Nui and Tahiti Iti, joined at the isthmus of Taravao.','Its highest peak, Mont Orohena, rises to 2,241 m.','International flights land at Faʻaʻā, next to Papeete.'],
+    go:['Papeete market, early in the morning','The Heiva i Tahiti in July','Black-sand beaches and waterfalls inland','The lookout over Teahupoʻo, at the end of the road'],
+    respect:'Greet people with ʻIa ora na and a smile. Ask before you photograph someone. Leave the beach as you found it.'},
+  moorea:{r:'Moʻorea', en:'Moʻorea', tag:'The sister island', color:'#2F7D4C', scene:sceneMoorea, ground:612, walk:[24,336], acts:['lagoon','pine','coral'], reward:'pareu',
+    map:{x:236,y:206},
+    lines:[['Moʻorea','My name is often said to mean “yellow lizard”.'],['Painapo','Pineapples grow up in the valley.',1],['Tairoto','Look, don’t touch: the lagoon is their home.',1]],
+    facts:['Across the channel from Tahiti, about 17 km away.','Two deep bays, Cook’s Bay and Opunohu Bay, frame Mount Rotui.','The Belvédère lookout looks down on both bays and the pineapple fields of the Opunohu valley.'],
+    go:['Snorkelling in the lagoon','The Belvédère lookout','Pineapple fields of Opunohu','Whale watching, roughly July to November'],
+    respect:'Look, don’t touch: keep your distance from rays, sharks, turtles and dolphins, and never feed them. Use reef-safe sunscreen and never stand on coral.'},
+  bora:{r:'Porapora', en:'Bora Bora', tag:'The lagoon island', color:'#0E6A80', scene:sceneBora, ground:616, walk:[24,336], acts:['vaa','manta','stars'], reward:'titia',
+    map:{x:96,y:96},
+    lines:[['Porapora','That’s my name in Reo Tahiti.',1],['Otemanu','The old volcano in the middle of the lagoon.'],['Motu','The little islands on the reef.',1]],
+    facts:['Porapora is the island’s name in Reo Tahiti; Bora Bora is how visitors came to say it.','Mount Otemanu (727 m) rises from the middle of a wide lagoon ringed by motu.','Matira is a public white-sand beach. The Hawaiki Nui Vaʻa canoe race ends here.'],
+    go:['Matira beach at sunset','Paddling a vaʻa in the lagoon','Snorkelling with a local guide','The view of Otemanu from the motu'],
+    respect:'Mantas and coral are fragile. Swim slowly, stay a few metres from wildlife, never touch or chase, and never stand on coral.'}
+};
+const ISL_ORDER=['tahiti','moorea','bora'];
+
+/* stamp for the passport */
+function stampSVG(id,on){ const I=ISL[id], c=on?I.color:'var(--line)'; const icon={tahiti:'<path d="M-20 10 L-8 -10 L0 0 L10 -16 L22 10Z" fill="C"/><circle cx="12" cy="-14" r="4" fill="C"/>', moorea:'<path d="M-22 10 L-12 -6 L-6 2 L0 -18 L6 -4 L12 -10 L22 10Z" fill="C"/>', bora:'<path d="M-6 10 L-4 -6 L-2 -16 L4 -18 L6 -6 L10 10Z" fill="C"/><path d="M-24 12 Q0 4 24 12" stroke="C" stroke-width="2" fill="none"/>'}[id].replace(/"C"/g,`"${c}"`);
+  return `<svg viewBox="-60 -60 120 120" aria-label="${I.en} stamp${on?'':' (not yet)'}" role="img"><g transform="rotate(${on?-8:0})"><circle r="52" fill="none" stroke="${c}" stroke-width="3" ${on?'':'stroke-dasharray="6 6"'}/><circle r="44" fill="none" stroke="${c}" stroke-width="1.4"/><defs><path id="arc-${id}" d="M-36 0 A36 36 0 0 1 36 0"/></defs><text font-family="Fredoka,Nunito,sans-serif" font-weight="600" font-size="13" fill="${c}" letter-spacing="1.5"><textPath href="#arc-${id}" startOffset="50%" text-anchor="middle">${I.r.toUpperCase()}</textPath></text><g transform="translate(0 6)">${icon}</g><text y="38" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="700" font-size="8" fill="${c}" letter-spacing="1">${on?'MAEVA':'NOT YET'}</text></g></svg>`; }
+
+/* ---------- the map of the islands ---------- */
+const LOCKED=[
+  {id:'maupiti', r:'Maupiti', x:38, y:66, rr:3, lag:7, lx:38, ly:48, t:'A small, quiet island with a wide lagoon, west of Porapora.'},
+  {id:'raiatea', r:'Raiatea · Tahaʻa', x:156, y:112, rr:0, lag:0, lx:156, ly:152, t:'Taputapuātea marae on Raiatea is a UNESCO World Heritage site and the heart of Polynesian voyaging. Vanilla grows on Tahaʻa.'},
+  {id:'huahine', r:'Huahine', x:222, y:96, rr:6, lag:9, lx:222, ly:76, t:'Quiet villages, old marae, and the blue-eyed eels of Faie.'}
+];
+const SOON=[
+  ['Tuamotu','Atolls of white sand and pink coral. Diving at Fakarava, black pearl farms.'],
+  ['Marquesas','Kaoha! Tiki, tattoo and high cliffs. A UNESCO World Heritage site since 2024.'],
+  ['Australs','Humpback whales off Rurutu, and fine pandanus weaving.'],
+  ['Gambier','The lagoon of Mangareva and its pearls.']
+];
+const LEG={
+  'tahiti>moorea':{km:17, today:'about 30–45 minutes by ferry from Papeete', guide:'sunset'},
+  'moorea>tahiti':{km:17, today:'about 30–45 minutes by ferry to Papeete', guide:'sunrise'},
+  'tahiti>bora':{km:260, today:'about 50 minutes by plane from Faʻaʻā', guide:'matarii'},
+  'moorea>bora':{km:240, today:'by plane, usually through Tahiti', guide:'matarii'},
+  'bora>tahiti':{km:260, today:'about 50 minutes by plane to Faʻaʻā', guide:'anamua'},
+  'bora>moorea':{km:240, today:'by plane, usually through Tahiti', guide:'anamua'}
+};
+const GUIDE={
+  sunset:{night:false, r:'Te mahana', en:'the setting sun', how:'Moʻorea lies west of Tahiti. Keep the setting sun just above the mast.', word:'mahana'},
+  sunrise:{night:false, r:'Te mahana', en:'the rising sun', how:'Tahiti lies east of Moʻorea. Keep the rising sun just above the mast.', word:'mahana'},
+  matarii:{night:true, r:'Matariʻi', en:'the Pleiades, setting', how:'Porapora lies west-northwest, close to where Matariʻi sets. Keep it just above the mast.', word:'matarii'},
+  anamua:{night:true, r:'ʻAna-mua', en:'Antares, rising', how:'Tahiti and Moʻorea lie east-southeast, close to where ʻAna-mua rises. Keep it just above the mast.', word:'anamua'}
+};
+let MAPSEL=null;
+function islandMapShape(id){
+  if(id==='tahiti') return `<ellipse cx="0" cy="0" rx="27" ry="21" fill="#7FDDD8" opacity=".55" transform="translate(4 4) rotate(20)"/><circle cx="-4" cy="-3" r="17" fill="#5FA77B"/><circle cx="14" cy="11" r="8.5" fill="#5FA77B"/><circle cx="-6" cy="-6" r="7" fill="#4C8F66"/>`;
+  if(id==='moorea') return `<circle r="13" fill="#7FDDD8" opacity=".55"/><path d="M-10 7 L-8 -5 L-2 -10 L1 -4 L4 -10 L9 -5 L10 7 L0 10Z" fill="#5FA77B"/>`;
+  return `<circle r="13" fill="#7FDDD8" opacity=".7"/><circle r="13" fill="none" stroke="#F7EBD0" stroke-width="2.2" stroke-dasharray="5 3"/><circle r="5" fill="#5FA77B"/><circle cx="0" cy="-1" r="2" fill="#46765D"/>`; }
+function openMap(){
+  if(!MAPSEL) MAPSEL = ISL_ORDER.find(i=>!S.visited.includes(i)) || S.island;
+  learn('fenua',true);
+  const routes=[['tahiti','moorea'],['moorea','bora'],['tahiti','bora']].map(([a,b])=>{ const A=ISL[a].map, Bm=ISL[b].map, mx=(A.x+Bm.x)/2, my=(A.y+Bm.y)/2+(a==='tahiti'&&b==='bora'?40:a==='tahiti'?-14:-22); return `<path d="M${A.x} ${A.y} Q${mx} ${my} ${Bm.x} ${Bm.y}" fill="none" stroke="#F7EBD0" stroke-width="1.6" stroke-dasharray="4 5" opacity=".7"/>`; }).join('');
+  const locked=LOCKED.map(L=>L.id==='raiatea' ? `<g class="isle" data-i="${L.id}" tabindex="0" role="button" aria-label="${L.r}, coming soon"><circle class="hit" cx="${L.x}" cy="${L.y}" r="24" fill="transparent"/><ellipse cx="${L.x}" cy="${L.y}" rx="11" ry="21" fill="#7FDDD8" opacity=".35"/><circle cx="${L.x-3}" cy="${L.y-12}" r="6" fill="#7E98A2"/><circle cx="${L.x+1}" cy="${L.y+8}" r="9" fill="#7E98A2"/><text x="${L.lx}" y="${L.ly}" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="700" font-size="9.5" fill="#CFE3EA">${L.r}</text></g>`
+    : `<g class="isle" data-i="${L.id}" tabindex="0" role="button" aria-label="${L.r}, coming soon"><circle class="hit" cx="${L.x}" cy="${L.y}" r="20" fill="transparent"/><circle cx="${L.x}" cy="${L.y}" r="${L.lag}" fill="#7FDDD8" opacity=".35"/><circle cx="${L.x}" cy="${L.y}" r="${L.rr}" fill="#7E98A2"/><text x="${L.lx}" y="${L.ly}" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="700" font-size="9.5" fill="#CFE3EA">${L.r}</text></g>`).join('');
+  const lab={tahiti:[308,266],moorea:[228,236],bora:[96,128]};
+  const open=ISL_ORDER.map(id=>{ const I=ISL[id], m=I.map, l=lab[id], sel=MAPSEL===id; return `<g class="isle" data-i="${id}" tabindex="0" role="button" aria-label="${I.en}${S.island===id?', you are here':''}"><circle class="hit" cx="${m.x}" cy="${m.y}" r="28" fill="${sel?'rgba(255,214,138,.22)':'transparent'}" ${sel?'stroke="#FFD08A" stroke-width="2"':''}/><g transform="translate(${m.x} ${m.y})">${islandMapShape(id)}</g><text x="${l[0]}" y="${l[1]}" text-anchor="middle" font-family="Fredoka,Nunito,sans-serif" font-weight="600" font-size="13" fill="#FFFFFF">${I.r}</text>${I.r!==I.en?`<text x="${l[0]}" y="${l[1]+11}" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#CFE3EA">${I.en}</text>`:''}${S.visited.includes(id)?(()=>{ const o=id==='tahiti'?[28,-4]:[14,-12]; return `<circle cx="${m.x+o[0]}" cy="${m.y+o[1]}" r="6" fill="${I.color}" stroke="#fff" stroke-width="1.5"/><path d="M${m.x+o[0]-2.8} ${m.y+o[1]} l2 2 l3.6 -3.8" stroke="#fff" stroke-width="1.6" fill="none"/>`; })():''}</g>`; }).join('');
+  const here=ISL[S.island].map;
+  const birdMark=`<g transform="translate(${here.x-2} ${here.y-30})"><g class="sc-bob"><circle r="8" fill="${S.body}" stroke="#fff" stroke-width="1.5"/><polygon points="7,-1 13,1 7,3" fill="#F0A23A"/><circle cx="2.5" cy="-2" r="1.6" fill="#10303B"/></g></g>`;
+  const compass=`<g transform="translate(48 244)" opacity=".85"><circle r="26" fill="none" stroke="#CFE3EA" stroke-width="1"/>${Array.from({length:16},(_,i)=>{ const a=i*22.5*Math.PI/180, r1=i%4?22:18; return `<line x1="${(r1*Math.sin(a)).toFixed(1)}" y1="${(-r1*Math.cos(a)).toFixed(1)}" x2="${(26*Math.sin(a)).toFixed(1)}" y2="${(-26*Math.cos(a)).toFixed(1)}" stroke="#CFE3EA" stroke-width="1"/>`; }).join('')}<path d="M0 -16 L4 0 L0 16 L-4 0Z" fill="#FFD08A"/><text y="-30" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="700" font-size="9" fill="#CFE3EA">N</text></g>`;
+  const svg=`<svg viewBox="0 0 360 300" role="group" aria-label="Map of the Society Islands"><defs>${vgrad('mapSea','#0E4C6B','#14688C',0,300)}</defs><rect width="360" height="300" fill="url(#mapSea)"/>${Array.from({length:6},(_,i)=>`<path d="M0 ${40+i*48} Q180 ${30+i*48} 360 ${40+i*48}" stroke="#ffffff" stroke-opacity=".05" fill="none"/>`).join('')}${routes}${compass}${locked}${open}${birdMark}<text x="352" y="20" text-anchor="end" font-family="Nunito,sans-serif" font-weight="700" font-size="9" fill="#CFE3EA" letter-spacing="1.2">SOCIETY ISLANDS</text></svg>`;
+  openFull(`<div class="fhead"><div><div class="eyebrow">Te fenua · The islands</div><h2>Where shall we sail?</h2></div>${XBTN}</div>
+    <div class="fbody"><div class="mapwrap" id="mapwrap">${svg}</div><div id="mapCard"></div>
+    <div class="stack"><h3>Coming next</h3><p class="small muted">More islands will open in later versions, each greeting you in its own language.</p><div class="soon">${SOON.map(s=>`<div class="card flat"><b>${s[0]}</b><span class="small muted">${s[1]}</span></div>`).join('')}</div></div></div>`);
+  $$('#mapwrap .isle').forEach(g=>{ const go=()=>{ MAPSEL=g.dataset.i; sfx('tap'); openMap(); }; g.addEventListener('click',go); g.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } }); });
+  mapCard(); }
+function mapCard(){ const el=$('#mapCard'); const id=MAPSEL; const L=LOCKED.find(x=>x.id===id);
+  if(L){ el.innerHTML=`<div class="card"><div class="eyebrow">Coming soon</div><h3>${L.r}</h3><p class="small">${L.t}</p></div>`; return; }
+  const I=ISL[id], done=I.acts.filter(a=>S.done[a]).length;
+  if(id===S.island){ el.innerHTML=`<div class="card"><div class="eyebrow">You are here</div><h3><span class="reo">${I.r}</span>${I.r!==I.en?` · ${I.en}`:''}</h3><p class="small muted">${I.tag} · ${done} of 3 activities done</p><button class="btn primary" id="mcGo">Explore ${I.en}</button></div>`; $('#mcGo').onclick=()=>closeFull(); return; }
+  const leg=LEG[S.island+'>'+id], G=GUIDE[leg.guide];
+  el.innerHTML=`<div class="card"><div class="eyebrow">Voyage · about ${leg.km} km</div><h3>Sail to <span class="reo">${I.r}</span>${I.r!==I.en?` (${I.en})`:''}</h3><p class="small">Navigators of old would steer by <b>${G.r}</b>, ${G.en}. ${G.night?'A night voyage.':'A short day crossing: you can see the island from the shore.'}</p><p class="small muted">Today: ${leg.today}.</p><button class="btn sun" id="mcSail">Set sail</button></div>`;
+  $('#mcSail').onclick=()=>{ ac(); startVoyage(S.island,id); }; }
+
+/* ---------- the voyage: keep the guide star above the mast ---------- */
+function seeded(seed){ let s=seed; return ()=>{ s=(s*16807)%2147483647; return (s-1)/2147483646; }; }
+function voyIsland(id){ if(id==='moorea') return '<path d="M-60 0 L-44 -14 L-34 -10 L-26 -30 L-20 -22 L-12 -40 L-6 -26 L4 -34 L14 -18 L26 -24 L40 -10 L60 0Z"/>';
+  if(id==='tahiti') return '<path d="M-70 0 Q-50 -26 -24 -38 Q-4 -46 10 -30 Q20 -18 34 -20 Q50 -18 70 0Z"/>';
+  return '<path d="M-60 0 Q-40 -8 -16 -12 L-12 -36 L-6 -50 L4 -50 L8 -30 L12 -14 Q40 -10 60 0Z"/>'; }
+function startVoyage(from,to){
+  const leg=LEG[from+'>'+to], G=GUIDE[leg.guide], night=G.night, rand=seeded(from.length*97+to.length*13+7);
+  const PX=6, HZ=300;
+  let stars=''; if(night){ for(let i=0;i<240;i++){ const x=-620+rand()*1600, y=10+rand()*280, r=.5+rand()*1.3; stars+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(2)}" fill="#FFF6E3" opacity="${(.35+rand()*.6).toFixed(2)}"/>`; }
+    [[-260,170,2.4],[420,150,2.6],[-470,220,2.2],[640,230,2.3],[90,120,2],[300,90,2.2]].forEach(s=>{ stars+=`<circle cx="${s[0]}" cy="${s[1]}" r="${s[2]}" fill="#FFF6E3"/>`; }); }
+  const guideG = leg.guide==='matarii' ? `<g transform="translate(180 262)"><circle r="22" fill="#9CC3FF" opacity=".12"/>${[[-6,-4,2.2],[0,-7,2.6],[6,-2,2.2],[-3,2,2.4],[4,4,2.8],[10,5,2],[0,9,2]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="${p[2]}" fill="#EAF2FF"/>`).join('')}</g>`
+    : leg.guide==='anamua' ? `<g transform="translate(180 266)"><circle r="20" fill="#FF7A5C" opacity=".16"/><circle r="4.6" fill="#FF8A6A"/><circle r="2" fill="#FFE2D6"/></g>`
+    : `<g transform="translate(180 ${HZ})"><circle r="60" fill="#FFE3A8" opacity=".35"/><circle r="30" fill="${leg.guide==='sunset'?'#FFB25C':'#FFD27A'}"/></g>`;
+  const label=`<text id="vLabel" x="180" y="${night?236:226}" text-anchor="middle" font-family="Fredoka,Nunito,sans-serif" font-weight="600" font-size="14" fill="#FFE7B8">${G.r}</text>`;
+  const skyCols = night ? ['#081430','#22406A'] : leg.guide==='sunset' ? ['#4C78B5','#F7A86A'] : ['#6C8FC6','#FBC48F'];
+  const seaCols = night ? ['#123A5E','#06182A'] : ['#2A7FA0','#0E4C6B'];
+  const isle=`<g id="vIsle" transform="translate(180 ${HZ}) scale(0)" fill="${night?'#0B1A2C':'#3F6E62'}">${voyIsland(to)}</g>`;
+  const svg=`<svg viewBox="0 0 360 560" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs>${vgrad('vSkyG',skyCols[0],skyCols[1],0,HZ)}${vgrad('vSeaG',seaCols[0],seaCols[1],HZ,560)}</defs>
+    <rect x="-400" y="-200" width="1160" height="${HZ+200}" fill="url(#vSkyG)"/>
+    <g id="vSky">${stars}${night?'':cloudsV()}${guideG}${label}${isle}</g>
+    <rect x="-400" y="${HZ}" width="1160" height="400" fill="url(#vSeaG)"/>
+    <g id="vSwell" stroke="#ffffff" fill="none" stroke-linecap="round"></g>
+    <g id="vBoat">${boatSVG()}</g>
+    <g id="vSight" transform="translate(180 316)"><path d="M-9 8 L0 -4 L9 8" fill="none" stroke="#FFD08A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g>
+  </svg>`;
+  openFull(`<div class="fhead"><div><div class="eyebrow">Voyage · ${ISL[from].en} to ${ISL[to].en}</div><h2>Sail by <span class="reo">${G.r}</span></h2></div>${XBTN}</div>
+    <div class="vy" id="vy">${svg}<div class="hud"><div class="card"><p class="small">${G.how}</p><div class="vbar"><i id="vProg"></i></div><p class="small muted" id="vKm">${leg.km} km to go</p></div></div><div class="result" id="vRes" hidden></div></div>
+    <div class="vctl"><button class="btn primary" id="vL" aria-label="Steer left">◀ Left</button><div class="vstat" id="vStat" aria-live="polite">Ready</div><button class="btn primary" id="vR" aria-label="Steer right">Right ▶</button></div>
+    <div class="row" style="padding:0 16px 12px;justify-content:center"><button class="btn sm ghost" id="vAuto">Let the manu steer</button></div>`);
+  learn([G.word,'moana'],true);
+  const sky=$('#vSky'), boat=$('#vBoat'), sight=$('#vSight'), prog=$('#vProg'), km=$('#vKm'), stat=$('#vStat'), swell=$('#vSwell'), isleEl=$('#vIsle'), lab=$('#vLabel');
+  const V={h:rnd(-24,24)||12, p:0, t:0, hold:0, auto:false, imp:0, nextSwell:rnd(4,7), phase:0, done:false, drag:null};
+  const hold=(btn,dir)=>{ const on=e=>{ e.preventDefault(); ac(); V.hold=dir; btn.classList.add('held'); }; const off=()=>{ if(V.hold===dir) V.hold=0; btn.classList.remove('held'); }; btn.addEventListener('pointerdown',on); btn.addEventListener('pointerup',off); btn.addEventListener('pointerleave',off); btn.addEventListener('pointercancel',off); };
+  hold($('#vL'),-1); hold($('#vR'),1);
+  const vy=$('#vy');
+  vy.addEventListener('pointerdown',e=>{ V.drag=e.clientX; });
+  vy.addEventListener('pointermove',e=>{ if(V.drag==null) return; const dx=e.clientX-V.drag; V.drag=e.clientX; V.h+=dx*.12; });
+  const endDrag=()=>{ V.drag=null; }; vy.addEventListener('pointerup',endDrag); vy.addEventListener('pointercancel',endDrag);
+  const key=e=>{ if(e.key==='ArrowLeft'){ V.hold=-1; e.preventDefault(); } else if(e.key==='ArrowRight'){ V.hold=1; e.preventDefault(); } };
+  const keyUp=e=>{ if(e.key==='ArrowLeft'||e.key==='ArrowRight') V.hold=0; };
+  document.addEventListener('keydown',key); document.addEventListener('keyup',keyUp); RUN.stops.push(()=>{ document.removeEventListener('keydown',key); document.removeEventListener('keyup',keyUp); });
+  $('#vAuto').onclick=()=>{ V.auto=!V.auto; $('#vAuto').textContent=V.auto?'I’ll steer myself':'Let the manu steer'; };
+  later(()=>{ if(lab) lab.setAttribute('opacity','.45'); },6000);
+  frames(dt=>{ if(V.done) return false; V.t+=dt;
+    const drift=(6*Math.sin(V.t*.55)+4*Math.sin(V.t*1.31+1.2));
+    V.nextSwell-=dt; if(V.nextSwell<=0){ V.imp=(Math.random()<.5?-1:1)*rnd(16,24); V.nextSwell=rnd(4,7); }
+    V.imp*=Math.pow(.25,dt);
+    let steer=V.hold*34; if(V.auto) steer=clamp(-V.h*3,-34,34);
+    V.h=clamp(V.h+(drift+V.imp+steer)*dt,-70,70);
+    const on=Math.abs(V.h)<7;
+    if(on) V.p=Math.min(1,V.p+dt/(V.auto?10:15));
+    sky.setAttribute('transform',`translate(${(-V.h*PX).toFixed(1)} 0)`);
+    const roll=(V.imp*.25+Math.sin(V.t*1.7)*2.2).toFixed(2);
+    boat.setAttribute('transform',`rotate(${roll} 180 520) translate(0 ${(Math.sin(V.t*1.7)*3).toFixed(1)})`);
+    sight.querySelector('path').setAttribute('stroke',on?'#FFD08A':'#FFFFFF');
+    sight.querySelector('path').setAttribute('opacity',on?'1':'.6');
+    V.phase=(V.phase+dt*.28)%1; let sw=''; for(let i=0;i<9;i++){ const f=(i+V.phase)/9, y=HZ+4+256*f*f, w=40+700*f*f, x0=180-w/2-V.h*PX*f*.6; sw+=`<path d="M${x0.toFixed(1)} ${y.toFixed(1)} q${(w/4).toFixed(1)} ${(-3-6*f).toFixed(1)} ${(w/2).toFixed(1)} 0 t${(w/2).toFixed(1)} 0" stroke-width="${(.6+2.4*f).toFixed(2)}" opacity="${(.08+.22*f).toFixed(2)}"/>`; } swell.innerHTML=sw;
+    const sc = night ? (V.p<.7?0:(V.p-.7)/.3*1.1) : .35+V.p*.9; isleEl.setAttribute('transform',`translate(180 ${HZ}) scale(${sc.toFixed(3)})`);
+    prog.style.width=(V.p*100).toFixed(1)+'%'; km.textContent=V.p>=1?'Land ho!':`${Math.max(1,Math.round(leg.km*(1-V.p)))} km to go`;
+    stat.textContent = on ? 'On course' : (V.h>0 ? '◀ Steer left' : 'Steer right ▶');
+    if(V.p>=1){ V.done=true; arrive(from,to,leg,G); return false; }
+  }); }
+function cloudsV(){ return [[-200,120,1.2],[60,90,.9],[300,140,1.1],[560,110,1]].map(c=>`<g transform="translate(${c[0]} ${c[1]}) scale(${c[2]})" fill="#FFE9D6" opacity=".55"><ellipse rx="40" ry="10"/><ellipse cx="-14" cy="-6" rx="18" ry="9"/><ellipse cx="12" cy="-8" rx="22" ry="11"/></g>`).join(''); }
+function boatSVG(){ return `<path d="M180 330 L180 498" stroke="#5A3A1E" stroke-width="5" stroke-linecap="round"/>
+  <path d="M182 336 Q240 380 262 470 Q222 446 182 470Z" fill="#EADBB8" stroke="#B89D6A" stroke-width="2"/><path d="M182 336 Q206 400 206 458" stroke="#B89D6A" stroke-width="1.4" fill="none"/>
+  <path d="M86 520 Q96 482 116 470 L134 470 Q146 488 146 560 L90 560Z" fill="#6B4426"/><path d="M214 470 L232 470 Q252 482 262 520 L258 560 L214 560 Q214 488 214 470Z" fill="#6B4426" transform="translate(12 0)"/>
+  <rect x="100" y="488" width="172" height="12" rx="3" fill="#8A5A2B"/><path d="M104 494 H270" stroke="#5A3A1E" stroke-width="1.2"/>
+  <g transform="translate(112 432) scale(.62)">${birdSVG(S,'vb').replace('<svg ','<svg width="120" height="110" ')}</g>`; }
+function arrive(from,to,leg,G){
+  const first=!S.visited.includes(to); S.visited.includes(from)||S.visited.push(from); if(first) S.visited.push(to); S.voyages=(S.voyages||0)+1; save();
+  const I=ISL[to];
+  const extra = to==='tahiti' && G.night ? '<p class="small">Look up: Taʻurua-faupapa (Sirius) passes right over Tahiti. It is the island’s ʻaveiʻa, the star that marks it for navigators.</p>' : '';
+  later(()=>{ sfx('stamp'); $$('#fullIn .vctl, #fullIn .vctl + .row').forEach(e=>e.hidden=true); const r=$('#vRes'); r.hidden=false; r.innerHTML=`<div class="eyebrow" style="text-align:center;margin-top:10px">Land ho!</div><h2 style="text-align:center"><span class="reo">ʻIa ora na, ${I.r}!</span></h2><div class="stamp">${stampSVG(to,true)}</div>
+    <div class="card flat"><p class="small"><b>${G.r}</b> brought us here. Polynesian navigators crossed thousands of kilometres of ocean this way, reading the stars, the swells, the wind and the birds, with no instruments at all.</p>${extra}<p class="small muted">This game is a simplified version of their art.</p></div>
+    <div class="chips"><span class="wchip"><b>${W[G.word].r}</b><span>${W[G.word].en}</span>${spkBtn(G.word)}</span></div>
+    <button class="btn sun" id="vAshore">Go ashore</button>`;
+    $('#vAshore').onclick=()=>{ S.island=to; save(); closeFull(); landBird(); toast(first?`Stamp: <b>${I.r}</b> · ${I.en}`:`Back on <b>${I.r}</b>`); }; },900); }
+function landBird(){ const g=geom(); B.x=g.W/2-BW/2; B.y=-BH; B.dir=1; const [a,b]=walkRange(); startFly({x:rnd(a,b),y:groundY()},()=>{ bubble(W.iaorana.r+', '+ISL[S.island].r+'!',ISL[S.island].tag); speak(W.iaorana.r+' '+ISL[S.island].r); }); }
+
+/* ---------- activities ---------- */
+const ICON={
+  basket:'<path d="M4 10h16l-2 9H6Z"/><path d="M8 10l4-6 4 6"/>',
+  wave:'<path d="M3 17c3 0 3-2 6-2s3 2 6 2 3-2 6-2"/><path d="M5 13c0-4 4-7 8-6 2 .5 3 2 2 3-1-1-3-1-3 1 0 1 1 2 2 2"/>',
+  drum:'<ellipse cx="12" cy="7" rx="7" ry="2.5"/><path d="M5 7v9c0 1.4 3 2.5 7 2.5s7-1.1 7-2.5V7"/><path d="M8 4l2 3M16 4l-2 3"/>',
+  fish:'<path d="M3 12c3-4 8-5 12-3l4-3v12l-4-3c-4 2-9 1-12-3Z"/><circle cx="8" cy="11" r=".6"/>',
+  pine:'<ellipse cx="12" cy="15" rx="5" ry="6"/><path d="M12 9 9 4M12 9V3M12 9l3-5"/><path d="M9 13l6 4M15 13l-6 4"/>',
+  coral:'<path d="M12 21v-7M12 14 8 10V6M12 14l4-5V5M8 10 5 8M16 9l3-2"/>',
+  paddle:'<path d="M5 19l9-9"/><path d="M14 10c1-3 4-6 6-5 1 2-2 5-5 6Z"/>',
+  manta:'<path d="M3 11c4-1 6-4 9-4s5 3 9 4c-4 1-6 3-9 6-3-3-5-5-9-6Z"/><path d="M12 17v4"/>',
+  star:'<path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.5 6.6 19.5l1.2-6L3.3 9.3l6.1-.7Z"/>'
+};
+const ACTS={
+  market:{isl:'tahiti', r:'Te mātete', en:'Papeete Market', icon:'basket', at:[229,372], words:['matete','meia','vi','uru','haari','ia','tiare'], run:actMarket,
+    fact:'Papeete’s covered market is full of fruit, fish, flowers, monoï and crafts. It opens early in the morning, and Sunday morning is the liveliest time.'},
+  surf:{isl:'tahiti', r:'Faʻaheʻe', en:'Surf Teahupoʻo', icon:'wave', at:[66,418], words:['faahee'], run:actSurf,
+    fact:'Teahupoʻo, at the end of the road on Tahiti Iti, hosted the surfing events of the Paris 2024 Olympic Games. The wave breaks over a shallow reef and is for experts only. Beginners learn on gentler spots with a local surf school.'},
+  ori:{isl:'tahiti', r:'ʻOri Tahiti', en:'Dance to the drums', icon:'drum', at:[128,512], words:['ori','toere','heiva'], run:actOri,
+    fact:'ʻOri Tahiti is the dance of Tahiti. Fast ʻōteʻa dances follow the tōʻere drums; the slower ʻaparima tells a story with the hands. Every July, the Heiva i Tahiti festival fills Papeete with dance and song.'},
+  lagoon:{isl:'moorea', r:'Te tairoto', en:'Lagoon friends', icon:'fish', at:[146,490], words:['tairoto','honu','fai','mao','hou','oua','tohora'], run:actLagoon,
+    fact:'From about July to November, humpback whales (tohorā) come to Polynesian waters to give birth. Boats must keep their distance, and so must swimmers.'},
+  pine:{isl:'moorea', r:'Painapo', en:'Pineapple harvest', icon:'pine', at:[96,346], words:['painapo'], run:actPine,
+    fact:'Moʻorea’s pineapples grow in the Opunohu valley, below the Belvédère lookout. They are small and very sweet.'},
+  coral:{isl:'moorea', r:'Te toʻa', en:'Coral garden', icon:'coral', at:[290,448], words:['toa'], run:actCoral,
+    fact:'Warm water can bleach coral. On Moʻorea, local teams grow coral fragments in nurseries and replant them on the reef. Reef-safe sunscreen and never touching coral both help.'},
+  vaa:{isl:'bora', r:'Hoe vaʻa', en:'Outrigger race', icon:'paddle', at:[236,462], words:['vaa','hoe','motu'], run:actVaa,
+    fact:'Vaʻa racing is the national sport. Every year the Hawaiki Nui Vaʻa race crosses the open sea from Huahine to Raiatea, Tahaʻa and Porapora, and ends on Matira beach.'},
+  manta:{isl:'bora', r:'Fāfā piti', en:'Swim with a manta', icon:'manta', at:[92,520], words:['fafapiti'], run:actManta,
+    fact:'Manta rays visit cleaning stations in the lagoon, where small fish tidy their skin. Swim slowly, stay a few metres away, and never touch or chase them.'},
+  stars:{isl:'bora', r:'Te mau fetiʻa', en:'Stars over Matira', icon:'star', at:[288,124], words:['fetia','matarii','tautoru','taurua','anamua'], run:actStars,
+    fact:'Navigators knew where many stars rise and set on the horizon, and used them as a compass. Taʻurua-faupapa (Sirius) passes right over Tahiti: it is the island’s ʻaveiʻa, its marker star.'}
+};
+const REWARD={hei:'a hei, a crown of flowers', pareu:'a pāreu', titia:'sunglasses for the lagoon light'};
+const CSS_DONE={};
+function injectCSS(id,css){ if(CSS_DONE[id]) return; CSS_DONE[id]=1; const s=document.createElement('style'); s.textContent=css; document.head.appendChild(s); }
+function openAct(id){ const A=ACTS[id], I=ISL[A.isl]; ac();
+  openFull(`<div class="fhead"><div><div class="eyebrow">${I.r} · ${A.en}</div><h2 class="reo">${A.r}</h2></div>${XBTN}</div><div class="fbody" id="ab"></div>`);
+  A.run($('#ab'), extra=>finishAct(id,extra)); }
+function finishAct(id,extra){ const A=ACTS[id], I=ISL[A.isl]; const wasDone=I.acts.every(a=>S.done[a]); S.done[id]=true; learn(A.words,true); const nowDone=I.acts.every(a=>S.done[a]); const unlocked=nowDone&&!wasDone; if(unlocked){ S.acc[I.reward]=true; if(I.reward==='hei') S.acc.tiare=false; } save(); clearRun(); sfx('stamp');
+  const ab=$('#ab'); ab.scrollTop=0; const r=document.createElement('div'); r.className='result';
+  r.innerHTML=`<div class="eyebrow" style="text-align:center;margin-top:8px">${A.en}</div><h2 style="text-align:center"><span class="reo">Māuruuru!</span> Well done.</h2>
+    <svg class="stamp" viewBox="-60 -60 120 120" aria-hidden="true"><g transform="rotate(-8)"><circle r="52" fill="none" stroke="${I.color}" stroke-width="3"/><circle r="44" fill="${I.color}" opacity=".1"/><g transform="translate(-24 -26) scale(2)" fill="none" stroke="${I.color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ICON[A.icon]}</g><text y="38" text-anchor="middle" font-family="Fredoka,Nunito,sans-serif" font-weight="600" font-size="10" fill="${I.color}" letter-spacing="1">${I.r.toUpperCase()}</text></g></svg>
+    ${extra?`<p style="text-align:center">${extra}</p>`:''}
+    ${unlocked?`<div class="card" style="align-items:center;text-align:center"><div class="eyebrow">${I.r} complete</div><div class="birdbox">${birdSVG(S,'rw')}</div><p>Your manu now wears ${REWARD[I.reward]}. You can change it in <b>My manu</b>.</p></div>`:''}
+    <div class="card flat"><div class="eyebrow">Did you know?</div><p class="small">${A.fact}</p></div>
+    <div class="stack"><div class="eyebrow">Words from this activity</div><div class="chips">${A.words.map(w=>`<span class="wchip"><b>${W[w].r}</b><span>${W[w].en}</span>${spkBtn(w)}</span>`).join('')}</div></div>
+    <div class="row"><button class="btn primary" id="rBack" style="flex:1">Back to ${I.en}</button><button class="btn ghost" id="rAgain">Play again</button></div>`;
+  ab.appendChild(r); $('#rBack').onclick=()=>{ closeFull(); if(unlocked) later(()=>bubble(W.mauruuru.r,'Look at me!'),400); }; $('#rAgain').onclick=()=>openAct(id); }
+const prog=(n,of)=>Array.from({length:of},(_,i)=>`<i class="${i<n?'on':''}"></i>`).join('');
+
+/* --- Te mātete: the market --- */
+const FRUIT={
+  meia:'<path d="M14 18 Q20 46 46 50 Q30 40 22 16Z" fill="#F2C94C" stroke="#C99A1C" stroke-width="1.5"/><path d="M20 16 Q30 42 54 42 Q36 34 28 14Z" fill="#F6D65E" stroke="#C99A1C" stroke-width="1.5"/><path d="M26 14 Q40 36 58 32 Q42 28 34 12Z" fill="#F2C94C" stroke="#C99A1C" stroke-width="1.5"/><rect x="16" y="8" width="20" height="8" rx="3" fill="#6B8E3A"/>',
+  vi:'<ellipse cx="30" cy="38" rx="21" ry="16" transform="rotate(-24 30 38)" fill="#E9733A"/><ellipse cx="36" cy="31" rx="11" ry="7" transform="rotate(-24 36 31)" fill="#F6B84A" opacity=".85"/><path d="M40 20 Q50 9 59 13 Q53 22 40 20Z" fill="#3B8C58"/>',
+  uru:'<circle cx="32" cy="36" r="21" fill="#8DBB4C"/>'+[[24,28],[34,24],[42,32],[26,40],[36,38],[44,44],[30,50],[20,48],[18,34]].map(p=>`<path d="M${p[0]-3} ${p[1]} l3 -3 l3 3 l-3 3Z" fill="none" stroke="#6E9A36" stroke-width="1.3"/>`).join('')+'<path d="M32 15 L35 5" stroke="#6B4A2A" stroke-width="3" stroke-linecap="round"/>',
+  haari:'<circle cx="32" cy="35" r="21" fill="#7A5230"/><path d="M14 30 Q32 22 50 30" stroke="#5A3A1E" stroke-width="1.6" fill="none"/><circle cx="26" cy="27" r="2.8" fill="#3A2412"/><circle cx="35" cy="25" r="2.8" fill="#3A2412"/><circle cx="31" cy="32" r="2.8" fill="#3A2412"/>',
+  ia:'<path d="M6 32 Q24 12 44 26 L58 17 L55 32 L58 47 L44 38 Q24 52 6 32Z" fill="#2F7FD8"/><path d="M22 27 Q30 32 22 38" stroke="#BFE0FF" stroke-width="2" fill="none"/><circle cx="15" cy="30" r="2.6" fill="#fff"/><circle cx="15" cy="30" r="1.3" fill="#10303B"/>',
+  tiare:'<g transform="translate(32 32)">'+[0,60,120,180,240,300].map(a=>`<ellipse cx="0" cy="-12" rx="7" ry="13" transform="rotate(${a+18})" fill="#FFFDF5" stroke="#D9CBA4" stroke-width="1.2"/>`).join('')+'<circle r="5" fill="#F2C94C"/></g>'
+};
+const fruitSVG=(w,s)=>`<svg viewBox="0 0 64 64" aria-hidden="true">${FRUIT[w]}</svg>`;
+function actMarket(el,done){
+  const order=shuffle(Object.keys(FRUIT)).slice(0,5); let round=0, basket=[], lock=false;
+  el.innerHTML=`<div class="art"><svg viewBox="0 0 360 120" aria-hidden="true"><rect width="360" height="120" fill="#F4E3C3"/>${Array.from({length:12},(_,i)=>`<path d="M${i*30} 0 h30 v26 q-15 10 -30 0Z" fill="${i%2?'#FFFFFF':'#C8402F'}"/>`).join('')}<rect y="92" width="360" height="28" fill="#8A5A2B"/><rect y="88" width="360" height="6" fill="#6B4426"/>${['meia','vi','uru','haari','ia','tiare','vi','meia'].map((w,i)=>`<g transform="translate(${8+i*44} 48) scale(.68)">${FRUIT[w]}</g>`).join('')}</svg></div>
+    <div class="card"><div class="row" style="justify-content:space-between;flex-wrap:nowrap"><div style="min-width:0"><div class="eyebrow">The stall-keeper asks for</div><div class="reo" style="font-size:2rem" id="mkWord"></div></div><span id="mkSpk"></span></div><p class="small muted">Tap the right one. Tap the speaker to hear the word.</p></div>
+    <div class="opts" id="mkOpts"></div><div class="fb" id="mkFb" aria-live="polite"></div>
+    <div class="card flat"><div class="row" style="justify-content:space-between"><span class="eyebrow">Your basket</span><span class="prog" id="mkProg"></span></div><div class="basket" id="mkBasket"></div></div>`;
+  const show=()=>{ const t=order[round]; lock=false; $('#mkWord').textContent=W[t].r+'?'; $('#mkSpk').innerHTML=spkBtn(t); $('#mkFb').textContent=''; $('#mkFb').className='fb'; $('#mkProg').innerHTML=prog(round,5);
+    const opts=shuffle([t].concat(shuffle(Object.keys(FRUIT).filter(k=>k!==t)).slice(0,3)));
+    $('#mkOpts').innerHTML=opts.map(k=>`<button class="opt" data-k="${k}" aria-label="Choose this one">${fruitSVG(k)}<span></span></button>`).join('');
+    later(()=>sayWord(t),250);
+    $$('#mkOpts .opt').forEach(b=>b.onclick=()=>{ if(lock) return; const k=b.dataset.k; const fb=$('#mkFb');
+      if(k===t){ lock=true; b.classList.add('ok'); b.querySelector('span').textContent=`${W[k].r} · ${W[k].en}`; sfx('good'); fb.className='fb good'; fb.textContent=`Yes! ${W[k].r} means ${W[k].en}.`; basket.push(k); $('#mkBasket').innerHTML=basket.map(fruitSVG).join(''); round++; $('#mkProg').innerHTML=prog(round,5);
+        later(()=>{ if(round>=5) done('The stall-keeper says <span class="reo">Māuruuru!</span> Your basket is full.'); else show(); },1300); }
+      else { sfx('bad'); b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); b.querySelector('span').textContent=`${W[k].r} · ${W[k].en}`; fb.className='fb bad'; fb.textContent=`That one is ${W[k].r} (${W[k].en}). Look again.`; } }); };
+  show(); }
+
+/* --- Faʻaheʻe: catch a wave at Teahupoʻo --- */
+function actSurf(el,done){
+  el.innerHTML=`<div class="art"><svg viewBox="0 0 360 260" aria-hidden="true"><defs>${vgrad('sfS','#8CCFEA','#E3F4F2',0,140)}${vgrad('sfW','#8BE3E6','#1C93AA',104,206)}${vgrad('sfO','#1A8FA8','#0E5E7A',140,260)}</defs><rect width="360" height="260" fill="url(#sfS)"/><path d="M-10 150 L30 96 L70 120 L120 70 L170 118 L220 90 L270 128 L320 104 L370 150Z" fill="#4F9E72"/><rect y="146" width="360" height="114" fill="url(#sfO)"/><path id="sfWave" fill="url(#sfW)"/><path id="sfLip" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".95"/><g id="sfBird"><g transform="translate(-22 -40) scale(.4)">${birdSVG(S,'sf')}</g><ellipse cx="2" cy="3" rx="20" ry="3.4" fill="#F2C94C" stroke="#C99A1C" stroke-width="1.2"/></g></svg></div>
+    <div class="card"><p class="small">Watch the swell come in. Tap <b>Paddle</b> when the wave is just behind your manu, inside the green zone.</p><div class="meter" aria-hidden="true"><div class="z" id="sfZone"></div><div class="m" id="sfMark"></div></div><div class="row" style="justify-content:space-between"><span class="fb" id="sfFb" aria-live="polite">Waiting for a set…</span><span class="prog" id="sfProg">${prog(0,3)}</span></div></div>
+    <button class="btn sun" id="sfGo" style="min-height:64px;font-size:1.15rem">Paddle! · <span>Hoe!</span></button>`;
+  const wave=$('#sfWave'), lip=$('#sfLip'), bird=$('#sfBird'), fb=$('#sfFb'), zone=$('#sfZone'), mark=$('#sfMark');
+  const BX=210, SEA=200, CP=BX-34; let w=34, cx=-200, t=0, period=3.6, pause=1.2, tried=false, riding=false, rides=0, finished=false;
+  const setZone=()=>{ zone.style.left=((CP-w+140)/640*100)+'%'; zone.style.width=(2*w/640*100)+'%'; }; setZone();
+  const shape=c=>`M${c-240} 206 C${c-130} 206 ${c-56} 192 ${c-24} 150 C${c-2} 118 ${c+30} 108 ${c+54} 122 C${c+67} 130 ${c+62} 146 ${c+48} 150 C${c+40} 138 ${c+26} 142 ${c+28} 158 C${c+32} 184 ${c+74} 202 ${c+150} 206 L${c+150} 262 L${c-240} 262Z`;
+  const lipD=c=>`M${c-24} 150 C${c-2} 118 ${c+30} 108 ${c+54} 122 C${c+67} 130 ${c+62} 146 ${c+48} 150`;
+  $('#sfGo').onclick=()=>{ if(finished||tried||riding) return; tried=true;
+    if(cx>=CP-w && cx<=CP+w){ riding=true; rides++; $('#sfProg').innerHTML=prog(rides,3); sfx('good'); fb.className='fb good'; fb.textContent='Faʻaheʻe! You caught it.'; if(rides===1) speak(W.faahee.r); w=Math.max(18,w-8); setZone(); }
+    else if(cx<CP-w){ sfx('bad'); fb.className='fb bad'; fb.textContent='Too early. Wait until the wave reaches you.'; }
+    else { sfx('bad'); fb.className='fb bad'; fb.textContent='Too late. It passed under you. Next one!'; } };
+  frames(dt=>{ t+=dt; const total=period+pause, ph=t%total;
+    if(ph<period){ cx=-140+ph/period*620; } else { cx=-400; if(tried||riding){ tried=false; riding=false; if(rides>=3 && !finished){ finished=true; later(()=>done('Three waves ridden at Teahupoʻo.'),300); } else if(!finished){ fb.className='fb'; fb.textContent='Next set coming…'; } } }
+    wave.setAttribute('d',shape(cx)); lip.setAttribute('d',lipD(cx)); mark.style.left=clamp((cx+140)/640*100,0,100)+'%';
+    let bx=BX, by=SEA+Math.sin(t*2.4)*2, rot=0;
+    if(riding && cx>-300){ bx=cx+40; by=158; rot=-14; }
+    else if(cx>BX-60 && cx<BX+60 && !riding){ const k=1-Math.abs(cx-(BX-10))/70; by=SEA-k*30; }
+    bird.setAttribute('transform',`translate(${bx.toFixed(1)} ${by.toFixed(1)}) rotate(${rot})`); }); }
+
+/* --- ʻOri Tahiti: tap with the tōʻere --- */
+function actOri(el,done){
+  injectCSS('ori',`.lane{position:relative;height:74px;border-radius:16px;background:var(--surface);border:1.5px solid var(--line);overflow:hidden;touch-action:manipulation}.lane .hitz{position:absolute;left:18px;top:50%;width:46px;height:46px;margin-top:-23px;border-radius:50%;border:3px solid var(--sunset);background:color-mix(in srgb,var(--sunset) 14%,transparent)}.lane .nt{position:absolute;left:0;top:50%;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;background:var(--ocean);will-change:transform}.lane .nt.hit{background:var(--fern);transition:opacity .3s,transform .3s;opacity:0}.lane .nt.miss{opacity:.2}`);
+  el.innerHTML=`<div class="art" style="background:#2A1A2E"><svg viewBox="0 0 360 170" aria-hidden="true"><defs>${vgrad('orS','#1D2246','#7A3B4E',0,170)}</defs><rect width="360" height="170" fill="url(#orS)"/>${[[40,30],[110,18],[200,26],[300,14],[330,48],[150,50]].map(s=>`<circle cx="${s[0]}" cy="${s[1]}" r="1.4" fill="#FFF6D8"/>`).join('')}<rect y="138" width="360" height="32" fill="#5A3A1E"/><rect y="134" width="360" height="6" fill="#8A5A2B"/>${[50,310].map(x=>`<path d="M${x} 136 V80" stroke="#6B4A2A" stroke-width="4"/><path class="sc-flame" d="M${x} 80 q-8 -10 0 -24 q8 14 0 24Z" fill="#F0A23A"/>`).join('')}<g transform="translate(272 118)"><rect x="-18" y="-10" width="36" height="16" rx="8" fill="#9A6A3A"/><rect x="-12" y="-5" width="24" height="3" rx="1.5" fill="#4A2E16"/></g></svg><div class="birdbox" id="orBird" style="position:absolute;left:50%;top:6%;width:30%;height:auto;aspect-ratio:120/110;transform:translateX(-50%)">${birdSVG(S,'or')}</div></div>
+    <div class="card"><p class="small">Tap the big button each time a beat reaches the circle. The pahu drum keeps time, you play the <span class="reo">tōʻere</span>.</p><div class="lane" id="orLane"><div class="hitz"></div></div><div class="row" style="justify-content:space-between"><span class="fb" id="orFb" aria-live="polite">Get ready…</span><b id="orScore">0 / 20</b></div></div>
+    <button class="btn sun" id="orTap" style="min-height:72px;font-size:1.2rem">Tap the tōʻere</button>`;
+  const lane=$('#orLane'), fb=$('#orFb'), sc=$('#orScore'), birdbox=$('#orBird');
+  const STEP=.25, TRAVEL=1.8, HITX=41, PAT=[0,2,3,4,6,8,10,11,12,14,16,17,18,20,22,24,26,27,28,30];
+  const now=()=>performance.now()/1000; const T0=now()+2.4; let score=0, over=false;
+  const notes=PAT.map(s=>{ const d=document.createElement('div'); d.className='nt'; lane.appendChild(d); return {t:T0+s*STEP, el:d, judged:false}; });
+  if(S.sound){ const a=ac(); if(a){ const off=a.currentTime-now(); for(let s=-8;s<=32;s+=2){ const tt=T0+s*STEP+off; if(tt>a.currentTime) { try{ drum(tt); }catch(e){} } } } }
+  later(()=>{ birdbox.classList.add('dancing'); fb.textContent='Hoe! Dance!'; },2000);
+  const tap=()=>{ if(over) return; const n=now(); let best=null, bd=1; notes.forEach(o=>{ if(!o.judged){ const d=Math.abs(o.t-n); if(d<bd){ bd=d; best=o; } } });
+    if(best && bd<.16){ best.judged=true; best.el.classList.add('hit'); score++; sc.textContent=`${score} / 20`; sfx('toere'); fb.className='fb good'; fb.textContent=bd<.07?'Perfect!':'Good!'; } else { sfx('tap'); fb.className='fb'; fb.textContent='Wait for the beat…'; } };
+  $('#orTap').addEventListener('pointerdown',e=>{ e.preventDefault(); tap(); });
+  $('#orTap').addEventListener('keydown',e=>{ if(e.key===' '||e.key==='Enter'){ e.preventDefault(); tap(); } });
+  frames(()=>{ const n=now(), W0=lane.clientWidth;
+    notes.forEach(o=>{ const x=HITX+(o.t-n)/TRAVEL*(W0-HITX); if(!o.el.classList.contains('hit')) o.el.style.transform=`translateX(${x.toFixed(1)}px)`; if(!o.judged && n-o.t>.16){ o.judged=true; o.el.classList.add('miss'); } });
+    if(n>T0+32*STEP+.8 && !over){ over=true; birdbox.classList.remove('dancing');
+      if(score>=10) later(()=>done(`You played ${score} of 20 beats.`),300);
+      else { fb.className='fb bad'; fb.textContent=`${score} of 20. Try again: listen for the pahu.`; $('#orTap').textContent='Try again'; $('#orTap').onpointerdown=null; $('#orTap').addEventListener('click',()=>openAct('ori'),{once:true}); }
+      return false; } }); }
+
+/* --- Te tairoto: lagoon friends --- */
+const CRIT={
+  honu:{y:300,dur:26,del:-4,tip:'Give turtles space. Never touch or ride them.', svg:'<g><ellipse cx="-2" cy="0" rx="28" ry="19" fill="#6E8B5A"/><path d="M-20 -8 L-6 -14 L10 -10 L18 0 L10 10 L-6 14 L-20 8 L-26 0Z" fill="none" stroke="#4E6B3E" stroke-width="1.6"/><path d="M-6 -14 L-2 0 L-6 14 M-2 0 L18 0 M-26 0 L-2 0" stroke="#4E6B3E" stroke-width="1.4" fill="none"/><circle cx="32" cy="-1" r="8" fill="#8FAA6E"/><circle cx="35" cy="-3" r="1.4" fill="#10303B"/><ellipse cx="12" cy="-20" rx="12" ry="5" transform="rotate(-30 12 -20)" fill="#8FAA6E"/><ellipse cx="12" cy="20" rx="12" ry="5" transform="rotate(30 12 20)" fill="#8FAA6E"/><ellipse cx="-24" cy="-14" rx="7" ry="4" transform="rotate(30 -24 -14)" fill="#8FAA6E"/><ellipse cx="-24" cy="14" rx="7" ry="4" transform="rotate(-30 -24 14)" fill="#8FAA6E"/></g>'},
+  fai:{y:356,dur:30,del:-16,tip:'Rays glide over the sand. Watch them, don’t feed them.', svg:'<g><path d="M-26 0 Q-6 -28 12 -20 Q30 -8 34 0 Q30 8 12 20 Q-6 28 -26 0Z" fill="#8C7A66"/><path d="M-26 0 L-70 4" stroke="#6E5E4C" stroke-width="2.4" stroke-linecap="round"/><circle cx="16" cy="-5" r="2" fill="#3A2E22"/><circle cx="16" cy="5" r="2" fill="#3A2E22"/></g>'},
+  mao:{y:220,dur:20,del:-12,tip:'Blacktip reef sharks are shy. Stay calm and keep your distance.', svg:'<g><path d="M-42 0 Q-10 -15 30 -7 Q44 -3 50 2 Q42 8 22 9 Q-10 11 -42 4Z" fill="#8A9BA6"/><path d="M-30 4 Q0 9 34 6" stroke="#E7EEF2" stroke-width="3" fill="none"/><path d="M-4 -11 L6 -28 L13 -9Z" fill="#8A9BA6"/><path d="M3 -23 L6 -28 L8.5 -22Z" fill="#111"/><path d="M-42 2 L-60 -16 L-54 2 L-60 18Z" fill="#8A9BA6"/><path d="M-58 -14 L-60 -16 L-57 -11Z" fill="#111"/><circle cx="36" cy="-1" r="1.6" fill="#10303B"/></g>'},
+  hou:{y:160,dur:16,del:-2,tip:'Parrotfish crunch dead coral, and what comes out is fine white sand.', svg:'<g><ellipse cx="0" cy="0" rx="24" ry="13" fill="#2BB3A0"/><path d="M-10 -10 Q-6 0 -10 10 M-2 -12 Q2 0 -2 12 M6 -11 Q10 0 6 11" stroke="#F28CB1" stroke-width="1.6" fill="none"/><path d="M-22 0 L-36 -12 L-34 0 L-36 12Z" fill="#F28CB1"/><path d="M22 -3 Q28 0 22 4Z" fill="#E8F0E0"/><circle cx="14" cy="-3" r="2" fill="#10303B"/></g>'},
+  oua:{leap:true,tip:'Spinner dolphins play outside the reef. Boats slow down and keep away.', svg:'<g><path d="M-36 4 Q-10 -16 26 -8 Q40 -4 48 0 Q40 3 30 4 Q0 14 -36 4Z" fill="#6F8FA8"/><path d="M-26 6 Q4 12 30 4" stroke="#DCE6EE" stroke-width="3" fill="none"/><path d="M-2 -12 L4 -24 L10 -10Z" fill="#6F8FA8"/><path d="M-36 4 L-50 -8 L-46 4 L-52 14Z" fill="#6F8FA8"/><circle cx="32" cy="-2" r="1.6" fill="#10303B"/></g>'}
+};
+function actLagoon(el,done){
+  injectCSS('lagoon',`@keyframes swimR{from{transform:translateX(-110px)}to{transform:translateX(470px)}}@keyframes swimL{from{transform:translateX(470px) scaleX(-1)}to{transform:translateX(-110px) scaleX(-1)}}@keyframes leap{0%{transform:translate(-60px,70px) rotate(-38deg);opacity:0}8%{opacity:1}50%{transform:translate(180px,18px) rotate(0)}92%{opacity:1}100%{transform:translate(420px,70px) rotate(38deg);opacity:0}}@keyframes ray{from{opacity:.05}to{opacity:.22}}.crit{cursor:pointer}.crit.found{filter:drop-shadow(0 0 6px #FFF3C4)}.paused .swim{animation-play-state:paused}`);
+  const keys=Object.keys(CRIT); const found=new Set();
+  const crits=keys.map((k,i)=>{ const C=CRIT[k]; if(C.leap) return `<g class="swim" style="animation:leap 7s ease-in-out infinite;animation-delay:-2s"><g class="crit" data-w="${k}" role="button" tabindex="0" aria-label="A dolphin"><rect x="-56" y="-30" width="112" height="56" fill="transparent"/>${C.svg}</g></g>`;
+    const dir=i%2?'swimL':'swimR'; return `<g transform="translate(0 ${C.y})"><g class="swim" style="animation:${dir} ${C.dur}s linear infinite;animation-delay:${C.del}s"><g class="crit" data-w="${k}" role="button" tabindex="0" aria-label="A sea creature"><rect x="-56" y="-32" width="112" height="64" fill="transparent"/>${C.svg}</g></g></g>`; }).join('');
+  el.innerHTML=`<div class="art" id="lgArt"><svg viewBox="0 0 360 420" aria-label="The lagoon of Moʻorea"><defs>${vgrad('lgW','#7ADBDD','#127C98',40,420)}</defs><rect width="360" height="420" fill="url(#lgW)"/><rect width="360" height="44" fill="#BFEFF2"/><path d="M0 44 ${Array.from({length:18},()=>'q10 -5 20 0').join(' ')}" fill="none" stroke="#fff" stroke-width="2"/>${[40,130,230,310].map((x,i)=>`<polygon points="${x},44 ${x+30},44 ${x-30},420 ${x-90},420" fill="#FFFFFF" style="animation:ray ${3+i}s ease-in-out infinite alternate"/>`).join('')}<path d="M0 384 Q90 366 180 378 T360 372 V420 H0Z" fill="#E9DDB8"/>${[[50,378],[120,384],[268,376],[320,382]].map((p,i)=>`<g transform="translate(${p[0]} ${p[1]})"><circle r="16" fill="${['#E58A9B','#B98AD6','#F2B36B','#7FC59A'][i]}"/><circle cx="-12" cy="4" r="10" fill="${['#D27386','#A274C2','#E39C52','#68B084'][i]}"/></g>`).join('')}${crits}</svg></div>
+    <div class="card" id="lgInfo"><p class="small">Five lagoon friends are swimming around. Tap each one to learn its name.</p></div>
+    <div class="row" style="justify-content:space-between"><span class="eyebrow">Found</span><span class="prog" id="lgProg">${prog(0,5)}</span></div>`;
+  const tapC=g=>{ const k=g.dataset.w, C=CRIT[k]; if(!found.has(k)){ found.add(k); sfx('good'); } else sfx('tap'); g.classList.add('found'); g.setAttribute('aria-label',W[k].en); sayWord(k);
+    $('#lgInfo').innerHTML=`<div class="row" style="justify-content:space-between;flex-wrap:nowrap"><div style="min-width:0"><div class="reo" style="font-size:1.6rem">${W[k].r}</div><div>${W[k].en}</div></div>${spkBtn(k)}</div><p class="small muted">${C.tip}</p>`; $('#lgProg').innerHTML=prog(found.size,5);
+    if(found.size===5) later(()=>done('You met all five lagoon friends, without touching any of them.'),1600); };
+  $$('#lgArt .crit').forEach(g=>{ g.addEventListener('pointerdown',e=>{ e.preventDefault(); tapC(g); }); g.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); tapC(g); } }); }); }
+
+/* --- Painapo: pineapple harvest --- */
+function pineSVG(st){ const leaves=`<g fill="#3B8C58">${[-50,-25,0,25,50].map(a=>`<path d="M32 ${st?30:44} q-3 -16 0 -26 q3 10 0 26Z" transform="rotate(${a} 32 ${st?34:48})"/>`).join('')}</g>`;
+  const base=`<g fill="#2F7D4C">${[-70,-40,40,70,-15,15].map(a=>`<path d="M32 56 q-4 -18 0 -30 q4 12 0 30Z" transform="rotate(${a} 32 56)"/>`).join('')}</g>`;
+  if(st===0) return base;
+  const r=[0,6,10,12][st], col=['','#7FAF4A','#9CBF4A','#E9B93A'][st];
+  return base+`<ellipse cx="32" cy="${46-r*.4}" rx="${r*.8}" ry="${r}" fill="${col}"/>${st===3?`<path d="M26 ${38} l12 10 M38 ${38} l-12 10 M24 ${44} l14 8" stroke="#C9922A" stroke-width="1.2"/>`:''}`+leaves.replace(/32 30/g,`32 ${46-r*1.4}`).replace(/32 34/g,`32 ${46-r*1.2}`)+(st===3?'<circle cx="48" cy="22" r="2" fill="#FFF6D8"/><circle cx="14" cy="30" r="1.6" fill="#FFF6D8"/>':''); }
+function actPine(el,done){
+  const st=[0,1,2,0,1,3,2,0,1]; let got=0;
+  el.innerHTML=`<div class="card"><p class="small">The pineapples of the Opunohu valley ripen one by one. Pick the golden ones only; green ones need more sun.</p><div class="row" style="justify-content:space-between"><span class="fb" id="pnFb" aria-live="polite"></span><b id="pnN">0 / 6</b></div></div>
+    <div class="grid3" id="pnGrid">${st.map((s,i)=>`<button class="plant" data-i="${i}" aria-label="Pineapple plant"><svg viewBox="0 0 64 64">${pineSVG(s)}</svg></button>`).join('')}</div>`;
+  const draw=i=>{ $(`#pnGrid [data-i="${i}"] svg`).innerHTML=pineSVG(st[i]); $(`#pnGrid [data-i="${i}"]`).setAttribute('aria-label',st[i]===3?'Ripe pineapple':'Pineapple, not ripe'); };
+  every(()=>{ const cand=st.map((s,i)=>s<3?i:-1).filter(i=>i>=0); if(!cand.length) return; const i=pick(cand); st[i]++; draw(i); },650);
+  $$('#pnGrid .plant').forEach(b=>b.onclick=()=>{ const i=+b.dataset.i, fb=$('#pnFb');
+    if(st[i]===3){ st[i]=0; draw(i); got++; $('#pnN').textContent=`${got} / 6`; sfx('good'); fb.className='fb good'; fb.textContent=got===1?'Painapo! Sweet and golden.':'Into the basket!'; if(got===1) sayWord('painapo'); if(got>=6){ $$('#pnGrid .plant').forEach(x=>x.disabled=true); later(()=>done('Six sweet pineapples from Opunohu.'),900); } }
+    else { sfx('bad'); b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); fb.className='fb bad'; fb.textContent='Not ripe yet: painapo needs more sun.'; } }); }
+
+/* --- Te toʻa: replant the coral --- */
+function coralSVG(k){ if(k===0) return '<g stroke="#E58A9B" stroke-width="4" stroke-linecap="round" fill="none"><path d="M0 0 V-26 M0 -12 L-12 -24 M0 -16 L12 -30 M-12 -24 L-16 -34 M12 -30 L18 -38"/></g>';
+  if(k===1) return '<g fill="#F2B36B"><ellipse cx="0" cy="-8" rx="20" ry="5"/><ellipse cx="2" cy="-18" rx="15" ry="4"/><ellipse cx="-2" cy="-26" rx="10" ry="3"/><rect x="-2" y="-26" width="4" height="26" fill="#D9984F"/></g>';
+  return '<g><circle cx="0" cy="-14" r="14" fill="#7FC59A"/><path d="M-9 -16 q4 -6 8 0 t8 0 M-10 -9 q5 -5 10 0 t9 0" stroke="#5FA77B" stroke-width="1.6" fill="none"/></g>'; }
+function actCoral(el,done){
+  injectCSS('coral',`.cgrow{transform-box:fill-box;transform-origin:50% 100%;transform:scale(.15);transition:transform 1.2s cubic-bezier(.2,1.4,.4,1)}.cgrow.big{transform:scale(1)}@keyframes school{from{transform:translateX(-120px)}to{transform:translateX(480px)}}`);
+  const slots=[[70,250],[130,244],[190,250],[250,244],[310,250],[160,300]]; const planted=[]; let fishN=0;
+  el.innerHTML=`<div class="art" id="cgArt"><svg viewBox="0 0 360 380" aria-label="A coral nursery"><defs>${vgrad('cgW','#5FCAD3','#0F6E8C',0,380)}</defs><rect width="360" height="380" fill="url(#cgW)"/><path d="M0 330 Q100 312 200 324 T360 318 V380 H0Z" fill="#E1D3AA"/><g stroke="#8A9BA6" stroke-width="3"><path d="M40 330 V236 M320 330 V236"/></g><path d="M40 252 H320 M40 302 H320" stroke="#C9B890" stroke-width="2"/><g id="cgFish"></g>${slots.map((s,i)=>`<g class="tapable slot" data-i="${i}" role="button" tabindex="0" aria-label="Empty spot on the frame"><circle cx="${s[0]}" cy="${s[1]}" r="20" fill="rgba(255,255,255,.12)" stroke="#fff" stroke-width="2" stroke-dasharray="4 4"/><path d="M${s[0]-6} ${s[1]} h12 M${s[0]} ${s[1]-6} v12" stroke="#fff" stroke-width="2"/></g>`).join('')}<g id="cgCor"></g></svg></div>
+    <div class="card"><p class="small">These fragments of <span class="reo">toʻa</span> grew in a nursery. Tap each empty spot on the frame to plant one, and watch the fish come back.</p><div class="row" style="justify-content:space-between"><span class="fb" id="cgFb" aria-live="polite"></span><span class="prog" id="cgProg">${prog(0,6)}</span></div></div>`;
+  const plant=g=>{ const i=+g.dataset.i; if(planted.includes(i)) return; planted.push(i); const s=slots[i]; g.remove(); sfx('good');
+    const c=document.createElementNS('http://www.w3.org/2000/svg','g'); c.setAttribute('transform',`translate(${s[0]} ${s[1]+18})`); c.innerHTML=`<g class="cgrow">${coralSVG(planted.length%3)}</g>`; $('#cgCor').appendChild(c); requestAnimationFrame(()=>requestAnimationFrame(()=>c.firstChild.classList.add('big')));
+    $('#cgProg').innerHTML=prog(planted.length,6); const fb=$('#cgFb'); fb.className='fb good'; fb.textContent=planted.length===1?'Toʻa! The coral is home.':planted.length%2?'Growing…':'Fish are coming back!';
+    if(planted.length===1) sayWord('toa');
+    if(planted.length%2===0){ fishN++; const y=150+fishN*40, col=['#F2C94C','#2F7FD8','#F28CB1'][fishN%3]; const f=document.createElementNS('http://www.w3.org/2000/svg','g'); f.setAttribute('transform',`translate(0 ${y})`); f.innerHTML=`<g style="animation:school ${12+fishN*3}s linear infinite;animation-delay:-${fishN*2}s">${[0,1,2,3].map(j=>`<g transform="translate(${j*16} ${(j%2)*8})"><path d="M0 0 q8 -6 14 0 q-6 6 -14 0Z M0 0 l-5 -4 v8Z" fill="${col}"/></g>`).join('')}</g>`; $('#cgFish').appendChild(f); }
+    if(planted.length>=6) later(()=>done('Six corals replanted on the reef.'),1500); };
+  $$('#cgArt .slot').forEach(g=>{ g.addEventListener('pointerdown',e=>{ e.preventDefault(); plant(g); }); g.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); plant(g); } }); }); }
+
+/* --- Hoe vaʻa: a lap of the lagoon --- */
+function canoeSVG(col,head){ return `<g><path d="M-18 0 Q0 -4 18 0 Q0 4 -18 0Z" fill="${col}" stroke="#3A1E10" stroke-width=".8"/><path d="M-4 -1 L-4 -10 M6 -1 L6 -10" stroke="#5A3A1E" stroke-width="1.2"/><ellipse cx="1" cy="-10.5" rx="9" ry="1.8" fill="#EADBB8"/>${[-9,-1,7].map(x=>`<circle cx="${x}" cy="0" r="2.1" fill="${head||'#3A2A1E'}"/>`).join('')}</g>`; }
+function actVaa(el,done){
+  const CX=180, CY=200, RX=118, RY=146;
+  el.innerHTML=`<div class="art"><svg viewBox="0 0 360 400" aria-label="The lagoon of Porapora seen from above"><defs><radialGradient id="vaL" cx="50%" cy="50%" r="55%"><stop offset="0" stop-color="#A8EFE4"/><stop offset="1" stop-color="#22BCC2"/></radialGradient></defs><rect width="360" height="400" fill="#1B6C98"/><ellipse cx="${CX}" cy="${CY}" rx="168" ry="192" fill="url(#vaL)"/><ellipse cx="${CX}" cy="${CY}" rx="168" ry="192" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="10 6" opacity=".8"/>${[[30,90],[322,150],[300,330],[70,340],[180,14]].map(p=>`<ellipse cx="${p[0]}" cy="${p[1]}" rx="18" ry="7" fill="#F7EBD0"/><circle cx="${p[0]}" cy="${p[1]-4}" r="4" fill="#3B8C58"/>`).join('')}<ellipse cx="${CX}" cy="${CY}" rx="64" ry="84" fill="#5E9B74"/><path d="M${CX-10} ${CY-26} q10 -22 26 -8 q8 20 -6 34 q-20 6 -20 -26Z" fill="#355E4A"/><text x="${CX}" y="${CY+50}" text-anchor="middle" font-family="Fredoka,Nunito,sans-serif" font-weight="600" font-size="11" fill="#EAF6EE">Otemanu</text><ellipse cx="${CX}" cy="${CY}" rx="${RX}" ry="${RY}" fill="none" stroke="#fff" stroke-width="1" opacity=".35" stroke-dasharray="3 6"/><path d="M${CX} ${CY+RY-26} V${CY+RY+26}" stroke="#F7EBD0" stroke-width="3" stroke-dasharray="4 3"/><text x="${CX+30}" y="${CY+RY+26}" text-anchor="start" font-family="Nunito,sans-serif" font-weight="700" font-size="10" fill="#0E4C6B">Matira · finish</text><g id="vaRival">${canoeSVG('#2F5FA8')}</g><g id="vaMe">${canoeSVG('#C8402F',S.body)}</g></svg></div>
+    <div class="card"><div class="row" style="justify-content:space-between"><span class="fb" id="vaFb" aria-live="polite">Paddle left, right, left… Switching sides keeps the vaʻa straight and fast.</span><b id="vaT">0.0 s</b></div><div class="meter"><div class="f" id="vaP"></div></div></div>
+    <div class="pad"><button class="btn primary" id="vaL">Left · Hoe!</button><button class="btn primary" id="vaR">Right · Hoe!</button></div>`;
+  const me=$('#vaMe'), riv=$('#vaRival'), fb=$('#vaFb'), tEl=$('#vaT'), pEl=$('#vaP');
+  const pos=(th,lane)=>{ const rx=RX+lane, ry=RY+lane; const x=CX+rx*Math.cos(th), y=CY+ry*Math.sin(th); const ang=Math.atan2(ry*Math.cos(th),-rx*Math.sin(th))*180/Math.PI; return `translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${ang.toFixed(1)}) scale(1.6)`; };
+  const ST=Math.PI/2; let th=0, rth=0, v=0, last=0, started=false, t=0, finished=false, rivalDone=false, wob=0, count=3;
+  me.setAttribute('transform',pos(ST,14)); riv.setAttribute('transform',pos(ST,-14));
+  fb.textContent='Ready… 3'; every(()=>{ if(count>1){ count--; fb.textContent='Ready… '+count; sfx('tap'); } else if(!started){ started=true; fb.className='fb good'; fb.textContent='Hoe! Hoe!'; sfx('pahu'); } },800);
+  const stroke=side=>{ if(!started||finished) return; ac(); if(side!==last){ v+=.085; } else { v+=.02; wob=8; fb.className='fb bad'; fb.textContent='Switch sides!'; } last=side; sfx('splash'); };
+  const bind=(id,side)=>{ const b=$(id); b.addEventListener('pointerdown',e=>{ e.preventDefault(); b.classList.add('held'); stroke(side); }); const off=()=>b.classList.remove('held'); b.addEventListener('pointerup',off); b.addEventListener('pointerleave',off); };
+  bind('#vaL','L'); bind('#vaR','R');
+  const key=e=>{ if(e.key==='ArrowLeft'){ e.preventDefault(); stroke('L'); } else if(e.key==='ArrowRight'){ e.preventDefault(); stroke('R'); } }; document.addEventListener('keydown',key); RUN.stops.push(()=>document.removeEventListener('keydown',key));
+  frames(dt=>{ if(!started) return; if(finished) return false; t+=dt; v*=Math.exp(-.8*dt); th+=v*dt; wob*=Math.pow(.05,dt);
+    if(!rivalDone){ rth+=dt*(2*Math.PI/30); if(rth>=2*Math.PI){ rth=2*Math.PI; rivalDone=true; } }
+    me.setAttribute('transform',pos(ST+Math.min(th,2*Math.PI),14)+` rotate(${(Math.sin(t*20)*wob).toFixed(1)})`); riv.setAttribute('transform',pos(ST+rth,-14));
+    tEl.textContent=t.toFixed(1)+' s'; pEl.style.width=Math.min(100,th/(2*Math.PI)*100)+'%';
+    if(fb.textContent==='Switch sides!' && wob<1){ fb.className='fb good'; fb.textContent='Hoe!'; }
+    if(th>=2*Math.PI){ finished=true; const won=!rivalDone; const best=S.best.vaa; if(!best||t<best){ S.best.vaa=+t.toFixed(1); save(); } later(()=>done(`You crossed the line at Matira in ${t.toFixed(1)} s${won?', ahead of the other canoe!':'. The other canoe was faster this time.'}`),500); return false; } }); }
+
+/* --- Fāfā piti: swim gently to a manta --- */
+function actManta(el,done){
+  injectCSS('manta',`@keyframes mwL{from{transform:rotate(-6deg)}to{transform:rotate(8deg)}}@keyframes mwR{from{transform:rotate(6deg)}to{transform:rotate(-8deg)}}.mwl{transform-box:view-box;transform-origin:0 0;animation:mwL 1.6s ease-in-out infinite alternate}.mwr{transform-box:view-box;transform-origin:0 0;animation:mwR 1.6s ease-in-out infinite alternate}`);
+  el.innerHTML=`<div class="art"><svg viewBox="0 0 360 360" aria-label="A manta ray in deep blue water"><defs>${vgrad('mnW','#2A86B0','#08304D',0,360)}</defs><rect width="360" height="360" fill="url(#mnW)"/>${[60,170,280].map((x,i)=>`<polygon points="${x},0 ${x+26},0 ${x-14},360 ${x-60},360" fill="#fff" opacity=".07"/>`).join('')}<path d="M110 360 Q130 300 180 296 Q232 300 250 360Z" fill="#6E8B7A"/><circle cx="160" cy="306" r="10" fill="#E58A9B"/><circle cx="206" cy="310" r="12" fill="#B98AD6"/><ellipse id="mnGoal" cx="180" cy="186" rx="120" ry="58" fill="none" stroke="#FFD08A" stroke-width="2" stroke-dasharray="6 6" opacity=".55"/><g id="mnM"><path d="M0 30 Q2 50 -2 74" stroke="#1A2832" stroke-width="2.4" fill="none"/><g class="mwl"><path d="M0 -20 Q-34 -22 -104 6 Q-56 12 -20 28 Q-8 36 0 32Z" fill="#1F2E3A"/><path d="M-30 -10 Q-46 0 -30 10 Q-22 2 -30 -10Z" fill="#DDE7EC" opacity=".85"/></g><g class="mwr"><path d="M0 -20 Q34 -22 104 6 Q56 12 20 28 Q8 36 0 32Z" fill="#1F2E3A"/><path d="M30 -10 Q46 0 30 10 Q22 2 30 -10Z" fill="#DDE7EC" opacity=".85"/></g><path d="M-12 -18 q-8 -6 -6 -16 q6 4 10 14Z M12 -18 q8 -6 6 -16 q-6 4 -10 14Z" fill="#1F2E3A"/><path d="M-60 6 Q0 -4 60 6" stroke="#3A5262" stroke-width="1.4" fill="none" opacity=".7"/></g><g id="mnBub"></g></svg></div>
+    <div class="card"><p class="small">Hold <b>Swim gently</b> to move closer. Too fast and the <span class="reo">fāfā piti</span> will leave. Stop at the dotted ring and stay still.</p><div class="meter" aria-hidden="true"><div class="z" style="left:0;width:72%"></div><div class="f" id="mnS" style="opacity:.8"></div></div><span class="fb" id="mnFb" aria-live="polite">Calm and slow.</span></div>
+    <button class="btn primary" id="mnGo" style="min-height:72px;font-size:1.15rem;touch-action:none;user-select:none;-webkit-user-select:none">Swim gently</button>`;
+  const M=$('#mnM'), sEl=$('#mnS'), fb=$('#mnFb'), go=$('#mnGo'); let d=1, spd=0, hold=false, still=0, phase='swim', t=0, out=0;
+  const on=e=>{ e.preventDefault(); hold=true; go.classList.add('held'); }, off=()=>{ hold=false; go.classList.remove('held'); };
+  go.addEventListener('pointerdown',on); go.addEventListener('pointerup',off); go.addEventListener('pointerleave',off); go.addEventListener('pointercancel',off);
+  const kd=e=>{ if(e.key===' '){ e.preventDefault(); hold=true; } }, ku=e=>{ if(e.key===' ') hold=false; }; document.addEventListener('keydown',kd); document.addEventListener('keyup',ku); RUN.stops.push(()=>{ document.removeEventListener('keydown',kd); document.removeEventListener('keyup',ku); });
+  const bubbles=()=>{ const b=$('#mnBub'); b.innerHTML=Array.from({length:10},()=>`<circle cx="${rnd(120,240)}" cy="${rnd(240,330)}" r="${rnd(2,6)}" fill="none" stroke="#fff" opacity=".6"/>`).join(''); later(()=>{ b.innerHTML=''; },700); };
+  frames(dt=>{ t+=dt;
+    if(phase==='swim'){ spd=clamp(spd+(hold?.5:-.9)*dt,0,1); d=Math.max(.3,d-spd*.17*dt);
+      if(spd>.72){ spd=0; d=Math.min(1,d+.3); sfx('splash'); bubbles(); fb.className='fb bad'; fb.textContent='Too fast! The manta glided away. Slow down.'; }
+      else if(hold){ fb.className='fb'; fb.textContent='Gently…'; }
+      if(d<=.3){ phase='wait'; fb.className='fb good'; fb.textContent='Perfect distance. Let go and stay still…'; } }
+    else if(phase==='wait'){ spd=clamp(spd-.9*dt,0,1); if(hold){ still=0; fb.className='fb'; fb.textContent='Stay still… let it come to you.'; } else { still+=dt; if(still>3){ phase='pass'; fb.className='fb good'; fb.textContent='Fāfā piti! It glides right over you.'; sayWord('fafapiti'); } } }
+    else if(phase==='pass'){ out+=dt; if(out>2.6){ later(()=>done('You watched a manta from a respectful distance.'),200); return false; } }
+    sEl.style.width=(spd*100)+'%';
+    const sc= phase==='pass' ? 1.2+out*.9 : .32+(1-d)*.85, y= phase==='pass' ? 186-out*90 : 200-(1-d)*18+Math.sin(t*1.2)*6, x=180+Math.sin(t*.5)*(phase==='pass'?0:30*d);
+    M.setAttribute('transform',`translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${sc.toFixed(3)})`); M.setAttribute('opacity',phase==='pass'?Math.max(0,1-out/2.6).toFixed(2):'1'); }); }
+
+/* --- Te mau fetiʻa: stars over Matira --- */
+function actStars(el,done){
+  const rand=seeded(42); let bg=''; for(let i=0;i<150;i++) bg+=`<circle cx="${(rand()*360).toFixed(1)}" cy="${(rand()*330).toFixed(1)}" r="${(.4+rand()*1).toFixed(2)}" fill="#FFF6E3" opacity="${(.25+rand()*.5).toFixed(2)}"/>`;
+  const hook=[[92,256],[100,272],[110,290],[116,306],[126,322],[140,332],[156,336],[168,328],[170,314]];
+  const T=[
+    {w:'matarii', x:80, y:110, q:'Find <b>Matariʻi</b>, “the little eyes”: a tight little cluster of stars.', draw:[[-6,-4,2],[0,-7,2.4],[6,-2,2],[-3,2,2.2],[4,4,2.6],[10,5,1.8],[0,9,1.8]].map(p=>`<circle cx="${80+p[0]}" cy="${110+p[1]}" r="${p[2]}" fill="#EAF2FF"/>`).join('')},
+    {w:'tautoru', x:186, y:186, q:'Find <b>Tautoru</b>, “the three”: three stars in a neat row.', draw:[[170,180],[186,186],[202,192]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="2.8" fill="#F4F7FF"/>`).join(''), lines:'M170 180 L202 192'},
+    {w:'taurua', x:286, y:250, q:'Find <b>Taʻurua-faupapa</b>: the brightest star of the night.', draw:'<circle cx="286" cy="250" r="12" fill="#BFD8FF" opacity=".18"/><circle cx="286" cy="250" r="4.6" fill="#E6F0FF"/>'},
+    {w:'anamua', x:110, y:290, q:'Find <b>ʻAna-mua</b>: the red heart of Te Matau a Māui, the fishhook of Māui.', draw:hook.map((p,i)=>i===2?'':`<circle cx="${p[0]}" cy="${p[1]}" r="2" fill="#F4F7FF" opacity=".8"/>`).join('')+'<circle cx="110" cy="290" r="10" fill="#FF7A5C" opacity=".18"/><circle cx="110" cy="290" r="4" fill="#FF8A6A"/>', lines:'M'+hook.map(p=>p.join(' ')).join(' L')}
+  ];
+  let round=0, miss=0;
+  el.innerHTML=`<div class="art" id="stArt"><svg viewBox="0 0 360 420" aria-label="The night sky over Matira beach"><defs>${vgrad('stS','#050D24','#22406A',0,360)}</defs><rect width="360" height="420" fill="url(#stS)" id="stSky"/>${bg}${T.map(o=>o.draw).join('')}<g id="stLines" stroke="#FFD08A" stroke-width="1.4" fill="none" opacity=".9"></g><g id="stLab"></g><g id="stHint"></g><rect y="360" width="360" height="60" fill="#0A1E33"/><path d="M0 372 Q180 364 360 372 V420 H0Z" fill="#14324A"/><path d="M0 396 Q120 384 230 392 T360 388 V420 H0Z" fill="#E9DDB8" opacity=".25"/><g transform="translate(320 420) scale(-.8 .8)" opacity=".9"><path d="M-6 0 Q-12 -70 22 -140 L30 -137 Q2 -70 7 0Z" fill="#06121F"/><g transform="translate(26 -140)">${[-150,-115,-75,-35,5].map(a=>`<path d="M0 0 Q28 -22 62 4 Q30 -6 0 0Z" transform="rotate(${a})" fill="#06121F"/>`).join('')}</g></g></svg></div>
+    <div class="card"><p id="stQ"></p><div class="row" style="justify-content:space-between"><span class="fb" id="stFb" aria-live="polite"></span><span class="prog" id="stProg">${prog(0,4)}</span></div><p class="small muted">These stars are not all up on the same night of the year. They are gathered here so you can learn them.</p></div>`;
+  const svg=$('#stArt svg'), fb=$('#stFb');
+  const ask=()=>{ $('#stQ').innerHTML=T[round].q; miss=0; $('#stHint').innerHTML=''; };
+  ask();
+  svg.addEventListener('pointerdown',e=>{ if(round>=4) return; const r=svg.getBoundingClientRect(); const x=(e.clientX-r.left)/r.width*360, y=(e.clientY-r.top)/r.height*420; const o=T[round];
+    if(Math.hypot(x-o.x,y-o.y)<34){ sfx('good'); sayWord(o.w); fb.className='fb good'; fb.textContent=`${W[o.w].r} · ${W[o.w].en}`;
+      $('#stLab').insertAdjacentHTML('beforeend',`<text x="${o.x}" y="${o.y-20}" text-anchor="middle" font-family="Fredoka,Nunito,sans-serif" font-weight="600" font-size="13" fill="#FFE7B8">${W[o.w].r}</text>`);
+      if(o.lines) $('#stLines').insertAdjacentHTML('beforeend',`<path d="${o.lines}"/>`); $('#stHint').innerHTML='';
+      round++; $('#stProg').innerHTML=prog(round,4); if(round>=4) later(()=>done('You can read four guide stars of the Polynesian sky.'),1500); else later(ask,1300); }
+    else { miss++; sfx('bad'); fb.className='fb bad'; fb.textContent=miss>=2?'Look where the circle glows.':'Not that one. Look again.'; if(miss>=2) $('#stHint').innerHTML=`<circle cx="${o.x}" cy="${o.y}" r="26" fill="none" stroke="#FFD08A" stroke-width="2" class="sc-twinkle"/>`; } }); }
+
+/* ---------- main screen ---------- */
+function renderScene(){ const sc=$('#scene'); if(sc.dataset.i!==S.island){ sc.innerHTML=ISL[S.island].scene(); sc.dataset.i=S.island; } }
+function renderPins(){ const I=ISL[S.island], g=geom(), box=$('#pins');
+  box.innerHTML=I.acts.map(id=>{ const A=ACTS[id]; return `<button class="pin${S.done[id]?' done':''}" data-a="${id}" aria-label="${A.en}${S.done[id]?', done':''}"><span class="ic"><svg viewBox="0 0 24 24">${S.done[id]?'<path d="M5 12.5l4.5 4.5L19 7.5"/>':ICON[A.icon]}</svg></span><span>${A.r}<small>${A.en}</small></span></button>`; }).join('');
+  $$('.pin',box).forEach(b=>{ const A=ACTS[b.dataset.a]; const w=b.offsetWidth, h=b.offsetHeight; const x=clamp(g.vx(A.at[0]),w/2+8,g.W-w/2-8), y=clamp(g.vy(A.at[1]),h/2+8,g.H-h/2-8); b.style.left=x+'px'; b.style.top=y+'px'; b.onclick=()=>openAct(b.dataset.a); }); }
+function renderHeader(){ const I=ISL[S.island], n=I.acts.filter(a=>S.done[a]).length; $('#islLabel').innerHTML=`<b>${I.r}</b>${I.r!==I.en?' · '+I.en:''} · ${n}/3`;
+  $('#soundBtn').innerHTML=S.sound?'<svg viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4Z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>':'<svg viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4Z"/><path d="M16 9.5l5 5M21 9.5l-5 5"/></svg>';
+  $('#soundBtn').setAttribute('aria-label',S.sound?'Sound on. Tap to mute':'Sound off. Tap to turn on'); birdEl.setAttribute('aria-label',`${S.name}, your manu. Tap to hear a word.`); }
+function renderAll(){ renderScene(); renderHeader(); renderBird(); renderPins(); }
+
+/* ---------- sheets ---------- */
+function openInfo(){ const I=ISL[S.island];
+  const legs=ISL_ORDER.filter(i=>i!==S.island).map(i=>{ const L=LEG[S.island+'>'+i]; return `<li>To ${ISL[i].en}: ${L.today}.</li>`; }).join('');
+  openSheet(`<div class="shead"><div><div class="eyebrow">Visit for real · ${I.tag}</div><h2><span class="reo">${I.r}</span>${I.r!==I.en?' · '+I.en:''}</h2></div>${XBTN}</div>
+    <ul class="facts small">${I.facts.map(f=>`<li>${f}</li>`).join('')}</ul>
+    <div class="card flat"><div class="eyebrow">Don’t miss</div><ul class="facts small">${I.go.map(f=>`<li>${f}</li>`).join('')}</ul></div>
+    <div class="card flat"><div class="eyebrow">Getting around</div><ul class="facts small">${legs}</ul></div>
+    <div class="card" style="border-left:0"><div class="eyebrow">With respect</div><p class="small">${I.respect}</p></div>
+    <p class="small muted">Manu Tere is a prototype. Travel times are approximate, and the Reo Māʻohi words and their pronunciation still need checking by native speakers.</p>`); }
+function openWords(){ const known=S.words.filter(w=>W[w]); const total=Object.keys(W).length;
+  const groups=WGROUPS.map(([g,label])=>{ const ws=known.filter(w=>W[w].g===g); if(!ws.length) return ''; return `<div class="stack" style="gap:0"><div class="eyebrow" style="margin-top:6px">${label}</div><div class="wlist">${ws.map(w=>`<div class="wrow"><b>${W[w].r}</b>${spkBtn(w)}<span class="en">${W[w].en}</span><span class="ph">say: ${W[w].ph}</span></div>`).join('')}</div></div>`; }).join('');
+  openSheet(`<div class="shead"><div><div class="eyebrow">Parau · Words</div><h2>${known.length} of ${total} words</h2></div>${XBTN}</div>
+    <div class="card flat"><p class="small"><b>How to say it.</b> Vowels are pure: <i>a</i> as in father, <i>e</i> as in bed, <i>i</i> as in machine, <i>o</i> as in more, <i>u</i> as in moon. The <span class="reo">ʻ</span> (ʻeta) is a short catch in the voice, as in “uh-oh”. A line over a vowel (ā) makes it longer.</p><p class="small muted">The voice is a computer approximation until native speakers record the words.</p></div>
+    ${groups||'<p class="muted">Tap your manu or try an activity to learn your first words.</p>'}
+    ${known.length<total?`<p class="small muted">${total-known.length} more words to find on your voyage.</p>`:''}`); }
+function openPassport(){ const nW=S.words.length;
+  openSheet(`<div class="shead"><div><div class="eyebrow">Passport</div><h2>Te Fenua Māʻohi</h2></div>${XBTN}</div>
+    <div class="pstamps">${ISL_ORDER.map(id=>{ const I=ISL[id]; return `<div class="pst">${stampSVG(id,S.visited.includes(id))}<div class="acts" aria-label="${I.acts.filter(a=>S.done[a]).length} of 3 activities">${I.acts.map(a=>`<i class="${S.done[a]?'on':''}" title="${ACTS[a].en}"></i>`).join('')}</div><span class="small">${I.en}</span></div>`; }).join('')}</div>
+    <div class="card flat"><div class="row" style="justify-content:space-around;text-align:center"><div><b style="font-family:var(--display);font-size:1.5rem">${nW}</b><div class="small muted">words</div></div><div><b style="font-family:var(--display);font-size:1.5rem">${S.voyages||0}</b><div class="small muted">voyages</div></div><div><b style="font-family:var(--display);font-size:1.5rem">${Object.keys(S.done).length}</b><div class="small muted">activities</div></div>${S.best.vaa?`<div><b style="font-family:var(--display);font-size:1.5rem">${S.best.vaa}s</b><div class="small muted">best vaʻa lap</div></div>`:''}</div></div>
+    <div class="stack"><div class="eyebrow">Still to visit</div><div class="soon">${SOON.map(s=>`<div class="card flat"><b>${s[0]}</b><span class="small muted">Coming soon</span></div>`).join('')}</div></div>`); }
+const COLORS=[['#E4583F','ʻUra (red)'],['#2F7FD8','Blue'],['#1AA3B1','Lagoon'],['#3B8C58','Green'],['#E9B93A','Gold'],['#8A5BC4','Violet'],['#1F2F4A','Night']];
+const ACC=[['tiare','Tiare','A flower behind the ear',()=>true],['hei','Hei','Finish Tahiti',()=>ISL.tahiti.acts.every(a=>S.done[a])],['pareu','Pāreu','Finish Moʻorea',()=>ISL.moorea.acts.every(a=>S.done[a])],['titia','Sunglasses','Finish Porapora',()=>ISL.bora.acts.every(a=>S.done[a])]];
+function openManu(confirmReset){
+  openSheet(`<div class="shead"><div><div class="eyebrow">My manu</div><h2>${esc(S.name)}</h2></div>${XBTN}</div>
+    <div class="birdbox" id="pv">${birdSVG(S,'pv')}</div>
+    <label class="small" for="nmIn"><b>Name</b></label><input type="text" id="nmIn" maxlength="16" value="${esc(S.name)}">
+    <div class="stack"><b class="small">Feathers</b><div class="swatches">${COLORS.map(c=>`<button class="sw ${S.body===c[0]?'on':''}" data-c="${c[0]}" style="background:${c[0]}" aria-label="${c[1]}"></button>`).join('')}</div></div>
+    <div class="stack"><b class="small">Wear</b><div class="toggles">${ACC.map(a=>{ const ok=a[3](); return `<button class="tg ${S.acc[a[0]]&&ok?'on':''}" data-a="${a[0]}" ${ok?'':'disabled'} aria-pressed="${!!(S.acc[a[0]]&&ok)}"><b>${a[1]}</b><span>${ok?(S.acc[a[0]]?'Wearing':'Tap to wear'):'Locked · '+a[2]}</span></button>`; }).join('')}</div></div>
+    <div class="row"><button class="btn ghost sm" id="snd">${S.sound?'Turn sound off':'Turn sound on'}</button><button class="btn ghost sm" id="rst">Start over</button></div>
+    ${confirmReset?'<div class="card flat"><p class="small">This erases your stamps, words and manu on this phone.</p><div class="row"><button class="btn sun sm" id="rstYes">Erase and start over</button><button class="btn ghost sm" id="rstNo">Keep my voyage</button></div></div>':''}`);
+  const upd=()=>{ save(); $('#pv').innerHTML=birdSVG(S,'pv'); renderBird(); renderHeader(); };
+  $('#nmIn').addEventListener('input',e=>{ S.name=e.target.value.trim()||'Tere'; save(); renderHeader(); });
+  $$('#sheet .sw').forEach(b=>b.onclick=()=>{ S.body=b.dataset.c; $$('#sheet .sw').forEach(x=>x.classList.toggle('on',x===b)); upd(); sfx('tap'); });
+  $$('#sheet .tg').forEach(b=>b.onclick=()=>{ const k=b.dataset.a; S.acc[k]=!S.acc[k]; b.classList.toggle('on',S.acc[k]); b.setAttribute('aria-pressed',S.acc[k]); b.querySelector('span').textContent=S.acc[k]?'Wearing':'Tap to wear'; upd(); sfx('tap'); });
+  $('#snd').onclick=()=>{ S.sound=!S.sound; save(); renderHeader(); openManu(); };
+  $('#rst').onclick=()=>openManu(true);
+  if(confirmReset){ $('#rstYes').onclick=()=>{ S=JSON.parse(JSON.stringify(DEF)); save(); closeSheet(); $('#scene').dataset.i=''; renderAll(); openWelcome(); }; $('#rstNo').onclick=()=>openManu(); } }
+
+/* ---------- welcome ---------- */
+function planeSVG(id){ const c=S.body;
+  return `<svg viewBox="-120 0 360 90" aria-hidden="true"><defs><linearGradient id="${id}-tr" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity=".75"/></linearGradient></defs>
+    <rect x="-120" y="44" width="142" height="3" rx="1.5" fill="url(#${id}-tr)"/>
+    <path d="M36 42 L15 7 L37 7 L62 40Z" fill="#0E4C6B"/><g transform="translate(31 20)"><circle r="7.5" fill="${c}"/><circle cx="1" cy="3" r="3.6" fill="#F6F1E7" opacity=".9"/><polygon points="6.5,-1 13,1.2 6.5,3.4" fill="#F0A23A"/><circle cx="2.4" cy="-2.2" r="1.6" fill="#10303B"/></g>
+    <path d="M30 47 L8 53 L14 57 L46 51Z" fill="#C9D6DC"/>
+    <path d="M20 40 Q24 36 40 36 L196 36 Q222 37 233 46 Q222 55 196 56 L44 56 Q26 56 20 50Z" fill="#FFFFFF" stroke="#C3D1D8" stroke-width="1"/>
+    <path d="M42 50.5 H204" stroke="#1AA3B1" stroke-width="3"/><path d="M42 54 H196" stroke="#E4583F" stroke-width="1.8"/>
+    ${Array.from({length:17},(_,i)=>`<circle cx="${62+i*8}" cy="43" r="1.7" fill="#34596B"/>`).join('')}<rect x="50" y="39" width="5" height="10" rx="1.2" fill="none" stroke="#9FB2BB" stroke-width=".8"/><path d="M207 40 Q217 40 223 45 L209 45Z" fill="#34596B"/>
+    <path d="M104 50 L78 81 L93 83 L138 52Z" fill="#DCE5EA" stroke="#B8C7CE" stroke-width="1"/><ellipse cx="104" cy="66" rx="14" ry="5.6" fill="#B8C7CE"/><ellipse cx="117" cy="66" rx="2.2" ry="5" fill="#34596B"/>
+  </svg>`; }
+function flyIn(cb){ if(RM){ cb(); return; }
+  $('#fullIn').innerHTML=`<div class="flyin"><svg viewBox="0 0 360 640" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs>${vgrad('fiS','#1C4F78','#F6B27A',0,420)}${vgrad('fiO','#1A8FA8','#0E4C6B',420,640)}</defs><rect x="-400" y="-200" width="1160" height="640" fill="url(#fiS)"/><circle cx="246" cy="404" r="44" fill="#FFE3A8" opacity=".4"/><circle cx="246" cy="408" r="22" fill="#FFD27A"/>${[[60,150,1],[250,110,.8],[150,250,.7]].map(c=>`<g transform="translate(${c[0]} ${c[1]}) scale(${c[2]})" fill="#FFE9D6" opacity=".6"><ellipse rx="40" ry="10"/><ellipse cx="-14" cy="-6" rx="18" ry="9"/><ellipse cx="12" cy="-8" rx="22" ry="11"/></g>`).join('')}<rect x="-400" y="420" width="1160" height="400" fill="url(#fiO)"/><path d="M196 422 Q228 380 258 372 Q280 368 292 386 Q306 374 322 382 Q344 396 372 422Z" fill="#2F5E4E"/>${[440,462,490,524].map((y,i)=>`<path d="M${-20+i*14} ${y} H${380-i*14}" stroke="#fff" stroke-opacity="${.12+i*.04}" stroke-width="${1+i*.6}"/>`).join('')}</svg><div class="fplane">${planeSVG('fp')}</div><p class="flycap">Next stop: <b>Faʻaʻā, Tahiti</b></p></div>`;
+  sfx('uke'); later(cb,3400); }
+function openWelcome(){
+  openFull(`<div class="wplane">${planeSVG('wp')}</div><div class="fbody"><div class="birdbox flying" id="wBird" style="width:170px;height:156px;margin-top:auto">${birdSVG(S,'wb')}</div>
+    <div class="card"><div class="eyebrow">Maeva · Welcome</div><h1>I’m your <span class="reo">manu tere</span>, your voyaging bird.</h1><p>Together we’ll sail the islands of French Polynesia the way the navigators of old did, by the sun and the stars, and pick up some Reo Māʻohi on the way.</p>
+      <label class="small" for="wName"><b>Give me a name</b></label><input type="text" id="wName" maxlength="16" value="${esc(S.name)}">
+      <div class="swatches" role="group" aria-label="Feather colour">${COLORS.map(c=>`<button class="sw ${S.body===c[0]?'on':''}" data-c="${c[0]}" style="background:${c[0]}" aria-label="${c[1]}"></button>`).join('')}</div>
+      <button class="btn sun" id="wGo">Fly to Tahiti</button></div></div>`,'welcome');
+  $$('#fullIn .sw').forEach(b=>b.onclick=()=>{ S.body=b.dataset.c; $$('#fullIn .sw').forEach(x=>x.classList.toggle('on',x===b)); $('#wBird').innerHTML=birdSVG(S,'wb'); $('#fullIn .wplane').innerHTML=planeSVG('wp'); renderBird(); });
+  $('#wGo').onclick=()=>{ ac(); S.name=($('#wName').value||'').trim()||'Tere'; S.onboarded=true; S.island='tahiti'; if(!S.visited.includes('tahiti')) S.visited.push('tahiti'); learn(['iaorana','maeva','manu','tere'],true); save(); flyIn(()=>{ closeFull(); sfx('stamp'); landBird(); later(()=>toast('Stamp: <b>Tahiti</b>. Tap the pins to explore, or tap your manu.'),900); }); }; }
+
+/* ---------- start ---------- */
+$('#dMap').onclick=()=>{ ac(); MAPSEL=null; openMap(); };
+$('#dWords').onclick=()=>{ ac(); openWords(); };
+$('#dPass').onclick=()=>{ ac(); openPassport(); };
+$('#dManu').onclick=()=>{ ac(); openManu(); };
+$('#infoBtn').onclick=openInfo;
+$('#soundBtn').onclick=()=>{ S.sound=!S.sound; save(); renderHeader(); if(S.sound){ ac(); sfx('tap'); } else { try{ speechSynthesis.cancel(); }catch(e){} } };
+renderAll();
+B.y=groundY(); { const [a,b]=walkRange(); B.x=(a+b)/2; } place();
+requestAnimationFrame(loop);
+let rT=null; window.addEventListener('resize',()=>{ clearTimeout(rT); rT=setTimeout(()=>{ renderPins(); const [a,b]=walkRange(); B.x=clamp(B.x,a,b); if(B.state!=='fly') B.y=groundY(); },120); });
+if(location.hash==='#dev') window.MT={state:()=>S, openAct, finishAct, startVoyage, openMap, openWords, openPassport, openManu, openInfo, closeFull, island:i=>{ S.island=i; if(!S.visited.includes(i)) S.visited.push(i); save(); closeFull(); renderAll(); }};
+if(!S.onboarded) openWelcome();
+else later(()=>bubble(W.iaorana.r+'!','Welcome back to '+ISL[S.island].en+'.'),900);
+
+})();
+</script>
+</body>
+</html>
