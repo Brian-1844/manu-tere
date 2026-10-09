@@ -236,6 +236,7 @@ p{margin:0}
 .tg span{font-size:.76rem;color:var(--muted)}
 .tg.on{border-color:var(--btn);box-shadow:inset 0 0 0 2px var(--btn)}
 .tg:disabled{opacity:.6}
+textarea{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface);font:inherit;font-size:.8rem;color:var(--fg);resize:vertical;word-break:break-all}
 input[type=text]{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface);font-size:1rem;min-height:46px}
 .pstamps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .pst{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
@@ -326,6 +327,8 @@ input[type=text]{width:100%;border:1.5px solid var(--line);border-radius:12px;pa
 .ctile b{font-family:var(--display);font-weight:600}
 .ctile .cth{width:100%;height:54px;display:flex;align-items:center;justify-content:center;margin-bottom:4px}
 .cth svg{height:100%;width:auto;max-width:100%}
+.shirtwrap{width:240px;max-width:80%;margin:0 auto;background:var(--surface);border-radius:var(--r);padding:8px}
+.shirtwrap svg{width:100%;height:auto;display:block}
 .cbig{width:220px;max-width:100%;margin:0 auto}
 .cbig svg{width:100%;height:auto;display:block}
 .dot{display:inline-block;width:12px;height:12px;border-radius:50%;border:1px solid rgba(0,0,0,.2);flex:none}
@@ -335,7 +338,7 @@ input[type=text]{width:100%;border:1.5px solid var(--line);border-radius:12px;pa
 .wv{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:8px;background:var(--surface-2);font-size:.9rem}
 .wv.done{opacity:.4}
 .wv.cur{background:var(--sunset);color:#FFFFFF}
-.pcrafts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.pcrafts{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:8px}
 .pcrafts .c{display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;min-width:0}
 .pcrafts svg{width:100%;height:44px}
 
@@ -480,7 +483,7 @@ function clearRun(){ RUN.timers.forEach(id=>{ clearTimeout(id); clearInterval(id
 /* ---------- full-screen layer and bottom sheet ---------- */
 let FULL_ON_CLOSE=null;
 function openFull(html, cls, onClose){ clearRun(); const f=$('#full'); f.className='full'+(cls?' '+cls:''); $('#fullIn').innerHTML=html; f.hidden=false; FULL_ON_CLOSE=onClose||null; birdPause(true); const x=$('#fullIn [data-close]'); if(x) x.addEventListener('click',()=>closeFull()); }
-function closeFull(){ clearRun(); const f=$('#full'); f.hidden=true; $('#fullIn').innerHTML=''; birdPause(false); const cb=FULL_ON_CLOSE; FULL_ON_CLOSE=null; if(cb) cb(); renderAll(); }
+function closeFull(){ clearRun(); const f=$('#full'); f.hidden=true; $('#fullIn').innerHTML=''; birdPause(false); const cb=FULL_ON_CLOSE; FULL_ON_CLOSE=null; if(cb) cb(); renderAll(); if($('#full').hidden) try{ backupNudge(); }catch(e){} }
 function openSheet(html){ const w=$('#sheetwrap'); $('#sheet').innerHTML=html; w.hidden=false; const x=$('#sheet [data-close]'); if(x) x.addEventListener('click',closeSheet); const f=$('#sheet button, #sheet input'); if(f) try{ f.focus({preventScroll:true}); }catch(e){} }
 function closeSheet(){ $('#sheetwrap').hidden=true; $('#sheet').innerHTML=''; }
 $('#sheetwrap').addEventListener('click',e=>{ if(e.target.id==='sheetwrap') closeSheet(); });
@@ -531,7 +534,7 @@ function birdSVG(c,id){
   return `<svg viewBox="0 0 120 110" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><pattern id="${id}-pareu" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="${(c.crafts&&c.crafts.pareu)?c.crafts.pareu.c:'#1AA3B1'}"/><circle cx="4" cy="4" r="1.6" fill="#FFF6E3"/></pattern><clipPath id="${id}-clip"><ellipse cx="55" cy="68" rx="30" ry="24"/></clipPath></defs>
     <g class="tail"><g transform="translate(30 71) scale(${L.tl} 1) translate(-30 -71)"><polygon points="30,69 -4,66 -2,71 -4,76 30,73" fill="${wing}"/><polygon points="30,66 4,56 10,74 4,86 30,76" fill="${wing}"/><polygon points="30,70 12,66 14,80 30,76" fill="${c.body}"/></g></g>
     <g class="legs"><g class="leg l1"><line x1="48" y1="88" x2="46" y2="103" stroke="#F0A23A" stroke-width="3" stroke-linecap="round"/><polyline points="38,104 46,103 54,105" fill="none" stroke="#F0A23A" stroke-width="3" stroke-linecap="round"/></g><g class="leg l2"><line x1="58" y1="88" x2="60" y2="103" stroke="#D98B2B" stroke-width="3" stroke-linecap="round"/><polyline points="52,104 60,103 68,105" fill="none" stroke="#D98B2B" stroke-width="3" stroke-linecap="round"/></g></g>
-    <g class="body"><ellipse cx="55" cy="68" rx="30" ry="24" fill="${c.body}"/><ellipse cx="60" cy="74" rx="18" ry="14" fill="${c.belly}"/>${c.acc&&c.acc.stars?`<g clip-path="url(#${id}-clip)"><rect x="18" y="40" width="72" height="60" fill="#16264A" opacity=".55"/><g fill="#FFF1C4"><circle cx="36" cy="62" r="1.3"/><circle cx="48" cy="52" r="1.6"/><circle cx="62" cy="58" r="1.1"/><circle cx="72" cy="66" r="1.4"/><circle cx="40" cy="78" r="1.2"/><circle cx="30" cy="70" r="1"/><circle cx="56" cy="48" r="1"/><circle cx="78" cy="76" r="1.1"/></g></g>`:''}${pareu}</g>
+    <g class="body"><ellipse cx="55" cy="68" rx="30" ry="24" fill="${c.body}"/><ellipse cx="60" cy="74" rx="18" ry="14" fill="${c.belly}"/>${c.acc&&c.acc.stars?`<g clip-path="url(#${id}-clip)"><rect x="18" y="40" width="72" height="60" fill="#16264A" opacity=".55"/><g fill="#FFF1C4"><circle cx="36" cy="62" r="1.3"/><circle cx="48" cy="52" r="1.6"/><circle cx="62" cy="58" r="1.1"/><circle cx="72" cy="66" r="1.4"/><circle cx="40" cy="78" r="1.2"/><circle cx="30" cy="70" r="1"/><circle cx="56" cy="48" r="1"/><circle cx="78" cy="76" r="1.1"/></g></g>`:''}${pareu}${c.acc&&c.acc.shirt&&c.crafts&&c.crafts.shirt?`<defs>${shirtPattern(c.crafts.shirt,id+'-sh',.42)}</defs><g clip-path="url(#${id}-clip)"><path d="M18 40 H96 V86 Q60 92 18 86Z" fill="url(#${id}-sh)"/><path d="M18 86 Q60 92 96 86" stroke="${shade(c.crafts.shirt.c,.65)}" stroke-width="1.2" fill="none"/></g><path d="M68 50 L76 62 L84 50" fill="url(#${id}-sh)" stroke="${shade(c.crafts.shirt.c,.6)}" stroke-width="1"/><path d="M76 62 V84" stroke="${shade(c.crafts.shirt.c,.6)}" stroke-width=".8"/><circle cx="77.5" cy="68" r="1.3" fill="#7A5230"/><circle cx="77.5" cy="77" r="1.3" fill="#7A5230"/>`:''}</g>
     <g class="wing">${wingSVG(c.body)}</g>
     <g class="head">${!A.bare?[[76,31,69,16,80,27],[80,30,77,12,86,26]].map((q,i)=>`<polygon points="${q[0]},${q[1]} ${q[2]},${q[3]} ${q[4]},${q[5]}" fill="${i%2?wing:c.body}" stroke="${wing}" stroke-width=".6"/>`).join(''):''}<circle cx="82" cy="46" r="18" fill="${c.body}"/><circle cx="84" cy="52" r="9" fill="${c.belly}" opacity=".9"/><polygon points="98,45 114,50 98,55" fill="#F0A23A"/><circle cx="92" cy="50" r="3.6" fill="#F28CB1" opacity=".6"/><g class="eye"><circle cx="89" cy="42" r="${L.er}" fill="#10303B"/><circle cx="${(89+L.er*.36).toFixed(1)}" cy="${(42-L.er*.36).toFixed(1)}" r="${(L.er*.33).toFixed(1)}" fill="#fff"/></g>${A.top}${A.eyes}</g>${A.neck}
   </svg>`; }
@@ -882,38 +885,54 @@ function actMarket(el,done){
 function surfBoardSVG(){ return `<path d="M-30 0 Q-24 -5.5 0 -5.5 Q24 -5.5 34 0 Q24 5 0 5 Q-24 5 -30 0Z" fill="#FFF6DC" stroke="#3A2A1E" stroke-width="1"/><path d="M-26 0 H30" stroke="#D9562E" stroke-width="1.6"/><path d="M-30 0 Q-24 -5.5 -14 -5.4 L-14 5.2 Q-24 5 -30 0Z" fill="#1AA3B1"/>`; }
 function actSurf(el,done){
   injectCSS('surf',`.sfart{position:relative;background:#0E4C6B}.sfart svg{display:block;width:100%;height:auto}.sfhud{position:absolute;left:10px;top:10px;right:10px;display:flex;justify-content:space-between;gap:8px;pointer-events:none}.sfhud span{background:rgba(9,28,44,.7);color:#F1F7FA;border-radius:10px;padding:4px 10px;font-family:var(--display);font-weight:600;font-size:.86rem}.pocket{position:relative;height:26px;border-radius:13px;overflow:hidden;background:linear-gradient(90deg,#E4583F 0 12%,#F2C94C 12% 25%,#62C486 25% 55%,#F2C94C 55% 85%,#9DB4BC 85%)}.pocket i{position:absolute;top:2px;bottom:2px;width:22px;margin-left:-11px;border-radius:11px;background:#FFFFFF;box-shadow:0 0 0 2px #0D2C3D}.pocket b{position:absolute;top:0;bottom:0;display:grid;place-items:center;font-family:var(--display);font-weight:600;font-size:.7rem;color:#0D2C3D}`);
-  el.innerHTML=`<div class="art sfart"><svg viewBox="0 0 360 260" id="sfSvg" role="img" aria-label="A wave at Teahupoʻo">
-      <defs>${vgrad('sfSky','#7EC4E8','#F7E3C4',0,110)}${vgrad('sfSea','#1B8BA6','#0B5B75',104,260)}${vgrad('sfFace','#5FD3D8','#0E7E98',60,240)}
-        <radialGradient id="sfTube" cx="35%" cy="50%" r="65%"><stop offset="0" stop-color="#05374A"/><stop offset="1" stop-color="#0E7E98"/></radialGradient></defs>
-      <rect width="360" height="260" fill="url(#sfSky)"/><circle cx="292" cy="44" r="18" fill="#FFE7A8"/>
-      <path d="M-10 108 L30 70 L54 86 L84 52 L112 82 L150 64 L180 96 L230 80 L260 100 L300 84 L370 108Z" fill="#3F8E68"/><path d="M-10 108 L60 92 L120 100 L190 92 L260 102 L370 96 V112 H-10Z" fill="#2F7D58"/>
-      <rect y="106" width="360" height="154" fill="url(#sfSea)"/>
-      <g id="sfLines" stroke="#FFFFFF" stroke-opacity=".18" fill="none" stroke-width="1.4"></g>
-      <path id="sfWave" fill="url(#sfFace)"/><g id="sfTex" stroke="#FFFFFF" stroke-opacity=".22" stroke-width="1.2" fill="none"></g>
-      <path id="sfTubeIn" fill="url(#sfTube)"/><path id="sfLip" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
-      <g id="sfFoam"></g><path id="sfWake" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+  el.innerHTML=`<div class="art sfart"><svg viewBox="0 0 360 260" id="sfSvg" role="img" aria-label="A big wave at Teahupoʻo, Tahiti Iti">
+      <defs>${vgrad('sfSky','#5FB4E0','#FBE3BE',0,118)}${vgrad('sfSea','#1A8CA8','#0A5370',118,260)}
+        <radialGradient id="sfTube" cx="62%" cy="55%" r="70%"><stop offset="0" stop-color="#0A3F55"/><stop offset=".7" stop-color="#0E6A84"/><stop offset="1" stop-color="#22A3B8"/></radialGradient>
+        ${vgrad('sfLipG','#C9F4F0','#4FC7CE',50,180)}<clipPath id="sfClip"><rect width="360" height="260"/></clipPath></defs>
+      <g clip-path="url(#sfClip)">
+      <rect width="360" height="260" fill="url(#sfSky)"/><circle cx="300" cy="40" r="30" fill="#FFF3D0" opacity=".45"/><circle cx="300" cy="40" r="17" fill="#FFE7A8"/>
+      <g fill="#FFFFFF" opacity=".85"><ellipse cx="70" cy="34" rx="26" ry="7"/><ellipse cx="84" cy="29" rx="14" ry="7"/><ellipse cx="200" cy="22" rx="18" ry="5"/></g>
+      <path d="M-10 118 L8 84 L22 92 L40 46 L58 64 L72 40 L92 70 L118 58 L138 88 L160 96 L200 104 L260 108 L370 112 V122 H-10Z" fill="#4E9A72"/><path d="M40 46 L58 64 L50 96 L30 100Z M72 40 L92 70 L84 100 L66 96Z" fill="#3B8462"/>
+      <path d="M-10 118 Q100 110 200 114 T370 114 V124 H-10Z" fill="#2E7656"/>
+      <rect y="120" width="360" height="140" fill="url(#sfSea)"/><path d="M-10 122 H370" stroke="#BFF0F2" stroke-width="1.2" opacity=".6"/>
+      <g id="sfLines" stroke="#FFFFFF" stroke-opacity=".16" fill="none" stroke-width="1.3" stroke-linecap="round"></g>
+      <g id="sfBands"></g><g id="sfTex" stroke="#FFFFFF" stroke-opacity=".28" stroke-width="1.3" fill="none" stroke-linecap="round"></g>
+      <path id="sfTubeIn" fill="url(#sfTube)"/><path id="sfLipFill" fill="url(#sfLipG)"/><path id="sfLip" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round"/>
+      <g id="sfCrest"></g><g id="sfFoam"></g>
+      <path id="sfWake" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".85"/>
       <g id="sfSurfer"><g id="sfTilt"><g transform="translate(-22 -44) scale(.4)">${birdSVG(S,'sf').replace(/^<svg[^>]*>/,'').replace(/<\/svg>\s*$/,'')}</g>${surfBoardSVG()}</g></g>
-      <g id="sfSpray"></g>
+      <g id="sfSpray"></g></g>
     </svg><div class="sfhud"><span id="sfRide">Wave 1 of 3</span><span id="sfScore">0 ridden</span></div></div>
     <div class="card" id="sfCard"></div>
     <div class="pad" id="sfPad"></div>`;
-  const $w=$('#sfWave'), $lip=$('#sfLip'), $tube=$('#sfTubeIn'), $foam=$('#sfFoam'), $surf=$('#sfSurfer'), $tilt=$('#sfTilt'), $wake=$('#sfWake'), $spray=$('#sfSpray'), $tex=$('#sfTex'), $lines=$('#sfLines'), card=$('#sfCard'), pad=$('#sfPad');
-  const SEA=176, SX=214;  /* sea level under the surfer and the surfer's x on screen */
+  const $bands=$('#sfBands'), $lip=$('#sfLip'), $lipF=$('#sfLipFill'), $tube=$('#sfTubeIn'), $crest=$('#sfCrest'), $foam=$('#sfFoam'), $surf=$('#sfSurfer'), $tilt=$('#sfTilt'), $wake=$('#sfWake'), $spray=$('#sfSpray'), $tex=$('#sfTex'), $lines=$('#sfLines'), card=$('#sfCard'), pad=$('#sfPad');
+  const SEA=186, SX=214;
   const R={phase:'catch', ride:1, ok:0, t:0, swell:-120, held:false, dist:120, v:0, inPocket:0, rideT:0, tries:0, scroll:0, fx:[]};
   const RIDE_T=7;
-  /* drawing */
-  const swellPath=c=>{ const h=48; return `M-20 ${SEA} L${c-150} ${SEA} C${c-80} ${SEA} ${c-40} ${SEA-h} ${c} ${SEA-h} C${c+40} ${SEA-h} ${c+80} ${SEA} ${c+150} ${SEA} L380 ${SEA} L380 262 L-20 262Z`; };
-  const crest=x=>{ const d=x-R.curl; return d<0?72:Math.min(SEA-6,72+d*d*.0016+d*.05); };
-  const ridePaths=()=>{ const c=R.curl; let d=`M${c-6} 240 L${c-6} 96`; for(let x=c;x<=380;x+=10) d+=` L${x} ${crest(x).toFixed(1)}`; d+=' L380 262 L-20 262 L-20 240Z';
-    const lip=`M${c+56} ${crest(c+56).toFixed(1)} C${c+26} 66 ${c-8} 70 ${c-22} 92 C${c-34} 112 ${c-30} 134 ${c-14} 150`;
-    const tube=`M${c+52} ${crest(c+52).toFixed(1)} C${c+24} 70 ${c-6} 74 ${c-18} 94 C${c-28} 112 ${c-24} 132 ${c-12} 148 C${c+6} 158 ${c+24} 150 ${c+30} 128 C${c+36} 108 ${c+40} 92 ${c+52} ${crest(c+52).toFixed(1)}Z`;
-    return {d,lip,tube}; };
-  const foam=c=>{ let h=''; for(let i=0;i<14;i++){ const x=c-30-((i*37+R.scroll*60)%220), y=120+((i*53)%110), r=10+(i*7)%14; if(x>-30) h+=`<circle cx="${x.toFixed(1)}" cy="${y}" r="${r}" fill="#FFFFFF" opacity="${(.55+(i%3)*.15).toFixed(2)}"/>`; } for(let i=0;i<6;i++){ h+=`<circle cx="${(c-14+i*3).toFixed(1)}" cy="${150+i*14}" r="${8+i*2}" fill="#FFFFFF" opacity=".85"/>`; } return h; };
-  const swellLines=()=>{ let h=''; for(let i=0;i<5;i++){ const y=200+i*12, o=(R.scroll*40*(1+i*.3))%60; h+=`<path d="M${-60+o} ${y} q15 -3 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0"/>`; } return h; };
-  const texLines=c=>{ let h=''; for(let i=0;i<5;i++){ const off=(R.scroll*90+i*46)%230; const x=c+40+off; if(x<370) h+=`<path d="M${x.toFixed(1)} ${(crest(x)+10).toFixed(1)} q-14 40 -4 ${(SEA-crest(x)+40).toFixed(1)}"/>`; } return h; };
+  const BANDC=['#9DEAE4','#63D2D6','#35B6C6','#1B94AE','#0E7593','#0A5C78'], BANDF=[0,.1,.24,.42,.62,.82];
+  /* the wave face as stripes that follow the crest, like a printed illustration */
+  const bandsFrom=(x0,x1,top)=>{ let h=''; BANDF.forEach((f,k)=>{ let d=''; for(let x=x0;x<=x1;x+=8){ const t=top(x), y=t+(SEA+30-t)*f; d+=(d?' L':'M')+x.toFixed(1)+' '+y.toFixed(1); } d+=` L${x1} 262 L${x0} 262Z`; h+=`<path d="${d}" fill="${BANDC[k]}"/>`; }); return h; };
+  const swellTop=x=>{ const d=Math.abs(x-R.swell); return d>150?SEA:SEA-46*Math.pow(Math.cos(d/150*Math.PI/2),2); };
+  const crest=x=>{ const d=x-R.curl; return d<0?66:Math.min(SEA-4,66+d*d*.0017+d*.06); };
+  const lipPaths=()=>{ const c=R.curl, y0=crest(c+58).toFixed(1);
+    const outer=`M${c+58} ${y0} C${c+30} 46 ${c-26} 48 ${c-42} 84 C${c-54} 112 ${c-46} 150 ${c-22} ${SEA-2}`;
+    const inner=`L${c-6} ${SEA-2} C${c-24} 156 ${c-30} 118 ${c-18} 96 C${c-6} 76 ${c+22} 72 ${c+48} ${crest(c+48).toFixed(1)}Z`;
+    const tube=`M${c+50} ${crest(c+50).toFixed(1)} C${c+22} 74 ${c-8} 80 ${c-18} 100 C${c-28} 124 ${c-20} 156 ${c-4} ${SEA-2} L${c+40} ${SEA-2} C${c+44} 150 ${c+44} 110 ${c+50} ${crest(c+50).toFixed(1)}Z`;
+    return {outer, fill:outer+' '+inner, tube}; };
+  const crestFoam=c=>{ let h=''; for(let i=0;i<9;i++){ const x=c+52+i*16+((R.scroll*30)%16), y=crest(x), r=4.6-i*.42; if(r>.8) h+=`<path d="M${(x-r*1.6).toFixed(1)} ${(y+1).toFixed(1)} a${(r*1.6).toFixed(1)} ${r.toFixed(1)} 0 0 1 ${(r*3.2).toFixed(1)} 0 a${(r*1.2).toFixed(1)} ${(r*.6).toFixed(1)} 0 0 0 ${(-r*3.2).toFixed(1)} 0Z" fill="#FFFFFF" opacity=".9"/>`; } return h; };
+  const whitewash=c=>{ let base=`M-20 262 L-20 ${SEA-6}`; for(let x=-20;x<c-14;x+=18) base+=` q9 ${(-6-Math.sin(R.scroll*3+x)*3).toFixed(1)} 18 0`; base+=` L${c-14} ${SEA-6} Q${c+6} 220 ${c+30} 262Z`;
+    let h=`<path d="${base}" fill="#DDF6F4"/>`;
+    for(let row=0;row<4;row++){ const y=SEA-36+row*20; for(let i=0;i<9;i++){ const x=c-24-i*26-((R.scroll*(50+row*14))%26)+row*7, r=14+((i*7+row*5)%9); if(x>-30) h+=`<circle cx="${x.toFixed(1)}" cy="${(y+Math.sin(R.scroll*4+i+row)*2.5).toFixed(1)}" r="${r}" fill="${row%2?'#FFFFFF':'#EEFBFA'}"/>`; } }
+    for(let i=0;i<5;i++){ h+=`<circle cx="${(c-30+i*4).toFixed(1)}" cy="${SEA-28+i*10}" r="${12+i*2}" fill="#FFFFFF"/>`; }
+    for(let i=0;i<7;i++){ const x=c-20-i*30-((R.scroll*40)%30); if(x>-20) h+=`<path d="M${x.toFixed(1)} ${SEA+12+(i%3)*10} q8 -5 16 0" stroke="#9BD6DA" stroke-width="1.6" fill="none"/>`; }
+    return h; };
+  const swellLines=()=>{ let h=''; for(let i=0;i<5;i++){ const y=206+i*12, o=(R.scroll*40*(1+i*.3))%60; h+=`<path d="M${-60+o} ${y} q15 -3 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0"/>`; } return h; };
+  const texLines=c=>{ let h=''; for(let i=0;i<6;i++){ const off=(R.scroll*110+i*40)%240, x=c+56+off; if(x<372){ const t=crest(x); h+=`<path d="M${x.toFixed(1)} ${(t+8).toFixed(1)} q-10 ${((SEA-t)*.45).toFixed(1)} -2 ${(SEA-t+6).toFixed(1)}"/>`; } } return h; };
   /* controls */
   const setCard=html=>{ card.innerHTML=html; };
-  const catchUI=()=>{ R.phase='catch'; R.swell=-140; R.tries++; $lip.setAttribute('d',''); $tube.setAttribute('d',''); $foam.innerHTML=''; $tex.innerHTML=''; $wake.setAttribute('d','');
+  const clearBreak=()=>{ $lip.setAttribute('d',''); $lipF.setAttribute('d',''); $tube.setAttribute('d',''); $foam.innerHTML=''; $crest.innerHTML=''; $tex.innerHTML=''; };
+  const drawBreak=()=>{ const c=R.curl, P=lipPaths(); $bands.innerHTML=bandsFrom(Math.round(c-8),376,crest); $tube.setAttribute('d',P.tube); $lipF.setAttribute('d',P.fill); $lip.setAttribute('d',P.outer); $crest.innerHTML=crestFoam(c); $foam.innerHTML=whitewash(c); };
+  const catchUI=()=>{ R.phase='catch'; R.swell=-140; R.tries++; clearBreak(); $('#sfSvg').dataset.swell='-140'; $wake.setAttribute('d','');
     setCard(`<p class="small"><b>1. Catch it.</b> A swell is coming. Paddle when it lifts the back of your board: when the hump is just behind your manu.</p><span class="fb" id="sfFb" aria-live="polite">Wait for it…</span>`);
     pad.innerHTML='<button class="btn sun" id="sfGo" style="grid-column:1/-1;min-height:66px;font-size:1.15rem">Paddle! · Hoe!</button>';
     $('#sfGo').onclick=()=>{ if(R.phase!=='catch') return; const d=SX-R.swell; const fb=$('#sfFb');
@@ -937,18 +956,19 @@ function actSurf(el,done){
   frames(dt=>{ R.t+=dt; R.scroll+=dt; $lines.innerHTML=swellLines();
     let sx=SX, sy=SEA-4+Math.sin(R.t*2.2)*2, tilt=0;
     if(R.phase==='catch'){ R.swell+=dt*150; if(R.swell>460) { R.swell=-140; const fb=$('#sfFb'); if(fb && !/early|late/.test(fb.textContent)) { fb.className='fb'; fb.textContent='Next set coming…'; } }
-      $w.setAttribute('d',swellPath(R.swell)); const lift=Math.max(0,1-Math.abs(SX-R.swell)/150); const h=48*(lift<1?(1-Math.pow(1-lift,2)):1)*(Math.abs(SX-R.swell)<150?1:0);
+      $bands.innerHTML=bandsFrom(-16,376,swellTop); $('#sfSvg').dataset.swell=R.swell.toFixed(0); const lift=Math.max(0,1-Math.abs(SX-R.swell)/150); const h=48*(lift<1?(1-Math.pow(1-lift,2)):1)*(Math.abs(SX-R.swell)<150?1:0);
       sy=SEA-4-h*.9+Math.sin(R.t*2.2)*2; tilt=(SX-R.swell)>0 && (SX-R.swell)<150 ? 8*lift : (R.swell-SX)>0 && (R.swell-SX)<150 ? -8*lift : 0; }
     else if(R.phase==='ride'){ R.rideT+=dt; const acc=R.held?95:-70; R.v=clamp(R.v+acc*dt*2.2,-60,70); R.dist=clamp(R.dist+R.v*dt+Math.sin(R.t*3.1)*8*dt,0,260); R.curl=SX-R.dist;
       const pos=clamp(R.dist/240,0,1), inP=R.dist>=60&&R.dist<=132; if(inP) R.inPocket+=dt;
       const mk=$('#sfMark'); if(mk) mk.style.left=(100-pos*100).toFixed(1)+'%';
       const fb=$('#sfFb'); if(fb){ fb.className='fb '+(inP?'good':''); fb.textContent= R.dist<60?'Too close to the lip! Pump!':R.dist>132?'Too far out on the shoulder. Ease off.':'In the pocket!'; }
-      const P=ridePaths(); $w.setAttribute('d',P.d); $lip.setAttribute('d',P.lip); $tube.setAttribute('d',P.tube); $foam.innerHTML=foam(R.curl); $tex.innerHTML=texLines(R.curl);
-      sy=crest(SX)+ (SEA-crest(SX))*.55 + Math.sin(R.t*3)*6; tilt=-14+Math.sin(R.t*3)*8;
+      drawBreak(); $tex.innerHTML=texLines(R.curl);
+      sy=crest(SX)+(SEA-crest(SX))*.5+Math.sin(R.t*3)*7; tilt=-16+Math.cos(R.t*3)*9;
+      if(Math.random()<dt*10) R.fx.push({x:R.curl-40+rnd(-6,6),y:rnd(70,110),vx:rnd(-50,-10),vy:rnd(-30,10),t:0});
       $wake.setAttribute('d',`M${SX-24} ${(sy+3).toFixed(1)} Q${SX-60} ${(sy+10).toFixed(1)} ${SX-110} ${(sy+4).toFixed(1)}`);
       if(Math.random()<dt*14) R.fx.push({x:SX-20,y:sy,vx:rnd(-90,-30),vy:rnd(-70,-20),t:0});
       if(R.dist<18) endRide('lip'); else if(R.dist>230) endRide('shoulder'); else if(R.rideT>=RIDE_T) endRide('done'); }
-    else { /* end: the wave moves on */ if(R.curl!==undefined){ R.curl+=dt*160; const P=ridePaths(); $w.setAttribute('d',P.d); $lip.setAttribute('d',P.lip); $tube.setAttribute('d',P.tube); $foam.innerHTML=foam(R.curl); $tex.innerHTML=''; } $wake.setAttribute('d',''); sy=SEA-2; }
+    else { /* end: the wave rolls on to the reef */ if(R.curl!==undefined){ R.curl+=dt*160; drawBreak(); $tex.innerHTML=''; } $wake.setAttribute('d',''); sy=SEA-2; }
     R.fx=R.fx.filter(p=>{ p.t+=dt; p.x+=p.vx*dt; p.y+=p.vy*dt; p.vy+=260*dt; return p.t<.8; });
     $spray.innerHTML=R.fx.map(p=>`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${(2.6-p.t*2.4).toFixed(2)}" fill="#FFFFFF" opacity="${(1-p.t/.8).toFixed(2)}"/>`).join('');
     $surf.setAttribute('transform',`translate(${sx} ${sy.toFixed(1)})`); $tilt.setAttribute('transform',`rotate(${tilt.toFixed(1)})`); }); }
@@ -1133,14 +1153,14 @@ function openPassport(){ const nW=S.words.length;
     <div class="card flat"><p class="small"><b>ʻĀʻai · Legends heard:</b> ${Object.keys(LEGENDS).filter(k=>S.legends&&S.legends[k]).length} of ${Object.keys(LEGENDS).length}. ${Object.keys(LEGENDS).map(k=>`${S.legends&&S.legends[k]?'✓':'·'} ${LEGENDS[k].t}`).join(' &nbsp; ')}</p></div>
     <div class="stack"><div class="eyebrow">Still to visit</div><div class="soon">${SOON.map(s=>`<div class="card flat"><b>${s[0]}</b><span class="small muted">Coming soon</span></div>`).join('')}</div></div>`); }
 const COLORS=[['#E4583F','ʻUra (red)'],['#2F7FD8','Blue'],['#1AA3B1','Lagoon'],['#3B8C58','Green'],['#E9B93A','Gold'],['#8A5BC4','Violet'],['#1F2F4A','Night']];
-const ACC=[['tiare','Tiare','A flower behind the ear',()=>true],['hei','Hei','Finish Tahiti',()=>ISL.tahiti.acts.every(a=>S.done[a])],['pareu','Pāreu','Finish Moʻorea or print one',()=>ISL.moorea.acts.every(a=>S.done[a])||!!(S.crafts&&S.crafts.pareu)],['titia','Sunglasses','Finish Porapora',()=>ISL.bora.acts.every(a=>S.done[a])],['hat','Tāupoʻo','Weave it in the garden',()=>!!(S.crafts&&S.crafts.hat)],['necklace','Hei poe','String it in the garden',()=>!!(S.crafts&&S.crafts.hei)],['stars','Cloak of stars','Learn every star in Te raʻi',()=>Array.isArray(S.sky)&&S.sky.length>=SKY.length]];
+const ACC=[['tiare','Tiare','A flower behind the ear',()=>true],['hei','Hei','Finish Tahiti',()=>ISL.tahiti.acts.every(a=>S.done[a])],['pareu','Pāreu','Finish Moʻorea or print one',()=>ISL.moorea.acts.every(a=>S.done[a])||!!(S.crafts&&S.crafts.pareu)],['titia','Sunglasses','Finish Porapora',()=>ISL.bora.acts.every(a=>S.done[a])],['hat','Tāupoʻo','Weave it in the garden',()=>!!(S.crafts&&S.crafts.hat)],['necklace','Hei poe','String it in the garden',()=>!!(S.crafts&&S.crafts.hei)],['shirt','Chemise','Sew it in the garden',()=>!!(S.crafts&&S.crafts.shirt)],['stars','Cloak of stars','Learn every star in Te raʻi',()=>Array.isArray(S.sky)&&S.sky.length>=SKY.length]];
 function openManu(confirmReset){
   openSheet(`<div class="shead"><div><div class="eyebrow">My manu</div><h2>${esc(S.name)}</h2></div>${XBTN}</div>
     <div class="birdbox" id="pv">${birdSVG(S,'pv')}</div>
     <label class="small" for="nmIn"><b>Name</b></label><input type="text" id="nmIn" maxlength="16" value="${esc(S.name)}">
     <div class="stack"><b class="small">Feathers</b><div class="swatches">${COLORS.map(c=>`<button class="sw ${S.body===c[0]?'on':''}" data-c="${c[0]}" style="background:${c[0]}" aria-label="${c[1]}"></button>`).join('')}</div></div>
     <div class="stack"><b class="small">Wear</b><div class="toggles">${ACC.map(a=>{ const ok=a[3](); return `<button class="tg ${S.acc[a[0]]&&ok?'on':''}" data-a="${a[0]}" ${ok?'':'disabled'} aria-pressed="${!!(S.acc[a[0]]&&ok)}"><b>${a[1]}</b><span>${ok?(S.acc[a[0]]?'Wearing':'Tap to wear'):'Locked · '+a[2]}</span></button>`; }).join('')}</div></div>
-    <div class="row"><button class="btn ghost sm" id="snd">${S.sound?'Turn sound off':'Turn sound on'}</button><button class="btn ghost sm" id="rst">Start over</button></div>
+    <div class="row"><button class="btn ghost sm" id="snd">${S.sound?'Turn sound off':'Turn sound on'}</button><button class="btn primary sm" id="keep">Save and restore</button><button class="btn ghost sm" id="rst">Start over</button></div>
     ${confirmReset?'<div class="card flat"><p class="small">This erases your stamps, words and manu on this phone.</p><div class="row"><button class="btn sun sm" id="rstYes">Erase and start over</button><button class="btn ghost sm" id="rstNo">Keep my voyage</button></div></div>':''}`);
   const upd=()=>{ save(); $('#pv').innerHTML=birdSVG(S,'pv'); renderBird(); renderHeader(); };
   $('#nmIn').addEventListener('input',e=>{ S.name=e.target.value.trim()||'Tere'; save(); renderHeader(); });
@@ -1148,6 +1168,7 @@ function openManu(confirmReset){
   $$('#sheet .tg').forEach(b=>b.onclick=()=>{ const k=b.dataset.a; S.acc[k]=!S.acc[k]; b.classList.toggle('on',S.acc[k]); b.setAttribute('aria-pressed',S.acc[k]); b.querySelector('span').textContent=S.acc[k]?'Wearing':'Tap to wear'; upd(); sfx('tap'); });
   $('#snd').onclick=()=>{ S.sound=!S.sound; save(); renderHeader(); openManu(); };
   $('#rst').onclick=()=>openManu(true);
+  $('#keep').onclick=()=>openKeep(false);
   if(confirmReset){ $('#rstYes').onclick=()=>{ S=JSON.parse(JSON.stringify(DEF)); save(); closeSheet(); $('#scene').dataset.i=''; renderAll(); openWelcome(); }; $('#rstNo').onclick=()=>openManu(); } }
 
 /* ---------- welcome ---------- */
@@ -1169,7 +1190,9 @@ function openWelcome(){
     <div class="card"><div class="eyebrow">Maeva · Welcome</div><h1>I’m your <span class="reo">manu tere</span>, your voyaging bird.</h1><p>Together we’ll sail the islands of French Polynesia the way the navigators of old did, by the sun and the stars, and pick up some Reo Māʻohi on the way.</p>
       <label class="small" for="wName"><b>Give me a name</b></label><input type="text" id="wName" maxlength="16" value="${esc(S.name)}">
       <div class="swatches" role="group" aria-label="Feather colour">${COLORS.map(c=>`<button class="sw ${S.body===c[0]?'on':''}" data-c="${c[0]}" style="background:${c[0]}" aria-label="${c[1]}"></button>`).join('')}</div>
-      <button class="btn sun" id="wGo">Fly to Tahiti</button></div></div>`,'welcome');
+      <button class="btn sun" id="wGo">Fly to Tahiti</button>
+      <div class="row" style="justify-content:space-between"><button class="btn ghost sm" id="wKeep">Install or restore a voyage</button>${!IN_FRAME&&!STANDALONE?'<button class="btn ghost sm" data-install hidden>Install on my phone</button>':''}</div></div></div>`,'welcome');
+  bindInstall($('#fullIn')); $('#wKeep').onclick=()=>openKeep(true);
   $$('#fullIn .sw').forEach(b=>b.onclick=()=>{ S.body=b.dataset.c; $$('#fullIn .sw').forEach(x=>x.classList.toggle('on',x===b)); $('#wBird').innerHTML=birdSVG(S,'wb'); $('#fullIn .wplane').innerHTML=planeSVG('wp'); renderBird(); });
   $('#wGo').onclick=()=>{ ac(); S.name=($('#wName').value||'').trim()||'Tere'; S.onboarded=true; S.island='tahiti'; if(!S.visited.includes('tahiti')) S.visited.push('tahiti'); learn(['iaorana','maeva','manu','tere'],true); save(); flyIn(()=>{ closeFull(); sfx('stamp'); landBird(); later(()=>toast('Stamp: <b>Tahiti</b>. Tap the pins to explore, or tap your manu.'),900); }); }; }
 
@@ -1415,6 +1438,9 @@ const CRAFTS={
   hei:{r:'Hei poe', en:'Pearl and shell necklace', txt:'1 pearl and 3 pūpū', ok:()=>G().pearls.length>=1 && (G().bag.pupu||0)>=3,
     fact:'A hei is a garland for the head or neck, made of flowers or shells. A shell necklace is often given to visitors when they leave, as a sign of protection. Tahitian pearls grow in the black-lipped oyster; their dark greens, blues and greys are natural.',
     real:'Pearl farms in the lagoons of the Tuamotu and Gambier islands welcome visitors.'},
+  shirt:{r:'Chemise', en:'Island shirt', need:{vavai:3}, any:['rea','aute','mati','tiairi'], txt:'3 vavai and 1 dye',
+    fact:'Island shirts have a flat camp collar, short sleeves, a pocket cut so the print runs on, and often coconut buttons. Their all-over prints of flowers and leaves grew out of Polynesian bark-cloth stamping and Japanese printed cotton. In Tahiti people wear them for work, church and every celebration.',
+    real:'Look for shirts in Tahitian prints at Papeete market and in local fashion shops, and for the fabric by the metre to have one made.'},
   tapa:{r:'Tapa', en:'Beaten bark cloth', need:{bark:2}, any:['tiairi','mati','rea'], txt:'2 ʻuru bark and 1 dye (tiʻaʻiri, mati or rēʻa)',
     fact:'Tapa is cloth made of beaten bark: ʻuru, banyan (ʻōrā) or paper mulberry. Women beat it with a grooved beater, the ʻiʻe, on a wooden anvil until it is four or five times wider. Plants give the colours: rēʻa for yellow, mati and tou for red-brown, tiʻaʻiri for black.',
     real:'On Fatu Hiva, in the Marquesas, tapa is still made by hand.'}
@@ -1423,8 +1449,8 @@ function craftOK(id){ const C=CRAFTS[id]; if(C.ok) return C.ok(); return has(C.n
 function craftTile(id){ const C=CRAFTS[id], ok=craftOK(id), made=S.crafts&&S.crafts[id]; return `<button class="ctile" data-craft="${id}" ${ok?'':'disabled'}><span class="cth">${craftThumb(id,!made)}</span><b class="reo">${C.r}</b><span>${C.en}</span><span class="small muted">${ok?'Ready to make':'Needs '+C.txt}${made?' · made':''}</span></button>`; }
 function openCraft(id){ const C=CRAFTS[id]; ac();
   openFull(`<div class="fhead"><div><div class="eyebrow">Make by hand · ${C.en}</div><h2 class="reo">${C.r}</h2></div>${XBTN}</div><div class="fbody" id="cb"></div>`,'',()=>openGarden());
-  ({pareu:craftPareu,hat:craftHat,hei:craftHei,tapa:craftTapa})[id]($('#cb')); }
-function finishCraft(id,extra){ const C=CRAFTS[id]; clearRun(); sfx('stamp'); learn(({pareu:['pareu'],hat:['taupoo','fara'],hei:['hei','poe','pupu'],tapa:['tapa','ie','ora']})[id],true); save();
+  ({pareu:craftPareu,hat:craftHat,hei:craftHei,tapa:craftTapa,shirt:craftShirt})[id]($('#cb')); }
+function finishCraft(id,extra){ const C=CRAFTS[id]; clearRun(); sfx('stamp'); learn(({pareu:['pareu'],hat:['taupoo','fara'],hei:['hei','poe','pupu'],tapa:['tapa','ie','ora'],shirt:['vavai']})[id]||[],true); save();
   const cb=$('#cb'); cb.scrollTop=0; const r=document.createElement('div'); r.className='result';
   r.innerHTML=`<div class="eyebrow" style="text-align:center;margin-top:8px">Made by hand</div><h2 style="text-align:center"><span class="reo">${C.r}</span> · ${C.en}</h2>
     <div class="cbig">${craftThumb(id)}</div>${extra?`<p style="text-align:center">${extra}</p>`:''}
@@ -1440,6 +1466,8 @@ function leafG(k,fill){ if(k==='uru') return `<path d="${URU_LEAF}" fill="${fill
   if(k==='fern'){ let s=`<rect x="-1" y="-24" width="2" height="48" fill="${fill}"/>`; for(let i=0;i<9;i++){ const y=-20+i*5, w=9-Math.abs(i-4)*1.1; s+=`<ellipse cx="${(-w/2-1).toFixed(1)}" cy="${y}" rx="${(w/2+1).toFixed(1)}" ry="2.2" transform="rotate(-18 ${(-w/2-1).toFixed(1)} ${y})" fill="${fill}"/><ellipse cx="${(w/2+1).toFixed(1)}" cy="${y}" rx="${(w/2+1).toFixed(1)}" ry="2.2" transform="rotate(18 ${(w/2+1).toFixed(1)} ${y})" fill="${fill}"/>`; } return s; }
   if(k==='niho') return `<path d="M-20 8 L-15 -8 L-10 8Z M-10 8 L-5 -8 L0 8Z M0 8 L5 -8 L10 8Z M10 8 L15 -8 L20 8Z" fill="${fill}"/>`;
   if(k==='honu') return `<ellipse cx="0" cy="0" rx="10" ry="13" fill="${fill}"/><circle cx="0" cy="-16" r="4" fill="${fill}"/><ellipse cx="-11" cy="-7" rx="6" ry="3" transform="rotate(-30 -11 -7)" fill="${fill}"/><ellipse cx="11" cy="-7" rx="6" ry="3" transform="rotate(30 11 -7)" fill="${fill}"/><ellipse cx="-9" cy="10" rx="5" ry="2.5" transform="rotate(30 -9 10)" fill="${fill}"/><ellipse cx="9" cy="10" rx="5" ry="2.5" transform="rotate(-30 9 10)" fill="${fill}"/>`;
+  if(k==='aute') return [0,72,144,216,288].map(a=>`<ellipse cx="0" cy="-9" rx="7" ry="9.5" transform="rotate(${a})" fill="${fill}"/>`).join('')+`<path d="M0 0 L9 -15" stroke="${fill==='#FFFDF5'||fill==='rgba(255,255,255,.55)'?'#E9B93A':'#FFF3C4'}" stroke-width="2.4" stroke-linecap="round"/><circle cx="9" cy="-15" r="2.6" fill="#F2C94C"/>`;
+  if(k==='ti') return `<path d="M0 22 C-8 8 -8 -10 0 -24 C8 -10 8 8 0 22Z" fill="${fill}"/><path d="M0 20 V-20" stroke="rgba(0,0,0,.18)" stroke-width="1"/>`;
   if(k==='wave') return `<path d="M-20 -8 q5 -5 10 0 t10 0 t10 0 t10 0 M-20 0 q5 -5 10 0 t10 0 t10 0 t10 0 M-20 8 q5 -5 10 0 t10 0 t10 0 t10 0" fill="none" stroke="${fill}" stroke-width="2.4" stroke-linecap="round"/>`;
   return [0,60,120,180,240,300].map(a=>`<ellipse cx="0" cy="-9" rx="5" ry="10" transform="rotate(${a+15})" fill="${fill}"/>`).join('')+`<circle r="4" fill="${fill}"/>`; }
 const LEAFN={uru:'ʻuru leaf',fern:'fern',tiare:'tiare'};
@@ -1450,6 +1478,7 @@ function hatSVG(c,band){ const bc=band==='aute'?'#E0303A':band==='tiare'?'#FFFDF
 function neckSVG(beads){ const n=beads.length; return beads.map((b,i)=>{ const t=i/(n-1||1), x=60+t*32, y=60+Math.sin(t*Math.PI)*6.5+t*2; return b.t==='p'?`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.5" fill="${b.c}" stroke="#C9D6D2" stroke-width=".5"/><circle cx="${(x-.7).toFixed(1)}" cy="${(y-.8).toFixed(1)}" r=".8" fill="#fff" opacity=".75"/>`:`<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="2" ry="2.6" fill="#F7E3D0" stroke="#C99A7A" stroke-width=".6"/>`; }).join(''); }
 function craftThumb(id,ghost){ const cr=(S.crafts||{})[id];
   if(id==='pareu'){ const c=cr?cr.c:'#9DB4BC'; return `<svg viewBox="0 0 120 80" aria-hidden="true"><rect x="6" y="6" width="108" height="68" rx="3" fill="${ghost?'none':c}" stroke="${ghost?'#9DB4BC':shade(c,.7)}" stroke-width="2" ${ghost?'stroke-dasharray="4 4"':''}/>${cr&&!ghost?cr.m.map(m=>`<g transform="translate(${(m.x*.36+6).toFixed(1)} ${(m.y*.34+6).toFixed(1)}) rotate(${m.r}) scale(.45)">${leafG(m.k,'rgba(255,255,255,.55)')}</g>`).join(''):''}</svg>`; }
+  if(id==='shirt'){ return shirtSVG(cr&&!ghost?cr:null,'th'+(ghost?'g':''),ghost); }
   if(id==='hat'){ return `<svg viewBox="62 6 40 30" aria-hidden="true" ${ghost?'opacity=".35"':''}>${hatSVG(null,cr?cr.band:'plain')}</svg>`; }
   if(id==='hei'){ const beads=cr&&!ghost?cr.beads:[{t:'s'},{t:'p',c:'#2B3036'},{t:'s'},{t:'p',c:'#3E5B57'},{t:'s'}]; return `<svg viewBox="55 54 42 20" aria-hidden="true" ${ghost?'opacity=".35"':''}><path d="M58 59 Q76 74 94 61" fill="none" stroke="#8A6A4A" stroke-width=".6"/>${neckSVG(beads)}</svg>`; }
   const c=cr?cr.c:'#8A6A4A'; return `<svg viewBox="0 0 120 80" aria-hidden="true"><rect x="8" y="6" width="104" height="68" rx="2" fill="${ghost?'none':'#E8D6B0'}" stroke="${ghost?'#9DB4BC':'#C9B48A'}" stroke-width="2" ${ghost?'stroke-dasharray="4 4"':''}/>${cr&&!ghost?cr.st.map(m=>`<g transform="translate(${(m.x*.4+8).toFixed(1)} ${(m.y*.4+6).toFixed(1)}) scale(.45)">${leafG(m.k,m.c||c)}</g>`).join(''):''}</svg>`; }
@@ -1522,6 +1551,40 @@ function craftTapa(el){ const g=G(); const dyes=CRAFTS.tapa.any.filter(k=>(g.bag
     $('#tDone').onclick=()=>{ const used=[...new Set(st.map(s=>s.d))]; const use={bark:2}; used.forEach(d=>{ use[d]=1; }); take(use); S.crafts=S.crafts||{}; S.crafts.tapa={c:DYES[st[0].d].c, st:st.map(s=>({k:s.k,x:s.x,y:s.y,c:DYES[s.d].c}))}; save(); finishCraft('tapa',`Beaten from ʻuru bark and printed with ${used.map(d=>BAGN[d]).join(' and ')}.`); }; };
   svg.addEventListener('pointerdown',e=>{ if(phase!=='deco'||st.length>=10) return; const [x,y]=svgPoint(svg,e,300,180); if(x<30||x>270||y<44||y>116) return; st.push({k:motif,x:Math.round(x),y:Math.round(y),d:dye}); sfx('tap');
     $('#tSt').insertAdjacentHTML('beforeend',`<g transform="translate(${Math.round(x)} ${Math.round(y)}) scale(.8)">${leafG(motif,DYES[dye].c)}</g>`); $('#tN').textContent=`${st.length} of 10 prints`; $('#tDone').disabled=st.length<3; }); }
+
+/* --- Chemise: design an island shirt --- */
+const SHIRT_MOTIFS={tiare:{n:'tiare',need:'tiare'},aute:{n:'ʻaute',need:'aute'},uru:{n:'ʻuru leaf'},ti:{n:'ʻautī leaf'},fern:{n:'fern'},honu:{n:'honu'},niho:{n:'niho'},wave:{n:'waves'}};
+const INKS={cream:{c:'#FFF6E3',n:'cream'},white:{c:'#FFFFFF',n:'white'},rea:{c:'#E2A12A',n:'rēʻa yellow',dye:'rea'},aute:{c:'#8E4FB0',n:'ʻaute violet',dye:'aute'},mati:{c:'#A8432C',n:'mati red',dye:'mati'},tiairi:{c:'#2A2A2E',n:'tiʻaʻiri black',dye:'tiairi'},green:{c:'#2F7D4C',n:'leaf green'}};
+function shirtPattern(d,id,scale){ const sc=(scale||1)*(d.big?1.5:1), w=60*sc;
+  const m1=d.m[0], m2=d.m[1]||d.m[0]; const g=(k,x,y,r,s,c)=>`<g transform="translate(${x*sc} ${y*sc}) rotate(${r}) scale(${(s*sc).toFixed(2)})">${leafG(k,c)}</g>`;
+  return `<pattern id="${id}" width="${w}" height="${w}" patternUnits="userSpaceOnUse"><rect width="${w}" height="${w}" fill="${d.c}"/>${g(m1,15,15,-20,.62,d.ink)}${g(m2,45,44,25,.58,d.ink2||d.ink)}${g(m2,46,12,60,.32,d.ink2||d.ink)}${g(m1,14,47,-50,.34,d.ink)}</pattern>`; }
+function shirtSVG(d,id,ghost){ d=d||{c:'#3E8FB0',ink:'#FFF6E3',m:['tiare','uru']}; const pid=id+'-pt', fill=ghost?'none':`url(#${pid})`, line=ghost?'#9DB4BC':shade(d.c.startsWith('#')?d.c:'#3E8FB0',.62);
+  const body='M70 30 L96 22 Q120 34 144 22 L170 30 L214 58 L198 98 L176 88 L176 214 Q120 222 64 214 L64 88 L42 98 L26 58Z';
+  const btn=y=>`<circle cx="122" cy="${y}" r="4.2" fill="#7A5230" stroke="#4E3219" stroke-width="1"/><circle cx="120.6" cy="${y-.8}" r=".9" fill="#3A2412"/><circle cx="123.4" cy="${y+.8}" r=".9" fill="#3A2412"/>`;
+  return `<svg viewBox="0 0 240 240" aria-hidden="true"><defs>${ghost?'':shirtPattern(d,pid,1)}</defs>
+    <path d="${body}" fill="${fill}" stroke="${line}" stroke-width="2.4" stroke-linejoin="round" ${ghost?'stroke-dasharray="6 5"':''}/>
+    ${ghost?'':`<path d="M64 88 L42 98 M176 88 L198 98" stroke="${line}" stroke-width="1.6"/><path d="M118 34 V214" stroke="${line}" stroke-width="1.6"/><rect x="138" y="76" width="28" height="30" rx="2" fill="url(#${pid})" stroke="${line}" stroke-width="1.6"/>
+    <path d="M96 22 L118 62 L104 66 L84 34Z M144 22 L122 62 L136 66 L156 34Z" fill="url(#${pid})" stroke="${line}" stroke-width="1.8" stroke-linejoin="round"/><path d="M96 22 Q120 34 144 22" fill="none" stroke="${line}" stroke-width="1.8"/>
+    ${btn(84)}${btn(120)}${btn(156)}${btn(192)}`}</svg>`; }
+function craftShirt(el){ const g=G(); const dyes=['rea','aute','mati','tiairi'].filter(k=>(g.bag[k]||0)>0);
+  const D={c:DYES[dyes[0]].c, dye:dyes[0], m:['tiare','uru'], ink:'#FFF6E3', inkKey:'cream', big:false};
+  const motifOK=k=>!SHIRT_MOTIFS[k].need || (g.bag[SHIRT_MOTIFS[k].need]||0)>0;
+  if(!motifOK('tiare')) D.m[0]='fern';
+  const inkOK=k=>!INKS[k].dye || ((g.bag[INKS[k].dye]||0)>(INKS[k].dye===D.dye?1:0));
+  el.innerHTML=`<div class="shirtwrap" id="shPrev">${shirtSVG(D,'sh')}</div>
+    <div class="card"><b class="small">1. Dye the cotton</b><div class="row" id="shDye">${dyes.map(k=>`<button class="btn sm ${k===D.dye?'primary':'ghost'}" data-d="${k}"><span class="dot" style="background:${DYES[k].c}"></span>${BAGN[k]}</button>`).join('')}</div></div>
+    <div class="card"><b class="small">2. Choose two motifs</b><p class="small muted">Flower motifs use a fresh flower from your basket as the model.</p><div class="chips" id="shMot">${Object.keys(SHIRT_MOTIFS).map(k=>`<button class="btn sm ${D.m.includes(k)?'primary':'ghost'}" data-m="${k}" ${motifOK(k)?'':'disabled'}>${SHIRT_MOTIFS[k].n}${motifOK(k)?'':' (none in basket)'}</button>`).join('')}</div></div>
+    <div class="card"><b class="small">3. Print colour and size</b><div class="chips" id="shInk">${Object.keys(INKS).map(k=>`<button class="btn sm ${k===D.inkKey?'primary':'ghost'}" data-i="${k}" ${inkOK(k)?'':'disabled'}><span class="dot" style="background:${INKS[k].c}"></span>${INKS[k].n}</button>`).join('')}</div><div class="row"><button class="btn sm primary" data-s="0">Small print</button><button class="btn sm ghost" data-s="1">Large print</button></div></div>
+    <button class="btn sun" id="shGo">Sew the shirt</button>`;
+  const redraw=()=>{ $('#shPrev').innerHTML=shirtSVG(D,'sh'); };
+  $$('#shDye .btn').forEach(b=>b.onclick=()=>{ D.dye=b.dataset.d; D.c=DYES[D.dye].c; if(D.ink===D.c){ D.ink='#FFF6E3'; D.inkKey='cream'; $$('#shInk .btn').forEach(x=>x.className='btn sm '+(x.dataset.i==='cream'?'primary':'ghost')); } $$('#shDye .btn').forEach(x=>x.className='btn sm '+(x===b?'primary':'ghost')); sfx('tap'); redraw(); });
+  $$('#shMot .btn').forEach(b=>b.onclick=()=>{ const k=b.dataset.m; if(D.m.includes(k)){ if(D.m.length>1) D.m=D.m.filter(x=>x!==k); } else { D.m.push(k); if(D.m.length>2) D.m.shift(); } $$('#shMot .btn').forEach(x=>x.className='btn sm '+(D.m.includes(x.dataset.m)?'primary':'ghost')); sfx('tap'); redraw(); });
+  $$('#shInk .btn').forEach(b=>b.onclick=()=>{ D.inkKey=b.dataset.i; D.ink=INKS[D.inkKey].c; $$('#shInk .btn').forEach(x=>x.className='btn sm '+(x===b?'primary':'ghost')); sfx('tap'); redraw(); });
+  $$('#cb [data-s]').forEach(b=>b.onclick=()=>{ D.big=b.dataset.s==='1'; $$('#cb [data-s]').forEach(x=>x.className='btn sm '+(x===b?'primary':'ghost')); redraw(); });
+  $('#shGo').onclick=()=>{ const use={vavai:3,[D.dye]:1}; D.m.forEach(k=>{ const n=SHIRT_MOTIFS[k].need; if(n) use[n]=(use[n]||0)+1; }); const ik=INKS[D.inkKey].dye; if(ik) use[ik]=(use[ik]||0)+1;
+    if(!has(use)){ toast('Not enough in your basket for this design. Try another print colour or motif.'); return; }
+    take(use); S.crafts=S.crafts||{}; S.crafts.shirt={c:D.c,ink:D.ink,m:D.m.slice(),big:D.big}; S.acc.shirt=true; save();
+    finishCraft('shirt',`Dyed with <span class="reo">${BAGN[D.dye]}</span>, printed with ${D.m.map(k=>SHIRT_MOTIFS[k].n).join(' and ')}.`); }; }
 
 /* ---------- ʻāʻai: legends ---------- */
 const LEGENDS={
@@ -1639,6 +1702,49 @@ function skyAnswer(id){ const Q=SKYST.quiz; if(!Q||SKYST.flash) return; const wa
     Q.msg=`Yes! ${w.ty}, ${w.en}.`; SKYST.flash={id,ok:true}; sfx('good'); openSky();
     later(()=>{ SKYST.flash=null; Q.i++; Q.miss=false; Q.msg=''; if(Q.i>=Q.q.length){ const sc=Q.score; SKYST.quiz=null; SKYST.done=sc; if(!S.skyGift && sc>=3){ S.skyGift=true; addSeeds(2); save(); later(()=>toast('A gift from the sky: 2 seeds for your faʻaʻapu'),600); } } if($('#skyBox')) openSky(); },1100); }
   else { Q.miss=true; Q.msg=`Close. That one is ${o.ty} (${o.en}). Keep looking.`; SKYST.flash={id,ok:false}; sfx('bad'); openSky(); later(()=>{ SKYST.flash=null; if($('#skyBox')) openSky(); },900); } }
+
+/* ---------- keep the voyage: install the app, ask for lasting storage, backup code ---------- */
+const KEEP={prompt:null, installed:false};
+const IN_FRAME=(()=>{ try{ return window.top!==window; }catch(e){ return true; } })();
+const STANDALONE=(()=>{ try{ return matchMedia('(display-mode: standalone)').matches || navigator.standalone===true; }catch(e){ return false; } })();
+const IOS=/iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
+window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); KEEP.prompt=e; $$('[data-install]').forEach(b=>b.hidden=false); });
+window.addEventListener('appinstalled',()=>{ KEEP.installed=true; KEEP.prompt=null; toast('Manu Tere is on your home screen. <b>Māuruuru!</b>'); });
+try{ if(navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(()=>{}); }catch(e){}
+try{ if('serviceWorker' in navigator && !IN_FRAME && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register('./sw.js').catch(()=>{}); }catch(e){}
+
+function saveCode(){ const json=JSON.stringify(Object.assign({},S,{savedAt:Date.now()})); return 'MANUTERE1:'+btoa(unescape(encodeURIComponent(json))); }
+function readCode(txt){ txt=String(txt||'').trim().replace(/\s+/g,''); const m=/^MANUTERE1:(.+)$/.exec(txt); if(!m) return null;
+  try{ const o=JSON.parse(decodeURIComponent(escape(atob(m[1])))); if(!o || typeof o!=='object' || !Array.isArray(o.words)) return null; return o; }catch(e){ return null; } }
+function applySave(o){ const fresh=JSON.parse(JSON.stringify(DEF)); S=Object.assign(fresh,o,{acc:Object.assign({},DEF.acc,o.acc||{}), onboarded:true}); delete S.savedAt; save(); $('#scene').dataset.i=''; renderAll(); }
+function installBlock(){
+  if(STANDALONE) return '<p class="small"><b>Installed.</b> You are using Manu Tere from your home screen.</p>';
+  if(IN_FRAME) return '<p class="small">To install Manu Tere on your phone, open its own web address (the GitHub version) in your browser. Meanwhile, keep a backup code below.</p>';
+  if(IOS) return '<p class="small"><b>iPhone and iPad:</b> in Safari, tap the Share button, then <b>Add to Home Screen</b>. Your voyage is kept with the app.</p>';
+  return `<button class="btn primary" data-install ${KEEP.prompt?'':'hidden'}>Install on my phone</button><p class="small muted">${KEEP.prompt?'Installed apps keep their progress longer, and work without a connection.':'If no install button shows, use your browser menu: <b>Install app</b> or <b>Add to Home screen</b>.'}</p>`; }
+function bindInstall(root){ $$('[data-install]',root).forEach(b=>b.onclick=async()=>{ const p=KEEP.prompt; if(!p) return; p.prompt(); try{ const r=await p.userChoice; if(r && r.outcome==='accepted') KEEP.prompt=null; }catch(e){} $$('[data-install]').forEach(x=>x.hidden=!KEEP.prompt); }); }
+function openKeep(fromWelcome){
+  const code=saveCode(); const canFile=!IN_FRAME;
+  openSheet(`<div class="shead"><div><div class="eyebrow">Keep your voyage</div><h2>Save and restore</h2></div>${XBTN}</div>
+    <div class="card"><div class="eyebrow">1 · Install the app</div>${installBlock()}</div>
+    ${fromWelcome?'':`<div class="card"><div class="eyebrow">2 · Your backup code</div><p class="small">Your stamps, words, garden and crafts live on this phone. Copy this code somewhere safe (notes, an email to yourself). With it you can get everything back, even on a new phone.</p>
+      <textarea id="kCode" readonly rows="3" aria-label="Backup code">${esc(code)}</textarea>
+      <div class="row"><button class="btn primary sm" id="kCopy">Copy the code</button>${canFile?'<button class="btn ghost sm" id="kFile">Save as a file</button>':''}</div><span class="small muted" id="kMsg" aria-live="polite"></span></div>`}
+    <div class="card flat"><div class="eyebrow">${fromWelcome?'Already travelling?':'3 · Restore a voyage'}</div><p class="small">Paste a backup code${canFile?' or choose a save file':''}. ${fromWelcome?'':'This replaces the voyage on this phone.'}</p>
+      <textarea id="kIn" rows="3" placeholder="MANUTERE1:…" aria-label="Paste a backup code"></textarea>
+      <div class="row"><button class="btn sun sm" id="kLoad">Restore</button>${canFile?'<label class="btn ghost sm" for="kPick">Choose a file</label><input type="file" id="kPick" accept=".txt,text/plain" hidden>':''}</div><span class="small" id="kErr" aria-live="polite"></span></div>`);
+  bindInstall($('#sheet'));
+  const msg=t=>{ const m=$('#kMsg'); if(m) m.textContent=t; };
+  if($('#kCopy')) $('#kCopy').onclick=()=>{ const ta=$('#kCode'); const done=()=>{ msg('Copied. Keep it somewhere safe.'); S.lastBackup=Date.now(); save(); };
+    try{ navigator.clipboard.writeText(ta.value).then(done).catch(()=>{ ta.focus(); ta.select(); msg('Select the code and copy it.'); }); }catch(e){ ta.focus(); ta.select(); msg('Select the code and copy it.'); } };
+  if($('#kFile')) $('#kFile').onclick=()=>{ try{ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([saveCode()],{type:'text/plain'})); const d=new Date(); a.download=`manu-tere-${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}.txt`; document.body.appendChild(a); a.click(); a.remove(); S.lastBackup=Date.now(); save(); msg('Saved to your downloads.'); }catch(e){ msg('Your browser could not save a file. Copy the code instead.'); } };
+  const restore=txt=>{ const o=readCode(txt), e=$('#kErr'); if(!o){ e.className='small fb bad'; e.textContent='That is not a Manu Tere backup code. It starts with MANUTERE1:'; return; }
+    applySave(o); closeSheet(); if(!$('#full').hidden) closeFull(); sfx('stamp'); toast(`Welcome back, <b>${esc(S.name)}</b>! ${S.visited.length} island${S.visited.length===1?'':'s'}, ${S.words.length} words.`); };
+  $('#kLoad').onclick=()=>restore($('#kIn').value);
+  if($('#kPick')) $('#kPick').onchange=e=>{ const f=e.target.files&&e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>restore(r.result); r.readAsText(f); }; }
+/* a gentle reminder to back up, at most once a day, after real progress */
+function backupNudge(){ const n=Object.keys(S.done).length+Object.keys(S.crafts||{}).length; if(n<2) return; const last=S.lastBackup||0, nudged=S.nudgedAt||0;
+  if(Date.now()-last>3*864e5 && Date.now()-nudged>864e5){ S.nudgedAt=Date.now(); save(); setTimeout(()=>toast('Keep your voyage safe: <b>My manu › Save and restore</b>',4200),1500); } }
 
 /* ---------- start ---------- */
 $('#dMap').onclick=()=>{ ac(); MAPSEL=null; openMap(); };
