@@ -442,15 +442,10 @@ const W={
 const WGROUPS=[['greet','Greetings'],['tahiti','Tahiti'],['moorea','Moʻorea'],['bora','Porapora · Bora Bora'],['sky','Sky and sea']];
 function learn(ids, quiet){ const fresh=[]; (Array.isArray(ids)?ids:[ids]).forEach(id=>{ if(W[id] && !S.words.includes(id)){ S.words.push(id); fresh.push(id); } }); if(fresh.length){ save(); if(!quiet) toast(`New word: <b>${esc(W[fresh[0]].r)}</b> · ${esc(W[fresh[0]].en)}`); } return fresh; }
 
-/* ---------- voice: an approximate computer voice for Reo words ---------- */
-let VOICE=null;
-function pickVoice(){ try{ const vs=speechSynthesis.getVoices(); for(const p of ['mi','id','ms','es','it']){ const v=vs.find(v=>(v.lang||'').toLowerCase().startsWith(p)); if(v) return v; } }catch(e){} return null; }
-try{ if('speechSynthesis' in window){ speechSynthesis.onvoiceschanged=()=>{ VOICE=pickVoice(); }; } }catch(e){}
-function speak(txt){ if(!S.sound) return; try{ if(!('speechSynthesis' in window)) return; VOICE=VOICE||pickVoice(); const clean=txt.replace(/[ʻ’'?!]/g,'').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/-/g,' '); const u=new SpeechSynthesisUtterance(clean); if(VOICE){ u.voice=VOICE; u.lang=VOICE.lang; } else u.lang='id-ID'; u.rate=.78; speechSynthesis.cancel(); speechSynthesis.speak(u); }catch(e){} }
-function sayWord(id){ if(W[id]) speak(W[id].r); }
-const SPK='<svg viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4Z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>';
-function spkBtn(id){ return `<button class="spk" data-say="${id}" aria-label="Listen to ${esc(W[id]?W[id].r:id)}">${SPK}</button>`; }
-document.addEventListener('click',e=>{ const b=e.target.closest('[data-say]'); if(b){ e.stopPropagation(); sayWord(b.dataset.say); } });
+/* ---------- Reo words are shown in writing only: no computer voice ---------- */
+function speak(){}
+function sayWord(){}
+function spkBtn(){ return ''; }
 
 /* ---------- sound effects, synthesised ---------- */
 let AC=null;
@@ -850,7 +845,7 @@ const fruitSVG=(w,s)=>`<svg viewBox="0 0 64 64" aria-hidden="true">${FRUIT[w]}</
 function actMarket(el,done){
   const order=shuffle(Object.keys(FRUIT)).slice(0,5); let round=0, basket=[], lock=false;
   el.innerHTML=`<div class="art"><svg viewBox="0 0 360 120" aria-hidden="true"><rect width="360" height="120" fill="#F4E3C3"/>${Array.from({length:12},(_,i)=>`<path d="M${i*30} 0 h30 v26 q-15 10 -30 0Z" fill="${i%2?'#FFFFFF':'#C8402F'}"/>`).join('')}<rect y="92" width="360" height="28" fill="#8A5A2B"/><rect y="88" width="360" height="6" fill="#6B4426"/>${['meia','vi','uru','haari','ia','tiare','vi','meia'].map((w,i)=>`<g transform="translate(${8+i*44} 48) scale(.68)">${FRUIT[w]}</g>`).join('')}</svg></div>
-    <div class="card"><div class="row" style="justify-content:space-between;flex-wrap:nowrap"><div style="min-width:0"><div class="eyebrow">The stall-keeper asks for</div><div class="reo" style="font-size:2rem" id="mkWord"></div></div><span id="mkSpk"></span></div><p class="small muted">Tap the right one. Tap the speaker to hear the word.</p></div>
+    <div class="card"><div class="row" style="justify-content:space-between;flex-wrap:nowrap"><div style="min-width:0"><div class="eyebrow">The stall-keeper asks for</div><div class="reo" style="font-size:2rem" id="mkWord"></div></div><span id="mkSpk"></span></div><p class="small muted">Tap the right one.</p></div>
     <div class="opts" id="mkOpts"></div><div class="fb" id="mkFb" aria-live="polite"></div>
     <div class="card flat"><div class="row" style="justify-content:space-between"><span class="eyebrow">Your basket</span><span class="prog" id="mkProg"></span></div><div class="basket" id="mkBasket"></div></div>`;
   const show=()=>{ const t=order[round]; lock=false; $('#mkWord').textContent=W[t].r+'?'; $('#mkSpk').innerHTML=spkBtn(t); $('#mkFb').textContent=''; $('#mkFb').className='fb'; $('#mkProg').innerHTML=prog(round,5);
@@ -1054,7 +1049,7 @@ function openInfo(){ const I=ISL[S.island];
 function openWords(){ const known=S.words.filter(w=>W[w]); const total=Object.keys(W).length;
   const groups=WGROUPS.map(([g,label])=>{ const ws=known.filter(w=>W[w].g===g); if(!ws.length) return ''; return `<div class="stack" style="gap:0"><div class="eyebrow" style="margin-top:6px">${label}</div><div class="wlist">${ws.map(w=>`<div class="wrow"><b>${W[w].r}</b>${spkBtn(w)}<span class="en">${W[w].en}</span><span class="ph">say: ${W[w].ph}</span></div>`).join('')}</div></div>`; }).join('');
   openSheet(`<div class="shead"><div><div class="eyebrow">Parau · Words</div><h2>${known.length} of ${total} words</h2></div>${XBTN}</div>
-    <div class="card flat"><p class="small"><b>How to say it.</b> Vowels are pure: <i>a</i> as in father, <i>e</i> as in bed, <i>i</i> as in machine, <i>o</i> as in more, <i>u</i> as in moon. The <span class="reo">ʻ</span> (ʻeta) is a short catch in the voice, as in “uh-oh”. A line over a vowel (ā) makes it longer.</p><p class="small muted">The voice is a computer approximation until native speakers record the words.</p></div>
+    <div class="card flat"><p class="small"><b>How to say it.</b> Vowels are pure: <i>a</i> as in father, <i>e</i> as in bed, <i>i</i> as in machine, <i>o</i> as in more, <i>u</i> as in moon. The <span class="reo">ʻ</span> (ʻeta) is a short catch in the voice, as in “uh-oh”. A line over a vowel (ā) makes it longer.</p></div>
     ${groups||'<p class="muted">Tap your manu or try an activity to learn your first words.</p>'}
     ${known.length<total?`<p class="small muted">${total-known.length} more words to find on your voyage.</p>`:''}`); }
 function openPassport(){ const nW=S.words.length;
@@ -1514,7 +1509,7 @@ $('#dPass').onclick=()=>{ ac(); openPassport(); };
 $('#dManu').onclick=()=>{ ac(); openManu(); };
 $('#dGarden').onclick=()=>{ ac(); openGarden(); };
 $('#infoBtn').onclick=openInfo;
-$('#soundBtn').onclick=()=>{ S.sound=!S.sound; save(); renderHeader(); if(S.sound){ ac(); sfx('tap'); } else { try{ speechSynthesis.cancel(); }catch(e){} } };
+$('#soundBtn').onclick=()=>{ S.sound=!S.sound; save(); renderHeader(); if(S.sound){ ac(); sfx('tap'); } };
 renderAll();
 B.y=groundY(); { const [a,b]=walkRange(); B.x=(a+b)/2; } place();
 requestAnimationFrame(loop);

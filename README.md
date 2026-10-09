@@ -31,7 +31,7 @@ There is no service worker yet, so an update shows up after a normal reload.
 ## Before a public launch
 
 - Have native speakers check every Reo word, the pronunciation hints and the short phrases. The words are kept together in the `W` list at the top of the script.
-- Replace the computer voice with real recordings. It is an approximation and does not pronounce the ʻeta.
+- Add recordings by native speakers if you want sound for the words. The computer voice has been removed, so for now the words are written only, with a pronunciation guide.
 - Check the travel information (ferry and flight times) with the operators, and add partner links (for example Tahiti Tourisme) if a partnership happens.
 - Show sacred places such as Taputapuātea, which is planned for Raiatea, with the guardians' agreement.
 - Have the legends checked by a storyteller or the Maison de la Culture. Each legend exists in several versions, and the app says which version it follows.
