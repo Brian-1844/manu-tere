@@ -2,7 +2,7 @@
 
 A voyaging bird that takes visitors around the islands of French Polynesia. It is in English, with Reo Māʻohi words throughout, and is a sister app to Manu Ora.
 
-**Prototype, version 0.2.** Three islands (Tahiti, Moʻorea, Porapora / Bora Bora), a star-navigation voyage between them, nine activities, five legends, a faʻaʻapu with four crafts, a passport and a word list.
+**Prototype, version 0.3.** Three islands (Tahiti, Moʻorea, Porapora / Bora Bora), a star-navigation voyage between them, nine activities, five legends, a faʻaʻapu with four crafts, a passport and a word list.
 
 ## Put it online (GitHub Pages)
 
@@ -25,6 +25,8 @@ There is no service worker yet, so an update shows up after a normal reload.
 - **Rewards:** finishing all three activities on an island unlocks an item for the bird: a hei, a pāreu, sunglasses.
 - **Faʻaʻapu (garden):** six plots, with plants ready in a few minutes so a visitor can harvest during a stay. The real moon speeds up growth while it is waxing. The real season does too: Matariʻi i niʻa, the season of abundance from 20 November, gives more fruit, and the fruit in season each month (ʻuru, mango, pineapple, tiare) grows twice as fast. Food can be "tasted" for a tip on where to try it. Shells wash up on the beaches, and a pearl line in the lagoon opens after Porapora.
 - **Crafts:** a sun-printed pāreu (cotton and a plant dye), a woven tāupoʻo (pandanus, over-and-under weaving), a hei poe (pearls and shells) and a tapa (beat ʻuru bark with the ʻiʻe, then print motifs). The bird wears what you make, and every craft says where to see the real thing.
+- **Te raʻi (the star button at the top):** the night sky of the fenua, as in Manu Ora. Tap a star to learn its Reo name and story, play "find the star", and see tonight's moon with its Tahitian night name. Learning all 11 gives the bird a cloak of stars.
+- **Surf:** catch the swell at the right moment, then ride the pocket by pumping, without getting too close to the lip or too far out on the shoulder.
 - **ʻĀʻai (legends):** Hina and the eel (Tahiti), Pai and the pierced mountain (Moʻorea), ʻOro and the rainbow (Porapora), and two garden legends: Ruataʻata and the ʻuru, and Hina in the moon. Each legend gives seeds or materials.
 - **Saving:** progress is saved on the phone only (localStorage). There are no accounts and nothing is sent anywhere.
 

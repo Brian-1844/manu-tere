@@ -79,7 +79,7 @@ p{margin:0}
 
 /* app frame */
 .app{height:100%;max-width:520px;margin:0 auto;display:flex;flex-direction:column;position:relative;background:var(--bg)}
-.top{display:flex;align-items:center;gap:10px;padding:8px 16px;background:var(--bg);position:relative;z-index:5}
+.top{display:flex;align-items:center;gap:8px;padding:8px 16px;background:var(--bg);position:relative;z-index:5}
 .brand{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
 .logo{width:40px;height:40px;border-radius:13px;background:var(--ocean);display:grid;place-items:center;flex:none;overflow:hidden}
 .logo svg{width:40px;height:40px}
@@ -352,6 +352,7 @@ input[type=text]{width:100%;border:1.5px solid var(--line);border-radius:12px;pa
       <div class="logo" id="logo" aria-hidden="true"></div>
       <div class="t"><h1>Manu Tere</h1><div class="isl" id="islLabel"></div></div>
     </div>
+    <button class="ibtn" id="skyBtn" aria-label="Te raʻi, the night sky"><svg viewBox="0 0 24 24"><path d="M12 3l2.2 4.8 5.2.6-3.9 3.6 1.1 5.2L12 14.6 7.4 17.2l1.1-5.2L4.6 8.4l5.2-.6Z"/></svg></button>
     <button class="ibtn" id="infoBtn" aria-label="About this island"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg></button>
     <button class="ibtn" id="soundBtn" aria-label="Sound on"></button>
   </header>
@@ -498,8 +499,27 @@ function wingSVG(body){ const wl=LOOK.wl, F=wl*1.5; const px=44+wl*.8, py=66-wl*
   for(let j=6;j>=0;j--) h+=fe(F*(.46+j*.025), wl*.26, 173+j*6.5, 0, j%2?mid:dark);
   h+=`<ellipse cx="${(px-wl*.12).toFixed(1)}" cy="${(py+wl*.1).toFixed(1)}" rx="${(wl*.46).toFixed(1)}" ry="${(wl*.36).toFixed(1)}" transform="rotate(28 ${px.toFixed(1)} ${py.toFixed(1)})" fill="${mid}" stroke="${edge}" stroke-width=".5"/>`;
   return h; }
+/* hei upoʻo: a full flower crown. A ring of small ferns and red and green ʻautī leaves, packed with open tiare and bright flowers, fuller at the front */
+function heiUpoo(){ const cx=81, cy=26.5, rx=21, ry=5.6, f=n=>n.toFixed(1); let back='', base='', leaves='', flowers='';
+  const pt=t=>[cx+rx*Math.cos(t), cy+ry*Math.sin(t)];
+  const outA=(x,y)=>Math.atan2((y-cy)/ry*rx,x-cx)*180/Math.PI+90;
+  const tanA=t=>Math.atan2(ry*Math.cos(t),-rx*Math.sin(t))*180/Math.PI;
+  const leaf=(x,y,ang,len,w,col)=>`<path d="M0 0 C${f(w)} ${f(-len*.3)} ${f(w*.6)} ${f(-len*.8)} 0 ${f(-len)} C${f(-w*.6)} ${f(-len*.8)} ${f(-w)} ${f(-len*.3)} 0 0Z" fill="${col}" transform="translate(${f(x)} ${f(y)}) rotate(${f(ang)})"/>`;
+  const fern=(x,y,ang,len)=>{ let g=`<g transform="translate(${f(x)} ${f(y)}) rotate(${f(ang)})"><path d="M0 0 V${f(-len)}" stroke="#2F7D4C" stroke-width=".7"/>`; for(let k=1;k<6;k++){ const yy=-len*k/6, w=2.6-k*.35; g+=`<ellipse cx="${f(-w)}" cy="${f(yy)}" rx="${f(w)}" ry="1" fill="#46A866" transform="rotate(-25 ${f(-w)} ${f(yy)})"/><ellipse cx="${f(w)}" cy="${f(yy)}" rx="${f(w)}" ry="1" fill="#46A866" transform="rotate(25 ${f(w)} ${f(yy)})"/>`; } return g+'</g>'; };
+  const tiare=(x,y,s,rot)=>{ let g=`<g transform="translate(${f(x)} ${f(y)}) rotate(${rot}) scale(${s})">`; for(let k=0;k<6;k++) g+=`<path d="M0 0 C1.8 -1 3.8 -3.6 2.4 -6 C1 -6.8 -.5 -5.2 0 0Z" fill="#FFFDF6" stroke="#D9CCA8" stroke-width=".35" transform="rotate(${k*60})"/>`; return g+'<circle r="1" fill="#F4D35E"/></g>'; };
+  const bloom=(x,y,s,c,c2)=>{ let g=`<g transform="translate(${f(x)} ${f(y)}) scale(${s})">`; for(let k=0;k<5;k++) g+=`<ellipse cx="0" cy="-2.1" rx="1.7" ry="2.2" fill="${c}" transform="rotate(${k*72})"/>`; return g+`<circle r="1" fill="${c2}"/></g>`; };
+  /* back half: lush greenery and a few small flowers, seen above the head */
+  for(let k=0;k<11;k++){ const t=Math.PI+k*Math.PI/10, [x,y]=pt(t), o=outA(x,y); back+= k%3===0 ? leaf(x,y,o-10,8,2.4,'#A8233A') : k%3===1 ? fern(x,y,o+8,7.5) : leaf(x,y,o+12,7.5,2.3,'#2F7D4C'); }
+  [[1.25,'#E8558C'],[1.5,'#FFFDF6'],[1.75,'#F28C28']].forEach(q=>{ const [x,y]=pt(q[0]*Math.PI); back+= q[1]==='#FFFDF6'?tiare(x,y-1,.7,10):bloom(x,y-1,.75,q[1],'#FFF0A8'); });
+  /* woven base: overlapping leaves laid along the ring */
+  for(let k=0;k<20;k++){ const t=k*Math.PI/10, [x,y]=pt(t); base+=leaf(x,y,tanA(t)+90,6,2.2,k%2?'#2F7D4C':'#3E9A5C'); }
+  /* front half: leaf tips, then a dense row of flowers */
+  for(let k=0;k<9;k++){ const t=.05*Math.PI+k*Math.PI/9, [x,y]=pt(t), o=outA(x,y); leaves+= k%2 ? leaf(x,y,o+180-18,5.5,1.9,'#A8233A') : fern(x,y,o+180+14,5); }
+  const fl=[[.02,'t',.95,8],[.14,'b',1,'#E8558C','#FFF0A8'],[.27,'t',1.15,30],[.4,'b',1.05,'#F28C28','#FFE08A'],[.52,'t',1.25,12],[.64,'b',1,'#E0303A','#FFE08A'],[.76,'t',1.15,40],[.88,'b',.95,'#E8558C','#FFF0A8'],[.98,'t',.9,20]];
+  fl.forEach(q=>{ const [x,y]=pt(q[0]*Math.PI); flowers+= q[1]==='t' ? tiare(x,y,q[2],q[3]) : bloom(x,y,q[2],q[3],q[4]); });
+  return `<g class="hei" transform="rotate(-6 ${cx} ${cy})">${back}${base}${leaves}${flowers}</g>`; }
 function accParts(c){ const a=c.acc||{};
-  const hei = a.hei ? ['#FFF4C2','#F28CB1','#F0A23A','#FFF4C2','#F28CB1','#F0A23A','#FFF4C2'].map((col,i)=>{ const t=(200+i*24)*Math.PI/180; return `<circle cx="${(82+18*Math.cos(t)).toFixed(1)}" cy="${(46+18*Math.sin(t)).toFixed(1)}" r="3.4" fill="${col}" stroke="#3B8C58" stroke-width=".8"/>`; }).join('') : '';
+  const hei = a.hei ? heiUpoo() : '';
   const pet=(r,fill,stroke)=>[0,72,144,216,288].map(t=>`<circle cx="${(4.6*Math.cos(t*Math.PI/180)).toFixed(1)}" cy="${(4.6*Math.sin(t*Math.PI/180)).toFixed(1)}" r="${r}" fill="${fill}" stroke="${stroke}" stroke-width=".6"/>`).join('');
   const flower = a.tiare && !a.hei && !(a.hat&&c.crafts&&c.crafts.hat) ? `<g transform="translate(66 36)">${pet(3.6,'#FFF9EE','#E8D9B5')}<circle r="2.2" fill="#F2C94C"/></g>` : '';
   const titia = a.titia ? `<g><line x1="83" y1="40" x2="66" y2="38" stroke="#10202A" stroke-width="2" stroke-linecap="round"/><rect x="82" y="37" width="15" height="9.5" rx="3.6" fill="#10202A"/><line x1="85" y1="39.6" x2="90" y2="39.6" stroke="#fff" stroke-width="1" opacity=".55" stroke-linecap="round"/></g>` : '';
@@ -511,7 +531,7 @@ function birdSVG(c,id){
   return `<svg viewBox="0 0 120 110" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><pattern id="${id}-pareu" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="${(c.crafts&&c.crafts.pareu)?c.crafts.pareu.c:'#1AA3B1'}"/><circle cx="4" cy="4" r="1.6" fill="#FFF6E3"/></pattern><clipPath id="${id}-clip"><ellipse cx="55" cy="68" rx="30" ry="24"/></clipPath></defs>
     <g class="tail"><g transform="translate(30 71) scale(${L.tl} 1) translate(-30 -71)"><polygon points="30,69 -4,66 -2,71 -4,76 30,73" fill="${wing}"/><polygon points="30,66 4,56 10,74 4,86 30,76" fill="${wing}"/><polygon points="30,70 12,66 14,80 30,76" fill="${c.body}"/></g></g>
     <g class="legs"><g class="leg l1"><line x1="48" y1="88" x2="46" y2="103" stroke="#F0A23A" stroke-width="3" stroke-linecap="round"/><polyline points="38,104 46,103 54,105" fill="none" stroke="#F0A23A" stroke-width="3" stroke-linecap="round"/></g><g class="leg l2"><line x1="58" y1="88" x2="60" y2="103" stroke="#D98B2B" stroke-width="3" stroke-linecap="round"/><polyline points="52,104 60,103 68,105" fill="none" stroke="#D98B2B" stroke-width="3" stroke-linecap="round"/></g></g>
-    <g class="body"><ellipse cx="55" cy="68" rx="30" ry="24" fill="${c.body}"/><ellipse cx="60" cy="74" rx="18" ry="14" fill="${c.belly}"/>${pareu}</g>
+    <g class="body"><ellipse cx="55" cy="68" rx="30" ry="24" fill="${c.body}"/><ellipse cx="60" cy="74" rx="18" ry="14" fill="${c.belly}"/>${c.acc&&c.acc.stars?`<g clip-path="url(#${id}-clip)"><rect x="18" y="40" width="72" height="60" fill="#16264A" opacity=".55"/><g fill="#FFF1C4"><circle cx="36" cy="62" r="1.3"/><circle cx="48" cy="52" r="1.6"/><circle cx="62" cy="58" r="1.1"/><circle cx="72" cy="66" r="1.4"/><circle cx="40" cy="78" r="1.2"/><circle cx="30" cy="70" r="1"/><circle cx="56" cy="48" r="1"/><circle cx="78" cy="76" r="1.1"/></g></g>`:''}${pareu}</g>
     <g class="wing">${wingSVG(c.body)}</g>
     <g class="head">${!A.bare?[[76,31,69,16,80,27],[80,30,77,12,86,26]].map((q,i)=>`<polygon points="${q[0]},${q[1]} ${q[2]},${q[3]} ${q[4]},${q[5]}" fill="${i%2?wing:c.body}" stroke="${wing}" stroke-width=".6"/>`).join(''):''}<circle cx="82" cy="46" r="18" fill="${c.body}"/><circle cx="84" cy="52" r="9" fill="${c.belly}" opacity=".9"/><polygon points="98,45 114,50 98,55" fill="#F0A23A"/><circle cx="92" cy="50" r="3.6" fill="#F28CB1" opacity=".6"/><g class="eye"><circle cx="89" cy="42" r="${L.er}" fill="#10303B"/><circle cx="${(89+L.er*.36).toFixed(1)}" cy="${(42-L.er*.36).toFixed(1)}" r="${(L.er*.33).toFixed(1)}" fill="#fff"/></g>${A.top}${A.eyes}</g>${A.neck}
   </svg>`; }
@@ -797,7 +817,7 @@ const ACTS={
   market:{isl:'tahiti', r:'Te mātete', en:'Papeete Market', icon:'basket', at:[229,372], words:['matete','meia','vi','uru','haari','ia','tiare'], run:actMarket,
     fact:'Papeete’s covered market is full of fruit, fish, flowers, monoï and crafts. It opens early in the morning, and Sunday morning is the liveliest time.'},
   surf:{isl:'tahiti', r:'Faʻaheʻe', en:'Surf Teahupoʻo', icon:'wave', at:[66,418], words:['faahee'], run:actSurf,
-    fact:'Teahupoʻo, at the end of the road on Tahiti Iti, hosted the surfing events of the Paris 2024 Olympic Games. The wave breaks over a shallow reef and is for experts only. Beginners learn on gentler spots with a local surf school.'},
+    fact:'Teahupoʻo, at the end of the road on Tahiti Iti, hosted the surfing events of the Paris 2024 Olympic Games. The wave breaks over a shallow reef and is for experts only: watch it from a boat. Beginners learn on gentler spots with a local surf school.'},
   ori:{isl:'tahiti', r:'ʻOri Tahiti', en:'Dance to the drums', icon:'drum', at:[128,512], words:['ori','toere','heiva'], run:actOri,
     fact:'ʻOri Tahiti is the dance of Tahiti. Fast ʻōteʻa dances follow the tōʻere drums; the slower ʻaparima tells a story with the hands. Every July, the Heiva i Tahiti festival fills Papeete with dance and song.'},
   lagoon:{isl:'moorea', r:'Te tairoto', en:'Lagoon friends', icon:'fish', at:[146,490], words:['tairoto','honu','fai','mao','hou','oua','tohora'], run:actLagoon,
@@ -858,27 +878,80 @@ function actMarket(el,done){
       else { sfx('bad'); b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); b.querySelector('span').textContent=`${W[k].r} · ${W[k].en}`; fb.className='fb bad'; fb.textContent=`That one is ${W[k].r} (${W[k].en}). Look again.`; } }); };
   show(); }
 
-/* --- Faʻaheʻe: catch a wave at Teahupoʻo --- */
+/* --- Faʻaheʻe: catch a wave, then ride the pocket --- */
+function surfBoardSVG(){ return `<path d="M-30 0 Q-24 -5.5 0 -5.5 Q24 -5.5 34 0 Q24 5 0 5 Q-24 5 -30 0Z" fill="#FFF6DC" stroke="#3A2A1E" stroke-width="1"/><path d="M-26 0 H30" stroke="#D9562E" stroke-width="1.6"/><path d="M-30 0 Q-24 -5.5 -14 -5.4 L-14 5.2 Q-24 5 -30 0Z" fill="#1AA3B1"/>`; }
 function actSurf(el,done){
-  el.innerHTML=`<div class="art"><svg viewBox="0 0 360 260" aria-hidden="true"><defs>${vgrad('sfS','#8CCFEA','#E3F4F2',0,140)}${vgrad('sfW','#8BE3E6','#1C93AA',104,206)}${vgrad('sfO','#1A8FA8','#0E5E7A',140,260)}</defs><rect width="360" height="260" fill="url(#sfS)"/><path d="M-10 150 L30 96 L70 120 L120 70 L170 118 L220 90 L270 128 L320 104 L370 150Z" fill="#4F9E72"/><rect y="146" width="360" height="114" fill="url(#sfO)"/><path id="sfWave" fill="url(#sfW)"/><path id="sfLip" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".95"/><g id="sfBird"><g transform="translate(-27 -47) scale(.45)">${birdSVG(S,'sf').replace('<svg ','<svg width="120" height="110" ')}</g><ellipse cx="2" cy="3" rx="20" ry="3.4" fill="#F2C94C" stroke="#C99A1C" stroke-width="1.2"/></g></svg></div>
-    <div class="card"><p class="small">Watch the swell come in. Tap <b>Paddle</b> when the wave is just behind your manu, inside the green zone.</p><div class="meter" aria-hidden="true"><div class="z" id="sfZone"></div><div class="m" id="sfMark"></div></div><div class="row" style="justify-content:space-between"><span class="fb" id="sfFb" aria-live="polite">Waiting for a set…</span><span class="prog" id="sfProg">${prog(0,3)}</span></div></div>
-    <button class="btn sun" id="sfGo" style="min-height:64px;font-size:1.15rem">Paddle! · <span>Hoe!</span></button>`;
-  const wave=$('#sfWave'), lip=$('#sfLip'), bird=$('#sfBird'), fb=$('#sfFb'), zone=$('#sfZone'), mark=$('#sfMark');
-  const BX=210, SEA=200, CP=BX-34; let w=34, cx=-200, t=0, period=3.6, pause=1.2, tried=false, riding=false, rides=0, finished=false;
-  const setZone=()=>{ zone.style.left=((CP-w+140)/640*100)+'%'; zone.style.width=(2*w/640*100)+'%'; }; setZone();
-  const shape=c=>`M${c-240} 206 C${c-130} 206 ${c-56} 192 ${c-24} 150 C${c-2} 118 ${c+30} 108 ${c+54} 122 C${c+67} 130 ${c+62} 146 ${c+48} 150 C${c+40} 138 ${c+26} 142 ${c+28} 158 C${c+32} 184 ${c+74} 202 ${c+150} 206 L${c+150} 262 L${c-240} 262Z`;
-  const lipD=c=>`M${c-24} 150 C${c-2} 118 ${c+30} 108 ${c+54} 122 C${c+67} 130 ${c+62} 146 ${c+48} 150`;
-  $('#sfGo').onclick=()=>{ if(finished||tried||riding) return; tried=true;
-    if(cx>=CP-w && cx<=CP+w){ riding=true; rides++; $('#sfProg').innerHTML=prog(rides,3); sfx('good'); fb.className='fb good'; fb.textContent='Faʻaheʻe! You caught it.'; if(rides===1) speak(W.faahee.r); w=Math.max(18,w-8); setZone(); }
-    else if(cx<CP-w){ sfx('bad'); fb.className='fb bad'; fb.textContent='Too early. Wait until the wave reaches you.'; }
-    else { sfx('bad'); fb.className='fb bad'; fb.textContent='Too late. It passed under you. Next one!'; } };
-  frames(dt=>{ t+=dt; const total=period+pause, ph=t%total;
-    if(ph<period){ cx=-140+ph/period*620; } else { cx=-400; if(tried||riding){ tried=false; riding=false; if(rides>=3 && !finished){ finished=true; later(()=>done('Three waves ridden at Teahupoʻo.'),300); } else if(!finished){ fb.className='fb'; fb.textContent='Next set coming…'; } } }
-    wave.setAttribute('d',shape(cx)); lip.setAttribute('d',lipD(cx)); mark.style.left=clamp((cx+140)/640*100,0,100)+'%';
-    let bx=BX, by=SEA+Math.sin(t*2.4)*2, rot=0;
-    if(riding && cx>-300){ bx=cx+40; by=158; rot=-14; }
-    else if(cx>BX-60 && cx<BX+60 && !riding){ const k=1-Math.abs(cx-(BX-10))/70; by=SEA-k*30; }
-    bird.setAttribute('transform',`translate(${bx.toFixed(1)} ${by.toFixed(1)}) rotate(${rot})`); }); }
+  injectCSS('surf',`.sfart{position:relative;background:#0E4C6B}.sfart svg{display:block;width:100%;height:auto}.sfhud{position:absolute;left:10px;top:10px;right:10px;display:flex;justify-content:space-between;gap:8px;pointer-events:none}.sfhud span{background:rgba(9,28,44,.7);color:#F1F7FA;border-radius:10px;padding:4px 10px;font-family:var(--display);font-weight:600;font-size:.86rem}.pocket{position:relative;height:26px;border-radius:13px;overflow:hidden;background:linear-gradient(90deg,#E4583F 0 12%,#F2C94C 12% 25%,#62C486 25% 55%,#F2C94C 55% 85%,#9DB4BC 85%)}.pocket i{position:absolute;top:2px;bottom:2px;width:22px;margin-left:-11px;border-radius:11px;background:#FFFFFF;box-shadow:0 0 0 2px #0D2C3D}.pocket b{position:absolute;top:0;bottom:0;display:grid;place-items:center;font-family:var(--display);font-weight:600;font-size:.7rem;color:#0D2C3D}`);
+  el.innerHTML=`<div class="art sfart"><svg viewBox="0 0 360 260" id="sfSvg" role="img" aria-label="A wave at Teahupoʻo">
+      <defs>${vgrad('sfSky','#7EC4E8','#F7E3C4',0,110)}${vgrad('sfSea','#1B8BA6','#0B5B75',104,260)}${vgrad('sfFace','#5FD3D8','#0E7E98',60,240)}
+        <radialGradient id="sfTube" cx="35%" cy="50%" r="65%"><stop offset="0" stop-color="#05374A"/><stop offset="1" stop-color="#0E7E98"/></radialGradient></defs>
+      <rect width="360" height="260" fill="url(#sfSky)"/><circle cx="292" cy="44" r="18" fill="#FFE7A8"/>
+      <path d="M-10 108 L30 70 L54 86 L84 52 L112 82 L150 64 L180 96 L230 80 L260 100 L300 84 L370 108Z" fill="#3F8E68"/><path d="M-10 108 L60 92 L120 100 L190 92 L260 102 L370 96 V112 H-10Z" fill="#2F7D58"/>
+      <rect y="106" width="360" height="154" fill="url(#sfSea)"/>
+      <g id="sfLines" stroke="#FFFFFF" stroke-opacity=".18" fill="none" stroke-width="1.4"></g>
+      <path id="sfWave" fill="url(#sfFace)"/><g id="sfTex" stroke="#FFFFFF" stroke-opacity=".22" stroke-width="1.2" fill="none"></g>
+      <path id="sfTubeIn" fill="url(#sfTube)"/><path id="sfLip" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+      <g id="sfFoam"></g><path id="sfWake" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+      <g id="sfSurfer"><g id="sfTilt"><g transform="translate(-22 -44) scale(.4)">${birdSVG(S,'sf').replace(/^<svg[^>]*>/,'').replace(/<\/svg>\s*$/,'')}</g>${surfBoardSVG()}</g></g>
+      <g id="sfSpray"></g>
+    </svg><div class="sfhud"><span id="sfRide">Wave 1 of 3</span><span id="sfScore">0 ridden</span></div></div>
+    <div class="card" id="sfCard"></div>
+    <div class="pad" id="sfPad"></div>`;
+  const $w=$('#sfWave'), $lip=$('#sfLip'), $tube=$('#sfTubeIn'), $foam=$('#sfFoam'), $surf=$('#sfSurfer'), $tilt=$('#sfTilt'), $wake=$('#sfWake'), $spray=$('#sfSpray'), $tex=$('#sfTex'), $lines=$('#sfLines'), card=$('#sfCard'), pad=$('#sfPad');
+  const SEA=176, SX=214;  /* sea level under the surfer and the surfer's x on screen */
+  const R={phase:'catch', ride:1, ok:0, t:0, swell:-120, held:false, dist:120, v:0, inPocket:0, rideT:0, tries:0, scroll:0, fx:[]};
+  const RIDE_T=7;
+  /* drawing */
+  const swellPath=c=>{ const h=48; return `M-20 ${SEA} L${c-150} ${SEA} C${c-80} ${SEA} ${c-40} ${SEA-h} ${c} ${SEA-h} C${c+40} ${SEA-h} ${c+80} ${SEA} ${c+150} ${SEA} L380 ${SEA} L380 262 L-20 262Z`; };
+  const crest=x=>{ const d=x-R.curl; return d<0?72:Math.min(SEA-6,72+d*d*.0016+d*.05); };
+  const ridePaths=()=>{ const c=R.curl; let d=`M${c-6} 240 L${c-6} 96`; for(let x=c;x<=380;x+=10) d+=` L${x} ${crest(x).toFixed(1)}`; d+=' L380 262 L-20 262 L-20 240Z';
+    const lip=`M${c+56} ${crest(c+56).toFixed(1)} C${c+26} 66 ${c-8} 70 ${c-22} 92 C${c-34} 112 ${c-30} 134 ${c-14} 150`;
+    const tube=`M${c+52} ${crest(c+52).toFixed(1)} C${c+24} 70 ${c-6} 74 ${c-18} 94 C${c-28} 112 ${c-24} 132 ${c-12} 148 C${c+6} 158 ${c+24} 150 ${c+30} 128 C${c+36} 108 ${c+40} 92 ${c+52} ${crest(c+52).toFixed(1)}Z`;
+    return {d,lip,tube}; };
+  const foam=c=>{ let h=''; for(let i=0;i<14;i++){ const x=c-30-((i*37+R.scroll*60)%220), y=120+((i*53)%110), r=10+(i*7)%14; if(x>-30) h+=`<circle cx="${x.toFixed(1)}" cy="${y}" r="${r}" fill="#FFFFFF" opacity="${(.55+(i%3)*.15).toFixed(2)}"/>`; } for(let i=0;i<6;i++){ h+=`<circle cx="${(c-14+i*3).toFixed(1)}" cy="${150+i*14}" r="${8+i*2}" fill="#FFFFFF" opacity=".85"/>`; } return h; };
+  const swellLines=()=>{ let h=''; for(let i=0;i<5;i++){ const y=200+i*12, o=(R.scroll*40*(1+i*.3))%60; h+=`<path d="M${-60+o} ${y} q15 -3 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0"/>`; } return h; };
+  const texLines=c=>{ let h=''; for(let i=0;i<5;i++){ const off=(R.scroll*90+i*46)%230; const x=c+40+off; if(x<370) h+=`<path d="M${x.toFixed(1)} ${(crest(x)+10).toFixed(1)} q-14 40 -4 ${(SEA-crest(x)+40).toFixed(1)}"/>`; } return h; };
+  /* controls */
+  const setCard=html=>{ card.innerHTML=html; };
+  const catchUI=()=>{ R.phase='catch'; R.swell=-140; R.tries++; $lip.setAttribute('d',''); $tube.setAttribute('d',''); $foam.innerHTML=''; $tex.innerHTML=''; $wake.setAttribute('d','');
+    setCard(`<p class="small"><b>1. Catch it.</b> A swell is coming. Paddle when it lifts the back of your board: when the hump is just behind your manu.</p><span class="fb" id="sfFb" aria-live="polite">Wait for it…</span>`);
+    pad.innerHTML='<button class="btn sun" id="sfGo" style="grid-column:1/-1;min-height:66px;font-size:1.15rem">Paddle! · Hoe!</button>';
+    $('#sfGo').onclick=()=>{ if(R.phase!=='catch') return; const d=SX-R.swell; const fb=$('#sfFb');
+      if(d>8 && d<62){ sfx('good'); startRide(); }
+      else if(d>=62){ sfx('bad'); fb.className='fb bad'; fb.textContent='Too early: the swell has not reached you.'; }
+      else { sfx('bad'); fb.className='fb bad'; fb.textContent='Too late: it passed under you. Wait for the next one.'; } }; };
+  const startRide=()=>{ R.phase='ride'; R.curl=SX-150; R.dist=150; R.v=0; R.rideT=0; R.inPocket=0; learn('faahee',true);
+    setCard(`<p class="small"><b>2. Ride the pocket.</b> The wave breaks behind you. Hold <b>Pump</b> to speed up, let go to slow down. Stay in the green, close to the curl but not under it.</p><div class="pocket" aria-hidden="true"><b style="left:2%">Lip</b><b style="left:33%">Pocket</b><b style="left:87%">Shoulder</b><i id="sfMark"></i></div><span class="fb" id="sfFb" aria-live="polite">Go!</span>`);
+    pad.innerHTML='<button class="btn primary" id="sfPump" style="grid-column:1/-1;min-height:66px;font-size:1.15rem">Hold to pump</button>';
+    const b=$('#sfPump'); const on=e=>{ e.preventDefault(); R.held=true; b.classList.add('held'); }, off=()=>{ R.held=false; b.classList.remove('held'); };
+    b.addEventListener('pointerdown',on); b.addEventListener('pointerup',off); b.addEventListener('pointerleave',off); b.addEventListener('pointercancel',off); };
+  const endRide=(how)=>{ R.phase='end'; R.held=false; const share=R.inPocket/Math.max(.1,R.rideT); const good=how==='done' && share>=.55;
+    if(good){ R.ok++; sfx('good'); } else sfx('bad');
+    $('#sfScore').textContent=`${R.ok} ridden`;
+    const msg = how==='lip' ? 'Wiped out! You got too close to the curl and the lip came down on you.' : how==='shoulder' ? 'You raced out onto the shoulder and the wave left you behind.' : good ? `Faʻaheʻe! ${Math.round(share*100)} % of the ride in the pocket.` : `You made it, but only ${Math.round(share*100)} % in the pocket. Stay closer to the curl.`;
+    setCard(`<p class="fb ${good?'good':'bad'}">${msg}</p>`);
+    if(how==='lip'){ R.fx=Array.from({length:18},()=>({x:SX+rnd(-30,30),y:SEA-rnd(10,40),vx:rnd(-60,60),vy:rnd(-120,-40),t:0})); }
+    pad.innerHTML='';
+    later(()=>{ if(R.ok>=3){ done('Three waves ridden in the pocket at Teahupoʻo.'); return; } R.ride=R.ok+1; $('#sfRide').textContent=`Wave ${R.ride} of 3`; catchUI(); },1900); };
+  catchUI(); learn('faahee',true);
+  frames(dt=>{ R.t+=dt; R.scroll+=dt; $lines.innerHTML=swellLines();
+    let sx=SX, sy=SEA-4+Math.sin(R.t*2.2)*2, tilt=0;
+    if(R.phase==='catch'){ R.swell+=dt*150; if(R.swell>460) { R.swell=-140; const fb=$('#sfFb'); if(fb && !/early|late/.test(fb.textContent)) { fb.className='fb'; fb.textContent='Next set coming…'; } }
+      $w.setAttribute('d',swellPath(R.swell)); const lift=Math.max(0,1-Math.abs(SX-R.swell)/150); const h=48*(lift<1?(1-Math.pow(1-lift,2)):1)*(Math.abs(SX-R.swell)<150?1:0);
+      sy=SEA-4-h*.9+Math.sin(R.t*2.2)*2; tilt=(SX-R.swell)>0 && (SX-R.swell)<150 ? 8*lift : (R.swell-SX)>0 && (R.swell-SX)<150 ? -8*lift : 0; }
+    else if(R.phase==='ride'){ R.rideT+=dt; const acc=R.held?95:-70; R.v=clamp(R.v+acc*dt*2.2,-60,70); R.dist=clamp(R.dist+R.v*dt+Math.sin(R.t*3.1)*8*dt,0,260); R.curl=SX-R.dist;
+      const pos=clamp(R.dist/240,0,1), inP=R.dist>=60&&R.dist<=132; if(inP) R.inPocket+=dt;
+      const mk=$('#sfMark'); if(mk) mk.style.left=(100-pos*100).toFixed(1)+'%';
+      const fb=$('#sfFb'); if(fb){ fb.className='fb '+(inP?'good':''); fb.textContent= R.dist<60?'Too close to the lip! Pump!':R.dist>132?'Too far out on the shoulder. Ease off.':'In the pocket!'; }
+      const P=ridePaths(); $w.setAttribute('d',P.d); $lip.setAttribute('d',P.lip); $tube.setAttribute('d',P.tube); $foam.innerHTML=foam(R.curl); $tex.innerHTML=texLines(R.curl);
+      sy=crest(SX)+ (SEA-crest(SX))*.55 + Math.sin(R.t*3)*6; tilt=-14+Math.sin(R.t*3)*8;
+      $wake.setAttribute('d',`M${SX-24} ${(sy+3).toFixed(1)} Q${SX-60} ${(sy+10).toFixed(1)} ${SX-110} ${(sy+4).toFixed(1)}`);
+      if(Math.random()<dt*14) R.fx.push({x:SX-20,y:sy,vx:rnd(-90,-30),vy:rnd(-70,-20),t:0});
+      if(R.dist<18) endRide('lip'); else if(R.dist>230) endRide('shoulder'); else if(R.rideT>=RIDE_T) endRide('done'); }
+    else { /* end: the wave moves on */ if(R.curl!==undefined){ R.curl+=dt*160; const P=ridePaths(); $w.setAttribute('d',P.d); $lip.setAttribute('d',P.lip); $tube.setAttribute('d',P.tube); $foam.innerHTML=foam(R.curl); $tex.innerHTML=''; } $wake.setAttribute('d',''); sy=SEA-2; }
+    R.fx=R.fx.filter(p=>{ p.t+=dt; p.x+=p.vx*dt; p.y+=p.vy*dt; p.vy+=260*dt; return p.t<.8; });
+    $spray.innerHTML=R.fx.map(p=>`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${(2.6-p.t*2.4).toFixed(2)}" fill="#FFFFFF" opacity="${(1-p.t/.8).toFixed(2)}"/>`).join('');
+    $surf.setAttribute('transform',`translate(${sx} ${sy.toFixed(1)})`); $tilt.setAttribute('transform',`rotate(${tilt.toFixed(1)})`); }); }
 
 /* --- ʻOri Tahiti: tap with the tōʻere --- */
 function actOri(el,done){
@@ -1060,7 +1133,7 @@ function openPassport(){ const nW=S.words.length;
     <div class="card flat"><p class="small"><b>ʻĀʻai · Legends heard:</b> ${Object.keys(LEGENDS).filter(k=>S.legends&&S.legends[k]).length} of ${Object.keys(LEGENDS).length}. ${Object.keys(LEGENDS).map(k=>`${S.legends&&S.legends[k]?'✓':'·'} ${LEGENDS[k].t}`).join(' &nbsp; ')}</p></div>
     <div class="stack"><div class="eyebrow">Still to visit</div><div class="soon">${SOON.map(s=>`<div class="card flat"><b>${s[0]}</b><span class="small muted">Coming soon</span></div>`).join('')}</div></div>`); }
 const COLORS=[['#E4583F','ʻUra (red)'],['#2F7FD8','Blue'],['#1AA3B1','Lagoon'],['#3B8C58','Green'],['#E9B93A','Gold'],['#8A5BC4','Violet'],['#1F2F4A','Night']];
-const ACC=[['tiare','Tiare','A flower behind the ear',()=>true],['hei','Hei','Finish Tahiti',()=>ISL.tahiti.acts.every(a=>S.done[a])],['pareu','Pāreu','Finish Moʻorea or print one',()=>ISL.moorea.acts.every(a=>S.done[a])||!!(S.crafts&&S.crafts.pareu)],['titia','Sunglasses','Finish Porapora',()=>ISL.bora.acts.every(a=>S.done[a])],['hat','Tāupoʻo','Weave it in the garden',()=>!!(S.crafts&&S.crafts.hat)],['necklace','Hei poe','String it in the garden',()=>!!(S.crafts&&S.crafts.hei)]];
+const ACC=[['tiare','Tiare','A flower behind the ear',()=>true],['hei','Hei','Finish Tahiti',()=>ISL.tahiti.acts.every(a=>S.done[a])],['pareu','Pāreu','Finish Moʻorea or print one',()=>ISL.moorea.acts.every(a=>S.done[a])||!!(S.crafts&&S.crafts.pareu)],['titia','Sunglasses','Finish Porapora',()=>ISL.bora.acts.every(a=>S.done[a])],['hat','Tāupoʻo','Weave it in the garden',()=>!!(S.crafts&&S.crafts.hat)],['necklace','Hei poe','String it in the garden',()=>!!(S.crafts&&S.crafts.hei)],['stars','Cloak of stars','Learn every star in Te raʻi',()=>Array.isArray(S.sky)&&S.sky.length>=SKY.length]];
 function openManu(confirmReset){
   openSheet(`<div class="shead"><div><div class="eyebrow">My manu</div><h2>${esc(S.name)}</h2></div>${XBTN}</div>
     <div class="birdbox" id="pv">${birdSVG(S,'pv')}</div>
@@ -1502,6 +1575,71 @@ function openLegend(id,fromGarden){ const L=LEGENDS[id]; let p=0; ac();
       $('#lDone').onclick=()=>closeFull(); }; };
   draw(); }
 
+/* ---------- Te raʻi: the sky of the fenua (after Manu Ora) ---------- */
+Object.assign(W,{
+  vaiora:{r:'Te Vaiora', en:'the Milky Way', ph:'teh vah-ee-OH-rah', g:'sky'},
+  anavaru:{r:'ʻAna-varu', en:'Betelgeuse', ph:'AH-nah VAH-roo', g:'sky'},
+  pipiri:{r:'Pīpiri mā', en:'Castor and Pollux', ph:'PEE-pee-ree MAH', g:'sky'},
+  matau:{r:'Te Matau a Māui', en:'Scorpius, the fishhook of Māui', ph:'teh MAH-tow ah MAH-oo-ee', g:'sky'},
+  tauha:{r:'Tauhā', en:'the Southern Cross', ph:'tow-HAH', g:'sky'},
+  namatarua:{r:'Nāmatarua', en:'Alpha and Beta Centauri', ph:'nah-mah-tah-ROO-ah', g:'sky'}
+});
+const SKY=[
+  {id:'vaiora', ty:'Te Vaiora', en:'the Milky Way', sens:'“the water of life”', txt:'The great river of light across the whole sky. Tauhā and Te Matau a Māui both sit on it.', hit:[318,172,30], lab:[322,138,'middle'], pts:[], lines:[]},
+  {id:'matarii', ty:'Matariʻi', en:'the Pleiades', sens:'“the little eyes”', txt:'A tight little group of stars. When it rises at dusk, around 20 November, the season of abundance begins; when it sets, around 20 May, the land rests.', hit:[58,66,26], lab:[58,104,'middle'], pts:[[50,58,2.2],[58,54,2.6],[66,60,2.2],[54,66,2.4],[62,68,2.8],[70,70,2],[58,76,2]], lines:[]},
+  {id:'tautoru', ty:'Tautoru', en:'Orion’s Belt', sens:'“the three”', txt:'Three stars in a neat row, easy to find. They rise almost exactly in the east and set in the west.', hit:[146,170,26], lab:[150,204,'middle'], pts:[[130,162,3],[146,170,3],[162,178,3]], lines:[[0,1],[1,2]]},
+  {id:'anavaru', ty:'ʻAna-varu', en:'Betelgeuse', sens:'one of the ten pillars of the sky', txt:'A big orange star above Tautoru. The ancients counted ten ʻana, pillar stars that hold up the sky.', hit:[112,124,22], lab:[126,128,'start'], pts:[[112,124,4.2,'#FFB070']], lines:[]},
+  {id:'taurua', ty:'Taʻurua-faupapa', en:'Sirius', sens:'the great guide star', txt:'The brightest star of the night. It passes right over Tahiti: it is the island’s ʻaveiʻa, the star that shows navigators where the island is.', hit:[66,262,24], lab:[70,296,'middle'], pts:[[66,262,5.2,'#DCEBFF']], lines:[]},
+  {id:'pipiri', ty:'Pīpiri mā', en:'Castor and Pollux', sens:'Pīpiri and his sister Rehua', txt:'Two stars side by side. The legend tells of two children, Pīpiri and Rehua, who went to live in the sky; you see them together in the cool season.', hit:[226,62,26], lab:[226,100,'middle'], pts:[[214,56,3.2],[238,70,3.4,'#FFE2B8']], lines:[[0,1]]},
+  {id:'matau', ty:'Te Matau a Māui', en:'Scorpius', sens:'“the fishhook of Māui”', txt:'A great hook of stars. The story goes that Māui used it to fish the islands up from the bottom of the ocean.', hit:[272,262,50], lab:[300,328,'middle'], pts:[[250,188,2.8],[241,204,2.8],[237,222,2.8],[242,240,3],[250,260,2.8],[262,280,2.8],[280,292,2.8],[298,288,2.8],[307,274,3],[301,262,2.6]], lines:[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9]]},
+  {id:'anamua', ty:'ʻAna-mua', en:'Antares', sens:'“the pillar of the entrance”', txt:'The red heart of Māui’s fishhook, and the first of the ten pillars of the sky.', hit:[226,230,17], lab:[196,226,'end'], pts:[[232,231,4.6,'#FF7A5C']], lines:[]},
+  {id:'tauha', ty:'Tauhā', en:'the Southern Cross', sens:'“the group of four”', txt:'Four stars in a cross. Its long arm points south: the compass of Polynesian navigators.', hit:[72,404,32], lab:[40,452,'middle'], pts:[[70,374,3.6],[73,434,4],[52,400,3.2],[92,407,3.4]], lines:[[0,1],[2,3]]},
+  {id:'namatarua', ty:'Nāmatarua', en:'Alpha and Beta Centauri', sens:'“the two eyes”', txt:'Two very bright stars looking at Tauhā. Follow their gaze and they lead you to the cross.', hit:[140,452,24], lab:[156,484,'middle'], pts:[[128,446,4.4,'#FFF3C4'],[152,458,3.8]], lines:[[0,1]]},
+  {id:'marama', ty:'Marama', en:'the Moon', sens:'it sets the rhythm of fishing and planting', txt:'Every night of the moon has its own name in Reo Tahiti. Tireo is the first crescent, Hotu and Māraʻi are full-moon nights, and Mutu is the night it disappears.', hit:[312,48,28], lab:[312,92,'middle'], pts:[], lines:[]}
+];
+const PO=['Tireo','Hiro hiti','Hoʻata','Hāmiamia mua','Hāmiamia roto','Hāmiamia muri','ʻOreʻore mua','ʻOreʻore roto','Tamatea','Huna','Rapu','Maharu','ʻŌhua','Māitu','Hotu','Māraʻi','Turu','Rāʻau mua','Rāʻau roto','Rāʻau muri','ʻOreʻore mua','ʻOreʻore roto','ʻOreʻore muri','Taʻaroa mua','Taʻaroa roto','Taʻaroa muri','Tāne','Roʻo nui','Roʻo mauri','Mutu'];
+function moonNight(){ let a=moonAge(Date.now())-1; if(a<0) a+=29.530588853; return Math.min(30,Math.floor(a)+1); }
+function moonName(){ const p=moonAge(Date.now())/29.530588853; return (p<.03||p>.97)?'new moon':p<.22?'waxing crescent':p<.28?'first quarter':p<.47?'waxing gibbous':p<.53?'full moon':p<.72?'waning gibbous':p<.78?'last quarter':'waning crescent'; }
+function bigMoon(cx,cy,r){ const p=moonAge(Date.now())/29.530588853, rx=Math.max(.01,r*Math.abs(Math.cos(2*Math.PI*p))), wax=p<.5; const outer=wax?0:1, term=wax?(p<.25?1:0):(p<.75?1:0);
+  return `<circle cx="${cx}" cy="${cy}" r="${r+7}" fill="#FFF1C4" opacity=".1"/><circle cx="${cx}" cy="${cy}" r="${r}" fill="#243A52"/><path d="M${cx} ${cy-r} A${r} ${r} 0 0 ${outer} ${cx} ${cy+r} A${rx.toFixed(2)} ${r} 0 0 ${term} ${cx} ${cy-r}Z" fill="#FFF1C4"/>`; }
+const SKYST={sel:null, quiz:null, flash:null, done:undefined};
+function skyKnown(){ if(!Array.isArray(S.sky)) S.sky=[]; return S.sky; }
+function skyMapSVG(){ const quiz=!!SKYST.quiz; let h=`<defs>${vgrad('trS','#071426','#12304A',0,520)}</defs><rect width="360" height="520" fill="url(#trS)"/>`;
+  const r=seeded(7); for(let i=0;i<80;i++) h+=`<circle cx="${(r()*360).toFixed(0)}" cy="${(r()*520).toFixed(0)}" r="${(.5+r()*.9).toFixed(1)}" fill="#fff" opacity="${(.25+r()*.4).toFixed(2)}"/>`;
+  h+='<path d="M-20 520 Q160 330 380 120" stroke="#A9C1F0" stroke-opacity=".13" stroke-width="86" fill="none" stroke-linecap="round"/><path d="M-20 520 Q160 330 380 120" stroke="#DCE8FF" stroke-opacity=".12" stroke-width="34" fill="none" stroke-linecap="round"/>';
+  h+='<g data-sky="vaiora" class="tapable"><path d="M-20 520 Q160 330 380 120" stroke="#fff" stroke-opacity="0" stroke-width="64" fill="none" pointer-events="stroke"/></g>';
+  SKY.forEach(o=>{ if(o.id==='vaiora') return; const sel=SKYST.sel===o.id&&!quiz, fl=SKYST.flash&&SKYST.flash.id===o.id;
+    let g=`<g data-sky="${o.id}" class="tapable"><circle cx="${o.hit[0]}" cy="${o.hit[1]}" r="${o.hit[2]}" fill="#fff" fill-opacity="${fl?.16:sel?.08:0}" stroke="${fl?(SKYST.flash.ok?'#62C486':'#FF7A62'):'#FFE9A8'}" stroke-opacity="${fl?1:sel?.9:0}" stroke-width="2"/>`;
+    o.lines.forEach(l=>{ const a=o.pts[l[0]], b=o.pts[l[1]]; g+=`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="#CFE0FF" stroke-opacity=".45" stroke-width="1.2"/>`; });
+    o.pts.forEach(pt=>{ const c=pt[3]||'#FFFFFF'; g+=`<circle cx="${pt[0]}" cy="${pt[1]}" r="${pt[2]*2.4}" fill="${c}" opacity=".16"/><circle cx="${pt[0]}" cy="${pt[1]}" r="${pt[2]}" fill="${c}"/>`; });
+    if(o.id==='marama') g+=bigMoon(312,48,19);
+    h+=g+'</g>'; });
+  if(!quiz) SKY.forEach(o=>{ const k=skyKnown().includes(o.id); h+=`<text x="${o.lab[0]}" y="${o.lab[1]}" text-anchor="${o.lab[2]}" font-family="Fredoka,Nunito,sans-serif" font-weight="600" font-size="12.5" fill="${SKYST.sel===o.id?'#FFE9A8':'#DCE8FF'}" pointer-events="none">${o.ty}${k?' ✓':''}</text>`; });
+  return `<svg viewBox="0 0 360 520" id="skySvg" role="img" aria-label="Map of the night sky" style="width:100%;height:auto;display:block;touch-action:manipulation">${h}</svg>`; }
+function openSky(){ const keep=$('#skyBox')?$('#fullIn .fbody').scrollTop:0; const Q=SKYST.quiz, n=skyKnown().length; let panel;
+  if(Q){ const w=SKY.find(x=>x.id===Q.q[Q.i]); panel=`<div class="card"><div class="eyebrow">Question ${Q.i+1} of ${Q.q.length} · ${Q.score} found first time</div><h3>Where is ${w.ty}?</h3><p class="small muted">${Q.msg||('Hint: '+w.en+', '+w.sens+'.')}</p><button class="btn sm ghost" data-skyb="stop">Stop the game</button></div>`; }
+  else { const o=SKY.find(x=>x.id===SKYST.sel);
+    const info=o?`<div class="card"><div class="eyebrow">${o.en} · ${o.sens}</div><h3 class="reo">${o.ty}</h3><p class="small">${o.txt}</p></div>`:'<div class="card flat"><p class="small">Tap a star or a group of stars to learn its name in Reo Tahiti and its story.</p></div>';
+    const dn=typeof SKYST.done==='number'?`<div class="card flat"><p><b>${SKYST.done} of 5</b> found first time. ${SKYST.done>=4?'You read the sky like a navigator!':'Look at the map again, then play once more.'}</p></div>`:'';
+    panel=`${dn}${info}<button class="btn primary" data-skyb="quiz">Play: find the star</button><p class="small muted" style="text-align:center">You know ${n} of ${SKY.length} stars.${n<SKY.length?' Learn them all to give your manu a cloak of stars.':' Your manu can wear its cloak of stars.'}</p>`; }
+  const nn=moonNight();
+  const html=`<div class="fhead"><div><div class="eyebrow">The sky of the fenua</div><h2>Te raʻi</h2></div>${XBTN}</div>
+    <div class="fbody"><div id="skyBox" class="stack" style="gap:12px"><div class="art">${skyMapSVG()}</div>${panel}
+    <div class="card flat"><div class="row" style="flex-wrap:nowrap;gap:12px"><svg viewBox="0 0 60 60" style="width:56px;height:56px;flex:none" aria-hidden="true"><rect width="60" height="60" rx="14" fill="#0B1C2E"/>${bigMoon(30,30,19)}</svg><div style="min-width:0"><div class="eyebrow">Marama · the moon tonight</div><b>${moonName()}</b><div class="small muted">Night ${nn} of the moon: <b class="reo">${PO[nn-1]}</b></div></div></div></div>
+    <div class="card flat"><div class="eyebrow">Steering by the stars</div><p class="small">Navigators followed star paths. Each island has its <b>ʻaveiʻa</b>, a star that passes right over it: for Tahiti, Taʻurua-faupapa. Try it yourself on a voyage between the islands.</p></div>
+    <p class="small muted">A simplified map: the shapes are right, the distances are not, and not all these stars are up on the same night. Names vary between islands and sources.</p></div></div>`;
+  if($('#skyBox')) $('#fullIn').innerHTML=html; else openFull(html);
+  $('#fullIn [data-close]').onclick=()=>{ SKYST.quiz=null; SKYST.flash=null; SKYST.done=undefined; closeFull(); };
+  $('#fullIn .fbody').scrollTop=keep;
+  $('#skyBox').addEventListener('click',e=>{ const b=e.target.closest('[data-skyb]'); if(b){ if(b.dataset.skyb==='quiz'){ SKYST.quiz={q:shuffle(SKY.map(o=>o.id)).slice(0,5),i:0,score:0,miss:false,msg:''}; SKYST.sel=null; SKYST.done=undefined; } else { SKYST.quiz=null; } openSky(); return; }
+    const g=e.target.closest('[data-sky]'); if(!g) return; const id=g.getAttribute('data-sky'); ac();
+    if(SKYST.quiz) skyAnswer(id); else { SKYST.sel=id; SKYST.done=undefined; sfx('tap'); openSky(); } }); }
+function skyAnswer(id){ const Q=SKYST.quiz; if(!Q||SKYST.flash) return; const want=Q.q[Q.i], o=SKY.find(x=>x.id===id), w=SKY.find(x=>x.id===want);
+  if(id===want){ if(!Q.miss){ Q.score++; const k=skyKnown(); if(!k.includes(want)){ k.push(want); learn(want==='marama'?'marama':want,true); save(); if(k.length===SKY.length){ S.acc.stars=true; save(); later(()=>toast('You know the whole sky: your manu’s <b>cloak of stars</b> is ready!',3800),1200); } } }
+    Q.msg=`Yes! ${w.ty}, ${w.en}.`; SKYST.flash={id,ok:true}; sfx('good'); openSky();
+    later(()=>{ SKYST.flash=null; Q.i++; Q.miss=false; Q.msg=''; if(Q.i>=Q.q.length){ const sc=Q.score; SKYST.quiz=null; SKYST.done=sc; if(!S.skyGift && sc>=3){ S.skyGift=true; addSeeds(2); save(); later(()=>toast('A gift from the sky: 2 seeds for your faʻaʻapu'),600); } } if($('#skyBox')) openSky(); },1100); }
+  else { Q.miss=true; Q.msg=`Close. That one is ${o.ty} (${o.en}). Keep looking.`; SKYST.flash={id,ok:false}; sfx('bad'); openSky(); later(()=>{ SKYST.flash=null; if($('#skyBox')) openSky(); },900); } }
+
 /* ---------- start ---------- */
 $('#dMap').onclick=()=>{ ac(); MAPSEL=null; openMap(); };
 $('#dWords').onclick=()=>{ ac(); openWords(); };
@@ -1509,12 +1647,13 @@ $('#dPass').onclick=()=>{ ac(); openPassport(); };
 $('#dManu').onclick=()=>{ ac(); openManu(); };
 $('#dGarden').onclick=()=>{ ac(); openGarden(); };
 $('#infoBtn').onclick=openInfo;
+$('#skyBtn').onclick=()=>{ ac(); SKYST.sel=null; SKYST.quiz=null; SKYST.done=undefined; openSky(); };
 $('#soundBtn').onclick=()=>{ S.sound=!S.sound; save(); renderHeader(); if(S.sound){ ac(); sfx('tap'); } };
 renderAll();
 B.y=groundY(); { const [a,b]=walkRange(); B.x=(a+b)/2; } place();
 requestAnimationFrame(loop);
 let rT=null; window.addEventListener('resize',()=>{ clearTimeout(rT); rT=setTimeout(()=>{ renderPins(); const [a,b]=walkRange(); B.x=clamp(B.x,a,b); if(B.state!=='fly') B.y=groundY(); },120); });
-if(location.hash==='#dev') window.MT={state:()=>S, openAct, finishAct, startVoyage, openMap, openWords, openPassport, openManu, openInfo, closeFull, openGarden, openCraft, openLegend, G, addSeeds, bagAdd, island:i=>{ S.island=i; if(!S.visited.includes(i)) S.visited.push(i); save(); closeFull(); renderAll(); }};
+if(location.hash==='#dev') window.MT={state:()=>S, birdSVG, openAct, finishAct, startVoyage, openMap, openWords, openPassport, openManu, openInfo, closeFull, openGarden, openSky, openCraft, openLegend, G, addSeeds, bagAdd, island:i=>{ S.island=i; if(!S.visited.includes(i)) S.visited.push(i); save(); closeFull(); renderAll(); }};
 if(!S.onboarded) openWelcome();
 else later(()=>bubble(W.iaorana.r+'!','Welcome back to '+ISL[S.island].en+'.'),900);
 
