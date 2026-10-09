@@ -2,7 +2,7 @@
 
 A voyaging bird that takes visitors around the islands of French Polynesia. It is in English, with Reo Māʻohi words throughout, and is a sister app to Manu Ora.
 
-**Prototype, version 0.4.** Three islands (Tahiti, Moʻorea, Porapora / Bora Bora), a star-navigation voyage between them, nine activities, five legends, a faʻaʻapu with four crafts, a passport and a word list.
+**Prototype, version 0.5.** Three islands (Tahiti, Moʻorea, Porapora / Bora Bora), a star-navigation voyage between them, nine activities, five legends, a faʻaʻapu with four crafts, a passport and a word list.
 
 ## Put it online (GitHub Pages)
 
@@ -14,6 +14,8 @@ A voyaging bird that takes visitors around the islands of French Polynesia. It i
 `sw.js` lets the installed app open without a connection. It always fetches the newest page first, so an update shows after a reload. When you publish a new version, change `VERSION` at the top of `sw.js`.
 
 ## What's inside
+
+- **Arrival:** after the welcome screen, a twin-engine long-haul jet (drawn after the Boeing 787-9 profile, with an original Manu Tere livery) approaches Faʻaʻā at sunset. It lowers its landing gear, flares, touches down with tyre smoke and rolls out past the control tower to the terminal. A Skip button jumps straight to Tahiti.
 
 | Island | Activities |
 |---|---|
