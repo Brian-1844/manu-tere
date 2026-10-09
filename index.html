@@ -98,8 +98,8 @@ p{margin:0}
 .pin.done .ic::after{display:none}
 .pin small{display:block;font-family:var(--body);font-weight:400;font-size:.72rem;color:var(--muted)}
 @keyframes ping{0%{transform:scale(.8);opacity:.8}80%,100%{transform:scale(1.5);opacity:0}}
-.dock{display:grid;grid-template-columns:repeat(4,1fr);background:var(--surface);border-top:1.5px solid var(--line);position:relative;z-index:5}
-.dock button{border:0;background:none;padding:9px 4px 8px;display:flex;flex-direction:column;align-items:center;gap:2px;font-family:var(--display);font-weight:600;font-size:.8rem;color:var(--fg);min-height:58px}
+.dock{display:grid;grid-template-columns:repeat(5,1fr);background:var(--surface);border-top:1.5px solid var(--line);position:relative;z-index:5}
+.dock button{border:0;background:none;padding:9px 2px 8px;display:flex;flex-direction:column;align-items:center;gap:2px;font-family:var(--display);font-weight:600;font-size:.76rem;min-width:0;color:var(--fg);min-height:58px}
 .dock button small{font-family:var(--body);font-weight:400;font-size:.68rem;color:var(--muted)}
 .dock svg{width:23px;height:23px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
@@ -174,7 +174,7 @@ p{margin:0}
 .card{background:var(--surface);border-radius:var(--r);padding:14px 16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px;min-width:0}
 .card.flat{box-shadow:none;border:1.5px solid var(--line)}
 .art{width:100%;border-radius:var(--r);overflow:hidden;position:relative;background:#0E4C6B;flex:none}
-.art svg{display:block;width:100%;height:auto}
+.art>svg{display:block;width:100%;height:auto}
 .prog{display:flex;gap:6px;align-items:center}
 .prog i{width:12px;height:12px;border-radius:50%;background:var(--line);display:block}
 .prog i.on{background:var(--sunset)}
@@ -287,6 +287,58 @@ input[type=text]{width:100%;border:1.5px solid var(--line);border-radius:12px;pa
 @keyframes tIn{from{opacity:0;transform:translate(-50%,-8px)}to{opacity:1;transform:translate(-50%,0)}}
 .toast b{font-family:var(--display);font-weight:600}
 
+/* legends and shells on the island */
+.pin.legend .ic{background:var(--gold)}
+.pin.legend .ic::after{border-color:var(--gold)}
+.pin.legend.done .ic{background:var(--gold)}
+.pin.legend.done .ic::after{display:none}
+.shell{position:absolute;left:0;top:0;width:36px;height:36px;margin:-18px 0 0 -18px;border:0;background:none;padding:0;pointer-events:auto;filter:drop-shadow(0 2px 2px rgba(0,0,0,.25))}
+.shell svg{width:100%;height:100%;display:block}
+
+/* faʻaʻapu */
+.gsky{gap:10px}
+.seasonic{width:30px;text-align:center;font-size:1.2rem;color:var(--gold);flex:none}
+.plots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.plot{border:1.5px solid var(--line);background:var(--surface);border-radius:16px;padding:6px 4px 8px;display:flex;flex-direction:column;align-items:center;gap:1px;min-height:142px;justify-content:flex-end;min-width:0}
+.plot svg{width:100%;max-width:100px;height:auto}
+.plot b{font-family:var(--display);font-weight:600;color:var(--reo);font-size:.95rem}
+.plot .t{color:var(--muted)}
+.plot.empty{border-style:dashed;justify-content:center;color:var(--muted)}
+.plot.empty.on{border-color:var(--btn);border-style:solid;box-shadow:inset 0 0 0 2px var(--btn)}
+.plot.ripe{border-color:var(--fern);box-shadow:inset 0 0 0 2px var(--fern)}
+.plot.ripe .t{color:var(--fern);font-weight:700}
+.pl-plus{font-size:2rem;font-family:var(--display);line-height:1}
+.seeds{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
+.seed{border:1.5px solid var(--line);background:var(--surface);border-radius:14px;padding:6px;display:flex;flex-direction:column;align-items:center;gap:1px;text-align:center;min-width:0}
+.seed .sthumb{width:60px;height:62px;display:block}
+.seed .sthumb svg{width:100%;height:100%}
+.seed b{font-family:var(--display);font-weight:600;color:var(--reo)}
+.oysters{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.oyster{border:1.5px solid var(--line);background:var(--surface-2);border-radius:14px;padding:6px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.oyster svg{width:60px;height:40px}
+.oyster.ripe{border-color:var(--gold);box-shadow:inset 0 0 0 2px var(--gold)}
+.pearl{display:inline-block;width:18px;height:18px;border-radius:50%;box-shadow:inset -3px -3px 5px rgba(0,0,0,.35),inset 3px 3px 5px rgba(255,255,255,.35)}
+.crafts{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.ctile{border:1.5px solid var(--line);background:var(--surface);border-radius:16px;padding:10px;display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;min-width:0;color:var(--fg)}
+.ctile:not(:disabled){border-color:var(--btn)}
+.ctile:disabled{cursor:default}
+.ctile:disabled .cth{opacity:.6}
+.ctile b{font-family:var(--display);font-weight:600}
+.ctile .cth{width:100%;height:54px;display:flex;align-items:center;justify-content:center;margin-bottom:4px}
+.cth svg{height:100%;width:auto;max-width:100%}
+.cbig{width:220px;max-width:100%;margin:0 auto}
+.cbig svg{width:100%;height:auto;display:block}
+.dot{display:inline-block;width:12px;height:12px;border-radius:50%;border:1px solid rgba(0,0,0,.2);flex:none}
+.bead{border:1.5px solid var(--line);background:var(--surface);border-radius:12px;min-width:44px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:4px;padding:4px 8px}
+.bead:disabled{opacity:.35}
+.bead .pearl{width:24px;height:24px}
+.wv{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:8px;background:var(--surface-2);font-size:.9rem}
+.wv.done{opacity:.4}
+.wv.cur{background:var(--sunset);color:#FFFFFF}
+.pcrafts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.pcrafts .c{display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;min-width:0}
+.pcrafts svg{width:100%;height:44px}
+
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation-duration:.001s !important;animation-iteration-count:1 !important;transition:none !important}
 }
@@ -313,6 +365,7 @@ input[type=text]{width:100%;border:1.5px solid var(--line);border-radius:12px;pa
   </main>
   <nav class="dock" aria-label="Main">
     <button id="dMap"><svg viewBox="0 0 24 24"><path d="M3 6.5 9 4l6 2.5L21 4v13.5L15 20l-6-2.5L3 20Z"/><path d="M9 4v13.5M15 6.5V20"/></svg>Islands<small>Fenua</small></button>
+    <button id="dGarden"><svg viewBox="0 0 24 24"><path d="M12 21v-8"/><path d="M12 13c0-4 3-7 7-7 0 4-3 7-7 7Z"/><path d="M12 15c0-3-2.5-5.5-6-5.5 0 3 2.5 5.5 6 5.5Z"/><path d="M5 21h14"/></svg>Garden<small>Faʻaʻapu</small></button>
     <button id="dWords"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4Z"/><path d="M8 9h8M8 12.5h5"/></svg>Words<small>Parau</small></button>
     <button id="dPass"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><circle cx="12" cy="10.5" r="3.2"/><path d="M8.5 17h7"/></svg>Passport<small>Stamps</small></button>
     <button id="dManu"><svg viewBox="0 0 24 24"><path d="M5 13c0-4 3-7 7-7 3 0 5 2 6 4l3 1-3 1c-1 3-3 6-7 6-4 0-6-2-6-5Z"/><circle cx="15" cy="9.5" r=".6"/><path d="M5 13 2 11l1 4"/></svg>My manu<small>Manu</small></button>
@@ -335,7 +388,7 @@ const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 
 /* ---------- saved progress (this phone only) ---------- */
 const KEY='manutere.v1';
-const DEF={name:'Tere', body:'#E4583F', belly:'#F6F1E7', acc:{tiare:true,hei:false,pareu:false,titia:false}, island:'tahiti', visited:[], done:{}, words:[], sound:true, onboarded:false, voyages:0, best:{}};
+const DEF={name:'Tere', body:'#E4583F', belly:'#F6F1E7', acc:{tiare:true,hei:false,pareu:false,titia:false}, island:'tahiti', visited:[], done:{}, words:[], sound:true, onboarded:false, voyages:0, best:{}, garden:null, crafts:{}, legends:{}, shell:null};
 function load(){ try{ const raw=localStorage.getItem(KEY); if(raw){ const o=JSON.parse(raw); return Object.assign(JSON.parse(JSON.stringify(DEF)),o,{acc:Object.assign({},DEF.acc,o.acc||{})}); } }catch(e){} return JSON.parse(JSON.stringify(DEF)); }
 let S=load();
 function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
@@ -453,18 +506,19 @@ function wingSVG(body){ const wl=LOOK.wl, F=wl*1.5; const px=44+wl*.8, py=66-wl*
 function accParts(c){ const a=c.acc||{};
   const hei = a.hei ? ['#FFF4C2','#F28CB1','#F0A23A','#FFF4C2','#F28CB1','#F0A23A','#FFF4C2'].map((col,i)=>{ const t=(200+i*24)*Math.PI/180; return `<circle cx="${(82+18*Math.cos(t)).toFixed(1)}" cy="${(46+18*Math.sin(t)).toFixed(1)}" r="3.4" fill="${col}" stroke="#3B8C58" stroke-width=".8"/>`; }).join('') : '';
   const pet=(r,fill,stroke)=>[0,72,144,216,288].map(t=>`<circle cx="${(4.6*Math.cos(t*Math.PI/180)).toFixed(1)}" cy="${(4.6*Math.sin(t*Math.PI/180)).toFixed(1)}" r="${r}" fill="${fill}" stroke="${stroke}" stroke-width=".6"/>`).join('');
-  const flower = a.tiare && !a.hei ? `<g transform="translate(66 36)">${pet(3.6,'#FFF9EE','#E8D9B5')}<circle r="2.2" fill="#F2C94C"/></g>` : '';
+  const flower = a.tiare && !a.hei && !(a.hat&&c.crafts&&c.crafts.hat) ? `<g transform="translate(66 36)">${pet(3.6,'#FFF9EE','#E8D9B5')}<circle r="2.2" fill="#F2C94C"/></g>` : '';
   const titia = a.titia ? `<g><line x1="83" y1="40" x2="66" y2="38" stroke="#10202A" stroke-width="2" stroke-linecap="round"/><rect x="82" y="37" width="15" height="9.5" rx="3.6" fill="#10202A"/><line x1="85" y1="39.6" x2="90" y2="39.6" stroke="#fff" stroke-width="1" opacity=".55" stroke-linecap="round"/></g>` : '';
-  return {top:hei+flower, eyes:titia}; }
+  const cr=c.crafts||{}; const hat=a.hat&&cr.hat?hatSVG(c,cr.hat.band):''; const neck=a.necklace&&cr.hei?neckSVG(cr.hei.beads):'';
+  return {top:(hat?'':hei+flower)+hat, eyes:titia, neck, bare:!!(hat||a.hei)}; }
 function birdSVG(c,id){
   const L=LOOK, wing=shade(c.body,.78), A=accParts(c);
   const pareu = c.acc && c.acc.pareu ? `<rect x="18" y="74" width="72" height="30" fill="url(#${id}-pareu)" clip-path="url(#${id}-clip)"/><path d="M26 74 L84 74" stroke="#FFF6E3" stroke-width="2"/>` : '';
-  return `<svg viewBox="0 0 120 110" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><pattern id="${id}-pareu" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#1AA3B1"/><circle cx="4" cy="4" r="1.6" fill="#FFF6E3"/></pattern><clipPath id="${id}-clip"><ellipse cx="55" cy="68" rx="30" ry="24"/></clipPath></defs>
+  return `<svg viewBox="0 0 120 110" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><pattern id="${id}-pareu" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="${(c.crafts&&c.crafts.pareu)?c.crafts.pareu.c:'#1AA3B1'}"/><circle cx="4" cy="4" r="1.6" fill="#FFF6E3"/></pattern><clipPath id="${id}-clip"><ellipse cx="55" cy="68" rx="30" ry="24"/></clipPath></defs>
     <g class="tail"><g transform="translate(30 71) scale(${L.tl} 1) translate(-30 -71)"><polygon points="30,69 -4,66 -2,71 -4,76 30,73" fill="${wing}"/><polygon points="30,66 4,56 10,74 4,86 30,76" fill="${wing}"/><polygon points="30,70 12,66 14,80 30,76" fill="${c.body}"/></g></g>
     <g class="legs"><g class="leg l1"><line x1="48" y1="88" x2="46" y2="103" stroke="#F0A23A" stroke-width="3" stroke-linecap="round"/><polyline points="38,104 46,103 54,105" fill="none" stroke="#F0A23A" stroke-width="3" stroke-linecap="round"/></g><g class="leg l2"><line x1="58" y1="88" x2="60" y2="103" stroke="#D98B2B" stroke-width="3" stroke-linecap="round"/><polyline points="52,104 60,103 68,105" fill="none" stroke="#D98B2B" stroke-width="3" stroke-linecap="round"/></g></g>
     <g class="body"><ellipse cx="55" cy="68" rx="30" ry="24" fill="${c.body}"/><ellipse cx="60" cy="74" rx="18" ry="14" fill="${c.belly}"/>${pareu}</g>
     <g class="wing">${wingSVG(c.body)}</g>
-    <g class="head">${(!(c.acc&&c.acc.hei))?[[76,31,69,16,80,27],[80,30,77,12,86,26]].map((q,i)=>`<polygon points="${q[0]},${q[1]} ${q[2]},${q[3]} ${q[4]},${q[5]}" fill="${i%2?wing:c.body}" stroke="${wing}" stroke-width=".6"/>`).join(''):''}<circle cx="82" cy="46" r="18" fill="${c.body}"/><circle cx="84" cy="52" r="9" fill="${c.belly}" opacity=".9"/><polygon points="98,45 114,50 98,55" fill="#F0A23A"/><circle cx="92" cy="50" r="3.6" fill="#F28CB1" opacity=".6"/><g class="eye"><circle cx="89" cy="42" r="${L.er}" fill="#10303B"/><circle cx="${(89+L.er*.36).toFixed(1)}" cy="${(42-L.er*.36).toFixed(1)}" r="${(L.er*.33).toFixed(1)}" fill="#fff"/></g>${A.top}${A.eyes}</g>
+    <g class="head">${!A.bare?[[76,31,69,16,80,27],[80,30,77,12,86,26]].map((q,i)=>`<polygon points="${q[0]},${q[1]} ${q[2]},${q[3]} ${q[4]},${q[5]}" fill="${i%2?wing:c.body}" stroke="${wing}" stroke-width=".6"/>`).join(''):''}<circle cx="82" cy="46" r="18" fill="${c.body}"/><circle cx="84" cy="52" r="9" fill="${c.belly}" opacity=".9"/><polygon points="98,45 114,50 98,55" fill="#F0A23A"/><circle cx="92" cy="50" r="3.6" fill="#F28CB1" opacity=".6"/><g class="eye"><circle cx="89" cy="42" r="${L.er}" fill="#10303B"/><circle cx="${(89+L.er*.36).toFixed(1)}" cy="${(42-L.er*.36).toFixed(1)}" r="${(L.er*.33).toFixed(1)}" fill="#fff"/></g>${A.top}${A.eyes}</g>${A.neck}
   </svg>`; }
 function logoSVG(){ const c=S.body; return `<svg viewBox="0 0 40 40"><rect width="40" height="40" fill="#0E4C6B"/><path d="M0 30 Q10 26 20 30 T40 30 V40 H0Z" fill="#1AA3B1"/><circle cx="18" cy="19" r="9" fill="${c}"/><circle cx="19" cy="22" r="4.5" fill="${S.belly}" opacity=".9"/><polygon points="26,18 33,20.5 26,23" fill="#F0A23A"/><circle cx="21.5" cy="17" r="2.1" fill="#10303B"/><circle cx="22.2" cy="16.3" r=".7" fill="#fff"/><circle cx="33" cy="8" r="1.4" fill="#F5D46A"/></svg>`; }
 
@@ -539,7 +593,7 @@ function sceneTahiti(){
 function sceneMoorea(){
   return skyG('mSky','#9AD6F0','#EEF8F3',440)+`<defs>${vgrad('mLag','#2EC3C6','#9EE8DE',440,530)}</defs>`
   +sunG(72,96)+cloudG(130,.9,-8)+cloudG(186,.6,-34)
-  +`<path d="M-400 396 L-20 376 L20 304 L44 322 L70 236 L88 266 L108 154 L118 186 L132 136 L146 214 L170 190 L198 252 L224 172 L246 154 L262 176 L290 266 L322 240 L360 304 L760 384 V480 H-400Z" fill="#79B497"/>`
+  +`<path d="M-400 396 L-20 376 L20 304 L44 322 L70 236 L88 266 L108 154 L118 186 L132 136 L146 214 L170 190 L198 252 L224 172 L246 154 L262 176 L290 266 L322 240 L360 304 L760 384 V480 H-400Z" fill="#79B497"/><ellipse cx="243" cy="170" rx="4.2" ry="3.4" fill="#C2E6F1"/>`
   +`<path d="M-400 436 L0 408 L40 356 L86 396 L140 344 L196 400 L250 356 L300 396 L360 370 L760 424 V480 H-400Z" fill="#4C9A6C"/>`
   +`<path d="M30 416 L50 376 L152 368 L144 414Z" fill="#A85A38"/>`+[0,1,2,3].map(r=>Array.from({length:7},(_,i)=>{ const x=50+i*13.6-r*4.2+ (r*2), y=382+r*9; return `<g transform="translate(${x.toFixed(1)} ${y})"><ellipse cx="0" cy="0" rx="2.6" ry="3.4" fill="#E9B93A"/><path d="M0 -3 l-3 -4 M0 -3 l0 -5 M0 -3 l3 -4" stroke="#3B8C58" stroke-width="1.4" stroke-linecap="round"/></g>`; }).join('')).join('')
   +`<rect x="-400" y="430" width="1160" height="14" fill="#1C6E9A"/><path d="M-400 444 ${Array.from({length:40},()=> 'l14 -3 l14 3').join(' ')}" fill="none" stroke="#fff" stroke-width="2.4" opacity=".85" class="sc-foam"/>`
@@ -555,6 +609,7 @@ function sceneBora(){
   const stars=[[262,70,1.4],[300,100,2.4],[330,62,1.2],[244,118,1.1],[318,140,1.6],[276,150,1]].map((s,i)=>`<circle class="sc-twinkle" style="animation-delay:${-i*.5}s" cx="${s[0]}" cy="${s[1]}" r="${s[2]}" fill="#FFF6D8"/>`).join('');
   return skyG('bSky','#3E79B4','#FCD3A6',410)+`<defs>${vgrad('bLag','#22BCC2','#A8EFE4',404,548)}</defs>`
   +stars+sunG(70,262,'#FFE2B0','#FFD27A')+cloudG(214,.8,-14)
+  +['#E4583F','#F0A23A','#F2C94C','#3B8C58','#1AA3B1','#5B6FB8'].map((c,i)=>`<path d="M${196+i*5} 398 A${64-i*5} ${92-i*5} 0 0 1 ${324-i*5} 398" fill="none" stroke="${c}" stroke-width="4.5" opacity=".32"/>`).join('')
   +`<path d="M30 432 Q86 382 128 374 Q160 368 178 380 L318 384 Q352 400 384 432 Z" fill="#5E9B74"/>`
   +`<path d="M148 396 L158 334 L164 268 L169 222 L177 198 L193 190 L205 198 L209 244 L214 304 L226 396 Z" fill="#46765D"/><path d="M193 190 L205 198 L209 244 L214 304 L226 396 L206 396 L201 300 L198 232 Z" fill="#355E4A"/>`
   +`<path d="M210 396 L238 320 L252 304 L266 322 L300 396 Z" fill="#4E8466"/>`
@@ -769,12 +824,13 @@ function injectCSS(id,css){ if(CSS_DONE[id]) return; CSS_DONE[id]=1; const s=doc
 function openAct(id){ const A=ACTS[id], I=ISL[A.isl]; ac();
   openFull(`<div class="fhead"><div><div class="eyebrow">${I.r} · ${A.en}</div><h2 class="reo">${A.r}</h2></div>${XBTN}</div><div class="fbody" id="ab"></div>`);
   A.run($('#ab'), extra=>finishAct(id,extra)); }
-function finishAct(id,extra){ const A=ACTS[id], I=ISL[A.isl]; const wasDone=I.acts.every(a=>S.done[a]); S.done[id]=true; learn(A.words,true); const nowDone=I.acts.every(a=>S.done[a]); const unlocked=nowDone&&!wasDone; if(unlocked){ S.acc[I.reward]=true; if(I.reward==='hei') S.acc.tiare=false; } save(); clearRun(); sfx('stamp');
+function finishAct(id,extra){ const A=ACTS[id], I=ISL[A.isl]; const wasDone=I.acts.every(a=>S.done[a]); const seeds=S.done[id]?[]:addSeeds(2); S.done[id]=true; learn(A.words,true); const nowDone=I.acts.every(a=>S.done[a]); const unlocked=nowDone&&!wasDone; if(unlocked){ S.acc[I.reward]=true; if(I.reward==='hei') S.acc.tiare=false; } save(); clearRun(); sfx('stamp');
   const ab=$('#ab'); ab.scrollTop=0; const r=document.createElement('div'); r.className='result';
   r.innerHTML=`<div class="eyebrow" style="text-align:center;margin-top:8px">${A.en}</div><h2 style="text-align:center"><span class="reo">Māuruuru!</span> Well done.</h2>
     <svg class="stamp" viewBox="-60 -60 120 120" aria-hidden="true"><g transform="rotate(-8)"><circle r="52" fill="none" stroke="${I.color}" stroke-width="3"/><circle r="44" fill="${I.color}" opacity=".1"/><g transform="translate(-24 -26) scale(2)" fill="none" stroke="${I.color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ICON[A.icon]}</g><text y="38" text-anchor="middle" font-family="Fredoka,Nunito,sans-serif" font-weight="600" font-size="10" fill="${I.color}" letter-spacing="1">${I.r.toUpperCase()}</text></g></svg>
     ${extra?`<p style="text-align:center">${extra}</p>`:''}
     ${unlocked?`<div class="card" style="align-items:center;text-align:center"><div class="eyebrow">${I.r} complete</div><div class="birdbox">${birdSVG(S,'rw')}</div><p>Your manu now wears ${REWARD[I.reward]}. You can change it in <b>My manu</b>.</p></div>`:''}
+    ${seeds.length?`<div class="card flat"><div class="eyebrow">For your faʻaʻapu</div><p class="small">2 seeds: <b>${seeds.map(k=>BAGN[k]).join('</b> and <b>')}</b>. Plant them in the garden.</p></div>`:''}
     <div class="card flat"><div class="eyebrow">Did you know?</div><p class="small">${A.fact}</p></div>
     <div class="stack"><div class="eyebrow">Words from this activity</div><div class="chips">${A.words.map(w=>`<span class="wchip"><b>${W[w].r}</b><span>${W[w].en}</span>${spkBtn(w)}</span>`).join('')}</div></div>
     <div class="row"><button class="btn primary" id="rBack" style="flex:1">Back to ${I.en}</button><button class="btn ghost" id="rAgain">Play again</button></div>`;
@@ -809,7 +865,7 @@ function actMarket(el,done){
 
 /* --- Faʻaheʻe: catch a wave at Teahupoʻo --- */
 function actSurf(el,done){
-  el.innerHTML=`<div class="art"><svg viewBox="0 0 360 260" aria-hidden="true"><defs>${vgrad('sfS','#8CCFEA','#E3F4F2',0,140)}${vgrad('sfW','#8BE3E6','#1C93AA',104,206)}${vgrad('sfO','#1A8FA8','#0E5E7A',140,260)}</defs><rect width="360" height="260" fill="url(#sfS)"/><path d="M-10 150 L30 96 L70 120 L120 70 L170 118 L220 90 L270 128 L320 104 L370 150Z" fill="#4F9E72"/><rect y="146" width="360" height="114" fill="url(#sfO)"/><path id="sfWave" fill="url(#sfW)"/><path id="sfLip" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".95"/><g id="sfBird"><g transform="translate(-22 -40) scale(.4)">${birdSVG(S,'sf')}</g><ellipse cx="2" cy="3" rx="20" ry="3.4" fill="#F2C94C" stroke="#C99A1C" stroke-width="1.2"/></g></svg></div>
+  el.innerHTML=`<div class="art"><svg viewBox="0 0 360 260" aria-hidden="true"><defs>${vgrad('sfS','#8CCFEA','#E3F4F2',0,140)}${vgrad('sfW','#8BE3E6','#1C93AA',104,206)}${vgrad('sfO','#1A8FA8','#0E5E7A',140,260)}</defs><rect width="360" height="260" fill="url(#sfS)"/><path d="M-10 150 L30 96 L70 120 L120 70 L170 118 L220 90 L270 128 L320 104 L370 150Z" fill="#4F9E72"/><rect y="146" width="360" height="114" fill="url(#sfO)"/><path id="sfWave" fill="url(#sfW)"/><path id="sfLip" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".95"/><g id="sfBird"><g transform="translate(-27 -47) scale(.45)">${birdSVG(S,'sf').replace('<svg ','<svg width="120" height="110" ')}</g><ellipse cx="2" cy="3" rx="20" ry="3.4" fill="#F2C94C" stroke="#C99A1C" stroke-width="1.2"/></g></svg></div>
     <div class="card"><p class="small">Watch the swell come in. Tap <b>Paddle</b> when the wave is just behind your manu, inside the green zone.</p><div class="meter" aria-hidden="true"><div class="z" id="sfZone"></div><div class="m" id="sfMark"></div></div><div class="row" style="justify-content:space-between"><span class="fb" id="sfFb" aria-live="polite">Waiting for a set…</span><span class="prog" id="sfProg">${prog(0,3)}</span></div></div>
     <button class="btn sun" id="sfGo" style="min-height:64px;font-size:1.15rem">Paddle! · <span>Hoe!</span></button>`;
   const wave=$('#sfWave'), lip=$('#sfLip'), bird=$('#sfBird'), fb=$('#sfFb'), zone=$('#sfZone'), mark=$('#sfMark');
@@ -978,7 +1034,9 @@ function actStars(el,done){
 function renderScene(){ const sc=$('#scene'); if(sc.dataset.i!==S.island){ sc.innerHTML=ISL[S.island].scene(); sc.dataset.i=S.island; } }
 function renderPins(){ const I=ISL[S.island], g=geom(), box=$('#pins');
   box.innerHTML=I.acts.map(id=>{ const A=ACTS[id]; return `<button class="pin${S.done[id]?' done':''}" data-a="${id}" aria-label="${A.en}${S.done[id]?', done':''}"><span class="ic"><svg viewBox="0 0 24 24">${S.done[id]?'<path d="M5 12.5l4.5 4.5L19 7.5"/>':ICON[A.icon]}</svg></span><span>${A.r}<small>${A.en}</small></span></button>`; }).join('');
-  $$('.pin',box).forEach(b=>{ const A=ACTS[b.dataset.a]; const w=b.offsetWidth, h=b.offsetHeight; const x=clamp(g.vx(A.at[0]),w/2+8,g.W-w/2-8), y=clamp(g.vy(A.at[1]),h/2+8,g.H-h/2-8); b.style.left=x+'px'; b.style.top=y+'px'; b.onclick=()=>openAct(b.dataset.a); }); }
+  Object.keys(LEGENDS).filter(k=>LEGENDS[k].isl===S.island).forEach(k=>{ const L=LEGENDS[k], heard=S.legends&&S.legends[k]; box.insertAdjacentHTML('beforeend',`<button class="pin legend${heard?' done':''}" data-l="${k}" aria-label="Legend: ${L.t}${heard?', heard':''}"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 5.5C6.5 4.5 9.5 4.5 12 6c2.5-1.5 5.5-1.5 8-.5V19c-2.5-1-5.5-1-8 .5-2.5-1.5-5.5-1.5-8-.5Z"/><path d="M12 6v13.5"/></svg></span><span>ʻĀʻai<small>${L.t}</small></span></button>`); });
+  $$('.pin',box).forEach(b=>{ const A=b.dataset.a?ACTS[b.dataset.a]:LEGENDS[b.dataset.l]; const w=b.offsetWidth, h=b.offsetHeight; const x=clamp(g.vx(A.at[0]),w/2+8,g.W-w/2-8), y=clamp(g.vy(A.at[1]),h/2+8,g.H-h/2-8); b.style.left=x+'px'; b.style.top=y+'px'; b.onclick=()=>b.dataset.a?openAct(b.dataset.a):openLegend(b.dataset.l,false); });
+  renderShells(); }
 function renderHeader(){ const I=ISL[S.island], n=I.acts.filter(a=>S.done[a]).length; $('#islLabel').innerHTML=`<b>${I.r}</b>${I.r!==I.en?' · '+I.en:''} · ${n}/3`;
   $('#soundBtn').innerHTML=S.sound?'<svg viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4Z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>':'<svg viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4Z"/><path d="M16 9.5l5 5M21 9.5l-5 5"/></svg>';
   $('#soundBtn').setAttribute('aria-label',S.sound?'Sound on. Tap to mute':'Sound off. Tap to turn on'); birdEl.setAttribute('aria-label',`${S.name}, your manu. Tap to hear a word.`); }
@@ -1003,9 +1061,11 @@ function openPassport(){ const nW=S.words.length;
   openSheet(`<div class="shead"><div><div class="eyebrow">Passport</div><h2>Te Fenua Māʻohi</h2></div>${XBTN}</div>
     <div class="pstamps">${ISL_ORDER.map(id=>{ const I=ISL[id]; return `<div class="pst">${stampSVG(id,S.visited.includes(id))}<div class="acts" aria-label="${I.acts.filter(a=>S.done[a]).length} of 3 activities">${I.acts.map(a=>`<i class="${S.done[a]?'on':''}" title="${ACTS[a].en}"></i>`).join('')}</div><span class="small">${I.en}</span></div>`; }).join('')}</div>
     <div class="card flat"><div class="row" style="justify-content:space-around;text-align:center"><div><b style="font-family:var(--display);font-size:1.5rem">${nW}</b><div class="small muted">words</div></div><div><b style="font-family:var(--display);font-size:1.5rem">${S.voyages||0}</b><div class="small muted">voyages</div></div><div><b style="font-family:var(--display);font-size:1.5rem">${Object.keys(S.done).length}</b><div class="small muted">activities</div></div>${S.best.vaa?`<div><b style="font-family:var(--display);font-size:1.5rem">${S.best.vaa}s</b><div class="small muted">best vaʻa lap</div></div>`:''}</div></div>
+    <div class="stack"><div class="eyebrow">Made by hand</div><div class="pcrafts">${Object.keys(CRAFTS).map(id=>`<div class="c">${craftThumb(id,!(S.crafts&&S.crafts[id]))}<span class="small">${CRAFTS[id].r}</span></div>`).join('')}</div></div>
+    <div class="card flat"><p class="small"><b>ʻĀʻai · Legends heard:</b> ${Object.keys(LEGENDS).filter(k=>S.legends&&S.legends[k]).length} of ${Object.keys(LEGENDS).length}. ${Object.keys(LEGENDS).map(k=>`${S.legends&&S.legends[k]?'✓':'·'} ${LEGENDS[k].t}`).join(' &nbsp; ')}</p></div>
     <div class="stack"><div class="eyebrow">Still to visit</div><div class="soon">${SOON.map(s=>`<div class="card flat"><b>${s[0]}</b><span class="small muted">Coming soon</span></div>`).join('')}</div></div>`); }
 const COLORS=[['#E4583F','ʻUra (red)'],['#2F7FD8','Blue'],['#1AA3B1','Lagoon'],['#3B8C58','Green'],['#E9B93A','Gold'],['#8A5BC4','Violet'],['#1F2F4A','Night']];
-const ACC=[['tiare','Tiare','A flower behind the ear',()=>true],['hei','Hei','Finish Tahiti',()=>ISL.tahiti.acts.every(a=>S.done[a])],['pareu','Pāreu','Finish Moʻorea',()=>ISL.moorea.acts.every(a=>S.done[a])],['titia','Sunglasses','Finish Porapora',()=>ISL.bora.acts.every(a=>S.done[a])]];
+const ACC=[['tiare','Tiare','A flower behind the ear',()=>true],['hei','Hei','Finish Tahiti',()=>ISL.tahiti.acts.every(a=>S.done[a])],['pareu','Pāreu','Finish Moʻorea or print one',()=>ISL.moorea.acts.every(a=>S.done[a])||!!(S.crafts&&S.crafts.pareu)],['titia','Sunglasses','Finish Porapora',()=>ISL.bora.acts.every(a=>S.done[a])],['hat','Tāupoʻo','Weave it in the garden',()=>!!(S.crafts&&S.crafts.hat)],['necklace','Hei poe','String it in the garden',()=>!!(S.crafts&&S.crafts.hei)]];
 function openManu(confirmReset){
   openSheet(`<div class="shead"><div><div class="eyebrow">My manu</div><h2>${esc(S.name)}</h2></div>${XBTN}</div>
     <div class="birdbox" id="pv">${birdSVG(S,'pv')}</div>
@@ -1045,18 +1105,421 @@ function openWelcome(){
   $$('#fullIn .sw').forEach(b=>b.onclick=()=>{ S.body=b.dataset.c; $$('#fullIn .sw').forEach(x=>x.classList.toggle('on',x===b)); $('#wBird').innerHTML=birdSVG(S,'wb'); $('#fullIn .wplane').innerHTML=planeSVG('wp'); renderBird(); });
   $('#wGo').onclick=()=>{ ac(); S.name=($('#wName').value||'').trim()||'Tere'; S.onboarded=true; S.island='tahiti'; if(!S.visited.includes('tahiti')) S.visited.push('tahiti'); learn(['iaorana','maeva','manu','tere'],true); save(); flyIn(()=>{ closeFull(); sfx('stamp'); landBird(); later(()=>toast('Stamp: <b>Tahiti</b>. Tap the pins to explore, or tap your manu.'),900); }); }; }
 
+
+/* ---------- plant drawings, from Manu Ora ---------- */
+function plantSVG(p,stage){
+  const R=(a)=>a*Math.PI/180, f1=n=>(+n).toFixed(1);
+  const G={d:'#1F6B3F', m:'#2F8A50', l:'#5DB36E', h:'#8FD08A'};
+  const defs='<defs><linearGradient id="pgSoil" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B98249"/><stop offset="1" stop-color="#7A4B22"/></linearGradient><linearGradient id="pgTrunk" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#6B4423"/><stop offset=".5" stop-color="#9A6B3C"/><stop offset="1" stop-color="#6B4423"/></linearGradient><radialGradient id="pgSun" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>';
+  const soil='<ellipse cx="60" cy="118" rx="50" ry="9" fill="#000" opacity=".08"/><path d="M12 114 Q14 104 34 102 Q60 98 86 102 Q106 104 108 114 Q108 122 60 123 Q12 122 12 114Z" fill="url(#pgSoil)"/><path d="M22 108 Q40 102 60 102 Q82 102 98 108" fill="none" stroke="#D9A566" stroke-width="2" stroke-linecap="round" opacity=".6"/><circle cx="30" cy="114" r="1.6" fill="#5E3A1A"/><circle cx="84" cy="116" r="1.3" fill="#5E3A1A"/><circle cx="52" cy="118" r="1.1" fill="#5E3A1A"/>';
+  // feuille pointue partant de (x,y), longueur len, largeur w, rotation r (0 = vers le haut)
+  const leaf=(x,y,len,w,r,c,c2)=>`<g transform="translate(${x} ${y}) rotate(${r})"><path d="M0 0 C${w} ${-len*.25} ${w} ${-len*.8} 0 ${-len} C${-w} ${-len*.8} ${-w} ${-len*.25} 0 0Z" fill="${c}"/><path d="M0 0 C${w} ${-len*.25} ${w} ${-len*.8} 0 ${-len}Z" fill="${c2||'#fff'}" opacity="${c2?1:.14}"/><path d="M0 -1 V${-len*.9}" stroke="#0F4A2A" stroke-width=".6" opacity=".45"/></g>`;
+  const blob=(cx,cy,r,c)=>`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${c}"/>`;
+  const canopy=(cx,cy,r,pal)=>{ let s=''; [[-.55,.25,.62],[.55,.25,.62],[0,.35,.7],[-.3,-.3,.62],[.35,-.28,.6],[0,-.5,.55]].forEach((q,i)=>{ s+=blob(f1(cx+q[0]*r),f1(cy+q[1]*r),f1(r*q[2]),i<3?pal[0]:pal[1]); });
+    [[-.35,-.38,.3],[.2,-.5,.24],[.5,-.1,.22],[-.6,.05,.2],[.05,-.05,.26]].forEach(q=>{ s+=blob(f1(cx+q[0]*r),f1(cy+q[1]*r),f1(r*q[2]),pal[2]); });
+    return s+`<circle cx="${cx}" cy="${cy}" r="${r*1.1}" fill="url(#pgSun)"/>`; };
+  const petals=(x,y,n,rx,ry,off,c,st,rot)=>{ let s=''; for(let i=0;i<n;i++){ const a=(rot||0)+i*360/n; s+=`<ellipse cx="${x}" cy="${f1(y-off)}" rx="${rx}" ry="${ry}" transform="rotate(${f1(a)} ${x} ${y})" fill="${c}" stroke="${st}" stroke-width=".5"/>`; } return s; };
+  const tiareFl=(x,y,s)=>petals(x,y,7,1.9*s,4.6*s,4.2*s,'#FFFDF6','#E2D6B8',12)+`<circle cx="${x}" cy="${y}" r="${1.8*s}" fill="#F4D35E"/>`;
+  const auteFl=(x,y,s)=>petals(x,y,5,4.2*s,5.2*s,4*s,'#E5343F','#A91D2A',0)+`<circle cx="${x}" cy="${y}" r="${2.2*s}" fill="#8E1322"/><path d="M${x} ${y} l${5.5*s} ${-6.5*s}" stroke="#F6C445" stroke-width="${1.3*s}" stroke-linecap="round"/><circle cx="${f1(x+5.5*s)}" cy="${f1(y-6.5*s)}" r="${1.5*s}" fill="#F6C445"/>`;
+  const tipaFl=(x,y,s)=>petals(x,y,5,3.1*s,4.6*s,3.6*s,'#FFFBF0','#E9D9B0',20)+`<circle cx="${x}" cy="${y}" r="${3*s}" fill="#F9C846" opacity=".85"/><circle cx="${x}" cy="${y}" r="${1.3*s}" fill="#F29E2E"/>`;
+  const trunk=(x,w,top,lean)=>`<path d="M${x-w/2} 110 Q${x-w/2+(lean||0)*.4} ${(110+top)/2} ${x-w*.35+(lean||0)} ${top} L${x+w*.35+(lean||0)} ${top} Q${x+w/2+(lean||0)*.4} ${(110+top)/2} ${x+w/2} 110Z" fill="url(#pgTrunk)"/>`;
+  const fruit=(x,y,rx,ry,c,st,rot)=>`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" transform="rotate(${rot||0} ${x} ${y})" fill="${c}" stroke="${st}" stroke-width=".7"/><ellipse cx="${f1(x-rx*.3)}" cy="${f1(y-ry*.35)}" rx="${f1(rx*.3)}" ry="${f1(ry*.22)}" fill="#fff" opacity=".4"/>`;
+  const D={
+    tiare:fr=>{ let s=''; [[-34,14,-62],[34,14,62],[-28,22,-40],[28,22,40],[-16,28,-18],[16,28,18],[0,32,0],[-36,11,-84],[36,11,84],[-22,16,-55],[22,16,55]].forEach((q,i)=>{ s+=leaf(60+q[0]*.18,108,30+q[1],8.5,q[2],i%2?G.m:G.d); });
+      [[-20,22,-30],[20,22,30],[-8,26,-8],[9,24,12],[-28,14,-58],[28,14,58]].forEach((q,i)=>{ s+=leaf(60+q[0]*.2,106,22+q[1],7,q[2],i%2?G.l:G.m); });
+      if(fr) s+=tiareFl(38,74,1.15)+tiareFl(78,66,1.2)+tiareFl(60,84,1.1)+tiareFl(55,56,1)+tiareFl(86,88,.9); return s; },
+    aute:fr=>{ let s=`<path d="M60 110 Q58 92 50 78 M60 104 Q64 90 74 76 M60 100 V70" stroke="#6B4A2A" stroke-width="2.6" fill="none" stroke-linecap="round"/>`+blob(60,78,26,'#1F6B3F')+blob(42,88,17,'#236F42')+blob(78,88,17,'#236F42')+blob(60,60,18,'#267B45');
+      [[36,86,-70,20],[84,84,70,20],[40,70,-45,22],[82,68,48,22],[52,58,-18,22],[70,56,20,22],[60,50,0,20],[30,98,-80,16],[90,98,80,16],[48,82,-30,18],[72,82,30,18]].forEach((q,i)=>{ s+=leaf(q[0],q[1]+10,q[3],10,q[2],i%2?'#2A7A47':'#3C9958'); });
+      if(fr) s+=auteFl(40,74,1.25)+auteFl(80,62,1.3)+auteFl(62,86,1.15)+auteFl(58,48,1); return s; },
+    tipanie:fr=>{ let s='<path d="M60 110 V84 M60 86 Q52 76 40 66 M60 86 Q68 74 80 62 M60 84 V58 M40 66 Q36 60 30 56 M80 62 Q86 56 90 50" stroke="#A39A8C" stroke-width="5.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M60 110 V84 M60 84 V58" stroke="#C4BCAF" stroke-width="1.8" fill="none" stroke-linecap="round"/>';
+      [[30,56],[42,62],[60,56],[80,60],[90,50]].forEach((q,k)=>{ [-70,-35,0,35,70].forEach((a,i)=>{ s+=leaf(q[0],q[1],21,5.6,a+(k-2)*8,i%2?G.m:G.l); }); });
+      if(fr) s+=tipaFl(31,48,1.1)+tipaFl(44,56,.95)+tipaFl(60,46,1.15)+tipaFl(79,52,1)+tipaFl(91,42,1.05)+tipaFl(70,62,.85); return s; },
+    meia:fr=>{ const bl=(r,len,c)=>`<g transform="translate(60 52) rotate(${r})"><path d="M0 0 C13 -10 15 ${-len*.75} 2 ${-len} C-13 ${-len*.75} -13 -10 0 0Z" fill="${c}"/><path d="M0 0 Q3 ${-len*.5} 2 ${-len}" stroke="#DDF0A8" stroke-width="1.5" fill="none"/><path d="M1 ${-len*.3} l10 -5 M1.6 ${-len*.5} l10 -5 M2 ${-len*.7} l8 -4 M1 ${-len*.3} l-10 -5 M1.6 ${-len*.5} l-10 -4 M2 ${-len*.7} l-8 -4" stroke="#1F6B3F" stroke-width=".7" opacity=".5"/></g>`;
+      let s=`<path d="M53 110 Q55 78 57 52 L64 52 Q66 78 68 110Z" fill="#9CC267"/><path d="M57 110 Q58 80 59 54" stroke="#C9E08E" stroke-width="2.4" fill="none"/><path d="M54 96 h13 M55 82 h11 M56 68 h9" stroke="#6E9440" stroke-width=".8" opacity=".6"/>`;
+      s+=bl(-78,46,G.m)+bl(78,46,G.l)+bl(-42,50,G.l)+bl(44,50,G.m)+bl(-8,48,G.m)+bl(16,44,G.l);
+      if(fr){ s+='<path d="M64 56 Q78 60 80 74" stroke="#7A8F3A" stroke-width="2.6" fill="none" stroke-linecap="round"/>';
+        [[74,70,25],[79,71,5],[84,72,-15],[73,78,25],[78,79,5],[83,80,-15],[75,86,20],[80,87,-5]].forEach(q=>{ s+=`<path d="M${q[0]} ${q[1]} q-2 5 1 9 q4 -3 2 -9z" transform="rotate(${q[2]} ${q[0]} ${q[1]})" fill="#F6CF3C" stroke="#C99A1C" stroke-width=".6"/>`; });
+        s+='<path d="M78 94 q-5 6 0 11 q5 -5 0 -11z" fill="#7B2D52"/>'; }
+      return s; },
+    vi:fr=>{ let s=trunk(60,11,62)+'<path d="M60 76 Q50 68 44 62 M60 72 Q70 64 78 60" stroke="#7A4E28" stroke-width="3.5" fill="none" stroke-linecap="round"/>'+canopy(60,46,36,['#1E6A3D','#2C8A4E','#56B16A']);
+      if(fr) [[38,62],[52,70],[70,68],[84,58],[62,52]].forEach(q=>{ s+=`<path d="M${q[0]} ${q[1]-9} v4" stroke="#5E7A2E" stroke-width="1"/>`+fruit(q[0],q[1],4.6,6.2,'#F5A23B','#C8552F',18)+`<path d="M${q[0]-3} ${q[1]-3} q3 -4 6 -1" fill="#E4573F" opacity=".55"/>`; }); return s; },
+    uru:fr=>{ const lobed=(x,y,r,sc,c)=>`<g transform="translate(${x} ${y}) rotate(${r}) scale(${sc})"><path d="M0 0 C3 -3 7 -3 8 -7 C5 -8 5 -10 9 -13 C5 -14 5 -16 7 -20 C3 -20 2 -23 0 -27 C-2 -23 -3 -20 -7 -20 C-5 -16 -5 -14 -9 -13 C-5 -10 -5 -8 -8 -7 C-7 -3 -3 -3 0 0Z" fill="${c}"/><path d="M0 -1 V-24" stroke="#CDE8A0" stroke-width=".8" opacity=".7"/></g>`;
+      let s=trunk(60,12,60)+'<path d="M60 74 Q48 66 40 58 M60 70 Q72 62 82 56" stroke="#7A4E28" stroke-width="3.5" fill="none" stroke-linecap="round"/>'+canopy(60,44,34,['#1B5E38','#267A47','#3F9A58']);
+      [[30,52,-70,.95],[90,50,70,.95],[40,34,-35,1],[80,32,35,1],[60,24,0,1.05],[48,58,-20,.85],[74,58,22,.85]].forEach((q,i)=>{ s+=lobed(q[0],q[1]+10,q[2],q[3],i%2?'#49A862':'#2F8A50'); });
+      if(fr) [[42,64],[78,60],[60,72]].forEach(q=>{ s+=`<path d="M${q[0]} ${q[1]-10} v4" stroke="#5E7A2E" stroke-width="1.2"/><circle cx="${q[0]}" cy="${q[1]}" r="7" fill="#B6D46A" stroke="#6E8F2E" stroke-width=".8"/><path d="M${q[0]-5} ${q[1]-2} h10 M${q[0]-5} ${q[1]+2} h10 M${q[0]-2} ${q[1]-6} v12 M${q[0]+2} ${q[1]-6} v12" stroke="#7FA43C" stroke-width=".5" opacity=".8"/><circle cx="${q[0]-2.2}" cy="${q[1]-2.6}" r="2" fill="#fff" opacity=".35"/>`; }); return s; },
+    haari:fr=>{ const frond=(r,len,c)=>{ let s=`<g transform="translate(70 36) rotate(${r})"><path d="M0 0 Q${len*.45} ${-len*.42} ${len} ${len*.1} Q${len*.5} ${-len*.02} 0 0Z" fill="${c}"/><path d="M0 0 Q${len*.47} ${-len*.3} ${len} ${len*.1}" stroke="#D4EDB0" stroke-width=".9" fill="none" opacity=".8"/>`; for(let i=2;i<=8;i++){ const t=i/9, x=len*t, y=-len*.3*4*t*(1-t)*.62+len*.1*t*t; s+=`<path d="M${f1(x)} ${f1(y)} l${f1(1.5)} ${f1(-5-4*(1-t))}" stroke="#1F6B3F" stroke-width=".7" opacity=".55"/>`; } return s+'</g>'; };
+      let s='<path d="M52 110 Q50 76 68 36 L74 38 Q60 78 64 110Z" fill="url(#pgTrunk)"/>'; for(let i=0;i<7;i++){ const t=i/7; s+=`<path d="M${f1(52+ (68-52)*t*t+1)} ${f1(104-66*t)} q5 -2 ${f1(10-3*t)} 1" stroke="#5A3A1E" stroke-width=".8" fill="none" opacity=".6"/>`; }
+      s+=`<g transform="translate(140 0) scale(-1 1)">${frond(-18,40,G.d)+frond(-48,42,G.m)+frond(12,36,G.m)}</g>`+frond(-18,42,G.m)+frond(-50,44,G.l)+frond(14,38,G.d)+frond(-82,34,G.m)+`<g transform="translate(140 0) scale(-1 1)">${frond(-80,32,G.l)}</g>`;
+      if(fr) [[65,42],[73,45],[69,50],[77,39]].forEach(q=>{ s+=`<circle cx="${q[0]}" cy="${q[1]}" r="5" fill="#8A5F36" stroke="#4E3219" stroke-width=".7"/><circle cx="${q[0]-1.5}" cy="${q[1]-1.8}" r="1.5" fill="#fff" opacity=".3"/>`; }); return s; },
+    apetahi:fr=>{ let s=''; [[-30,30,-58],[30,30,58],[-18,40,-28],[18,40,28],[0,44,0],[-36,22,-80],[36,22,80]].forEach((q,i)=>{ s+=leaf(60+q[0]*.3,108,q[1],7.5,q[2],i%2?G.m:G.d); });
+      const half=(x,y,sc)=>`<g transform="translate(${x} ${y}) scale(${sc})"><path d="M0 0 C-9 -1 -15 -8 -13 -17 C-10 -15 -7 -12 -5 -9 C-6 -14 -4 -19 0 -22 C4 -19 6 -14 5 -9 C7 -12 10 -15 13 -17 C15 -8 9 -1 0 0Z" fill="#FFFDF6" stroke="#E2D6B8" stroke-width=".6"/><path d="M0 -1 C-2 -6 -2 -10 -1 -16" stroke="#EAE0C4" stroke-width=".6" fill="none"/><circle r="2.4" fill="#F4D35E"/></g>`;
+      if(fr) s+=half(42,76,.95)+half(78,72,1.05)+half(60,60,.9); return s; },
+    ahia:fr=>{ let s=trunk(60,10,66)+canopy(60,48,34,['#1E6A3D','#2C8A4E','#56B16A']);
+      if(fr) [[42,64],[58,72],[74,66],[66,52],[48,48]].forEach(q=>{ s+=`<path d="M${q[0]} ${q[1]-9} v3" stroke="#5E7A2E" stroke-width="1"/><path d="M${q[0]} ${q[1]-6} c-5 0 -6.5 9 -2.5 12.5 c2 1.6 3 1.6 5 0 c4 -3.5 2.5 -12.5 -2.5 -12.5z" fill="#D8322B" stroke="#8E1322" stroke-width=".6"/><ellipse cx="${q[0]-1.5}" cy="${q[1]-1}" rx="1.1" ry="2" fill="#fff" opacity=".35"/>`; }); return s; },
+    taro:fr=>{ const tl=(x,h,r,sc,c)=>`<path d="M60 108 Q${(60+x)/2} ${108-h*.6} ${x} ${108-h}" stroke="#7DA85B" stroke-width="2.4" fill="none" stroke-linecap="round"/><g transform="translate(${x} ${108-h}) rotate(${r}) scale(${sc})"><path d="M0 4 C-4 2 -14 -4 -13 -16 C-12 -26 -4 -30 0 -34 C4 -30 12 -26 13 -16 C14 -4 4 2 0 4Z" fill="${c}"/><path d="M0 4 C4 2 14 -4 13 -16 C12 -26 4 -30 0 -34Z" fill="#fff" opacity=".12"/><path d="M0 2 V-30 M0 -6 l-9 -6 M0 -6 l9 -6 M0 -16 l-8 -5 M0 -16 l8 -5" stroke="#CBE7A6" stroke-width=".9" fill="none" opacity=".8"/></g>`;
+      let s=tl(26,30,-52,.95,G.m)+tl(94,32,52,.95,G.d)+tl(40,50,-24,1,G.l)+tl(82,52,26,1,G.m)+tl(60,60,0,1.08,'#3C9958');
+      if(fr) s+='<ellipse cx="60" cy="108" rx="13" ry="7" fill="#9C7B8E" stroke="#6B4A5E" stroke-width=".8"/><path d="M50 106 q10 -4 20 0 M52 110 q8 3 16 0" stroke="#6B4A5E" stroke-width=".6" fill="none" opacity=".7"/>'; return s; },
+    painapo:fr=>{ let s=''; [[-80,36],[80,36],[-60,42],[60,42],[-38,44],[38,44],[-18,40],[18,40]].forEach((q,i)=>{ s+=`<g transform="translate(60 108) rotate(${q[0]})"><path d="M-4 0 Q-5 ${-q[1]*.6} 0 ${-q[1]} Q5 ${-q[1]*.6} 4 0Z" fill="${i%2?'#3E8F6A':'#2E7858'}"/><path d="M0 0 V${-q[1]*.9}" stroke="#A9D6B8" stroke-width=".7" opacity=".6"/></g>`; });
+      if(fr){ s+='<path d="M60 108 V86" stroke="#5E7A2E" stroke-width="3"/>'; [[-40,18],[40,18],[-20,22],[20,22],[0,24]].forEach(q=>{ s+=`<g transform="translate(60 62) rotate(${q[0]})"><path d="M-3 0 Q-3 ${-q[1]*.6} 0 ${-q[1]} Q3 ${-q[1]*.6} 3 0Z" fill="#3E9A62"/></g>`; });
+        s+='<ellipse cx="60" cy="76" rx="12" ry="15" fill="#E9A83A" stroke="#B5731E" stroke-width=".9"/><path d="M50 68 l18 16 M49 76 l14 13 M54 62 l17 15 M70 68 l-18 16 M71 76 l-14 13 M66 62 l-17 15" stroke="#B5731E" stroke-width=".7" opacity=".7"/><ellipse cx="55" cy="69" rx="3.5" ry="5" fill="#fff" opacity=".28"/>'; }
+      else s+=[[-10,30],[10,30],[0,34]].map(q=>`<g transform="translate(60 108) rotate(${q[0]})"><path d="M-3 0 Q-3 ${-q[1]*.6} 0 ${-q[1]} Q3 ${-q[1]*.6} 3 0Z" fill="#4BA57A"/></g>`).join(''); return s; },
+    iita:fr=>{ const pl=(r,len,c)=>{ let s=`<g transform="translate(60 40) rotate(${r})"><path d="M0 0 V${-len}" stroke="#8DB36A" stroke-width="1.6"/><g transform="translate(0 ${-len})">`; [-70,-35,0,35,70].forEach(a=>{ s+=`<path d="M0 0 C4 -3 4 -9 0 -13 C-4 -9 -4 -3 0 0Z" transform="rotate(${a})" fill="${c}"/>`; }); return s+'</g></g>'; };
+      let s='<path d="M56 110 Q57 74 58 40 L63 40 Q64 74 65 110Z" fill="#B9AE98"/><path d="M58.5 108 Q59 76 60 42" stroke="#D8D0C0" stroke-width="1.6" fill="none"/>'; for(let y=100;y>50;y-=9) s+=`<path d="M57 ${y} q3.5 2 7 0" stroke="#857A66" stroke-width=".8" fill="none"/>`;
+      s+=pl(-95,26,G.m)+pl(95,26,G.l)+pl(-60,30,G.l)+pl(60,30,G.m)+pl(-25,30,G.m)+pl(25,30,G.l)+pl(0,26,G.d);
+      if(fr) [[54,50,'#7FB24A'],[66,50,'#9CC04E'],[60,56,'#F0A23A'],[52,60,'#F0A23A'],[68,60,'#E98B2C']].forEach(q=>{ s+=fruit(q[0],q[1],4.4,6.4,q[2],'#8A6A1E',0); }); return s; },
+    anani:fr=>{ let s=trunk(60,9,70)+canopy(60,50,33,['#1C5F36','#267B45','#4AA561']);
+      if(fr) [[40,56],[54,42],[72,60],[82,44],[60,66],[46,34]].forEach(q=>{ s+=`<circle cx="${q[0]}" cy="${q[1]}" r="6" fill="#F58A1F" stroke="#C4620E" stroke-width=".7"/><circle cx="${q[0]-2}" cy="${q[1]-2.2}" r="1.8" fill="#fff" opacity=".45"/><path d="M${q[0]-1} ${q[1]-6} q2 -3 5 -2" stroke="#2F8A50" stroke-width="1.6" fill="none" stroke-linecap="round"/>`; }); return s; },
+    vanira:fr=>{ let s='<path d="M58 110 V26 h4 V110Z" fill="#9A7748"/><path d="M59 108 V28" stroke="#C4A070" stroke-width="1"/><path d="M60 108 C48 98 72 90 60 80 C48 70 72 62 60 52 C50 44 68 38 62 28" stroke="#4E9A52" stroke-width="2.6" fill="none" stroke-linecap="round"/>';
+      [[50,98,-70],[70,89,70],[50,76,-70],[70,66,70],[51,54,-68],[69,44,68],[56,32,-40]].forEach((q,i)=>{ s+=leaf(q[0]+ (i%2?-4:4),q[1],17,5.5,q[2],i%2?G.l:G.m); });
+      if(fr){ s+='<path d="M64 50 q8 -2 12 -6" stroke="#4E9A52" stroke-width="1.6" fill="none"/>'+petals(79,42,5,2.8,5.6,4.2,'#EEF4B8','#B9C76A',0)+'<circle cx="79" cy="42" r="2.6" fill="#F4E27A"/>'; s+='<path d="M56 64 q-8 0 -12 4" stroke="#4E9A52" stroke-width="2" fill="none" stroke-linecap="round"/>'; [0,1,2,3,4].forEach(i=>{ s+=`<path d="M${44-i*.4+i*1.6} ${68+(i%2)} q${-4+i*1.6} 12 ${-3+i*1.7} 25" stroke="${i%2?'#4A2E1C':'#63402A'}" stroke-width="2.6" fill="none" stroke-linecap="round"/>`; }); } return s; }
+    ,nono:fr=>{ let s='<path d="M60 110 Q58 92 60 70" stroke="#7A5A34" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M60 92 Q46 86 38 74 M60 86 Q74 80 84 70" stroke="#7A5A34" stroke-width="2.6" fill="none" stroke-linecap="round"/>';
+      [[38,76,-48,26,10],[84,72,50,26,10],[60,72,-14,28,11],[60,72,22,26,10],[44,88,-78,22,9],[78,86,80,22,9],[60,60,0,24,10]].forEach((q,i)=>{ s+=leaf(q[0],q[1],q[3],q[4],q[2],i%2?'#2F8A50':'#256F40'); });
+      if(fr) [[48,74,-10],[72,70,12],[60,84,0]].forEach(q=>{ s+=`<g transform="rotate(${q[2]} ${q[0]} ${q[1]})"><ellipse cx="${q[0]}" cy="${q[1]}" rx="6.2" ry="8.4" fill="#DDE6B4" stroke="#9BAA62" stroke-width=".8"/>${[[-2,-4],[2,-3],[-3,0],[1,1],[3,4],[-1,5],[0,-6]].map(d=>`<circle cx="${q[0]+d[0]}" cy="${q[1]+d[1]}" r=".9" fill="#8A9A52"/>`).join('')}<ellipse cx="${q[0]-2}" cy="${q[1]-3}" rx="1.8" ry="2.6" fill="#fff" opacity=".4"/></g>`; });
+      return s; },
+    metua:fr=>{ const frond=(x,h,r,c)=>{ let g=`<g transform="translate(60 108) rotate(${r})"><path d="M0 0 Q${x} ${-h*.5} 0 ${-h}" stroke="#2A6B3A" stroke-width="1.8" fill="none" stroke-linecap="round"/>`; const n=Math.floor(h/7); for(let i=1;i<=n;i++){ const y=-i*(h/(n+1)), w=(7+h*.09)*Math.sin(Math.PI*(i/(n+1))*.9+.25), ox=x*Math.sin(Math.PI*i/(n+1))*.5; g+=`<ellipse cx="${f1(ox-w*.55)}" cy="${f1(y)}" rx="${f1(w*.6)}" ry="2.6" transform="rotate(-18 ${f1(ox)} ${f1(y)})" fill="${c}"/><ellipse cx="${f1(ox+w*.55)}" cy="${f1(y)}" rx="${f1(w*.6)}" ry="2.6" transform="rotate(18 ${f1(ox)} ${f1(y)})" fill="${c}"/>${fr&&i%2?`<circle cx="${f1(ox-w*.5)}" cy="${f1(y)}" r=".8" fill="#C98B3C"/><circle cx="${f1(ox+w*.5)}" cy="${f1(y)}" r=".8" fill="#C98B3C"/>`:''}`; } return g+`<ellipse cx="0" cy="${-h}" rx="2.4" ry="5" fill="${c}"/></g>`; };
+      let s=frond(8,54,-52,'#2F8A50')+frond(-8,54,52,'#256F40')+frond(6,68,-22,'#3C9958')+frond(-6,68,24,'#2F8A50')+frond(0,76,0,'#5DB36E');
+      if(fr) s+='<path d="M60 108 q-3 -14 3 -20 q5 -3 4 3 q-1 3 -4 1" stroke="#8FD08A" stroke-width="2" fill="none" stroke-linecap="round"/>'; return s; },
+    tamanu:fr=>{ let s=trunk(60,12,62,3)+'<path d="M61 78 Q48 70 40 60 M62 72 Q76 64 82 54" stroke="#6B4423" stroke-width="3" fill="none" stroke-linecap="round"/>'+canopy(62,42,36,['#17512F','#1F6B3F','#3F9A5A']);
+      [[40,50,-60],[84,46,58],[60,22,0],[48,30,-28],[76,30,30]].forEach(q=>{ s+=leaf(q[0],q[1],13,5,q[2],'#2F8A50'); });
+      if(fr){ [[46,40],[72,34],[60,52],[82,52]].forEach(q=>{ s+=petals(q[0],q[1],4,1.8,3,2.6,'#FFFDF6','#E2D6B8',45)+`<circle cx="${q[0]}" cy="${q[1]}" r="1.5" fill="#F4D35E"/>`; }); [[52,64],[70,62],[38,58]].forEach(q=>{ s+=`<path d="M${q[0]} ${q[1]-8} v4" stroke="#5E7A2E" stroke-width="1"/>`+fruit(q[0],q[1],4.6,4.6,'#9DBB55','#5E7A2E'); }); } return s; }
+    ,vavai:fr=>{ let s='<path d="M60 110 Q59 90 60 62" stroke="#7A5A34" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M60 96 Q46 90 40 78 M60 88 Q74 82 82 72 M60 78 Q50 70 46 58 M60 72 Q70 64 74 52" stroke="#7A5A34" stroke-width="2" fill="none" stroke-linecap="round"/>';
+      [[40,80,-50],[82,74,52],[46,60,-30],[74,54,30],[60,62,0],[52,92,-80],[70,88,78]].forEach((q,i)=>{ s+=leaf(q[0],q[1],15,7,q[2],i%2?'#3C9958':'#2F8A50'); });
+      if(fr) [[40,74],[82,68],[46,54],[74,48],[60,56]].forEach(q=>{ s+=`<path d="M${q[0]-5} ${q[1]+3} l5 -3 l5 3 l-2 3 h-6z" fill="#7A5A34"/><circle cx="${q[0]-3}" cy="${q[1]-2}" r="4" fill="#fff"/><circle cx="${q[0]+3}" cy="${q[1]-2}" r="4" fill="#F7F4EC"/><circle cx="${q[0]}" cy="${q[1]-5}" r="4.2" fill="#fff"/><circle cx="${q[0]-1}" cy="${q[1]-6}" r="1.4" fill="#E8E2D2" opacity=".7"/>`; });
+      return s; },
+    fara:fr=>{ let s='<path d="M57 110 Q58 86 60 60 L64 60 Q64 86 63 110Z" fill="url(#pgTrunk)"/><path d="M58 96 L46 110 M62 96 L74 110 M58 102 L52 110 M62 102 L68 110" stroke="#8A6238" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M61 76 Q74 70 80 58" stroke="#7A5A34" stroke-width="3" fill="none" stroke-linecap="round"/>';
+      const tuft=(x,y,sc)=>{ let g=`<g transform="translate(${x} ${y}) scale(${sc})">`; [-80,-55,-30,-8,12,34,58,82].forEach((a,i)=>{ g+=`<path d="M0 0 Q${f1(Math.sin(R(a))*16)} ${f1(-Math.cos(R(a))*16-4)} ${f1(Math.sin(R(a))*30)} ${f1(-Math.cos(R(a))*22+6)}" stroke="${i%2?'#3C9958':'#256F40'}" stroke-width="3.4" fill="none" stroke-linecap="round"/>`; }); return g+'</g>'; };
+      s+=tuft(62,60,1)+tuft(80,58,.8);
+      if(fr){ s+='<path d="M60 64 q-6 6 -8 12" stroke="#5E7A2E" stroke-width="1.6" fill="none"/><ellipse cx="51" cy="82" rx="8" ry="9" fill="#E98A2B" stroke="#A85A16" stroke-width=".8"/>'; [[48,78],[54,78],[51,83],[46,84],[56,84],[51,88]].forEach(q=>{ s+=`<path d="M${q[0]-2.4} ${q[1]} l2.4 -2.6 l2.4 2.6 l-2.4 2.6z" fill="#F6B04A" stroke="#A85A16" stroke-width=".4"/>`; }); }
+      return s; },
+    rea:fr=>{ let s=''; [[44,96,-34,36,9],[76,96,34,36,9],[52,92,-14,46,10],[68,92,16,46,10],[60,90,0,52,11]].forEach((q,i)=>{ s+=`<path d="M60 108 Q${(60+q[0])/2} ${q[1]+6} ${q[0]} ${q[1]}" stroke="#6FA85B" stroke-width="2.2" fill="none"/>`+leaf(q[0],q[1],q[3],q[4],q[2],i%2?'#3C9958':'#2F8A50'); });
+      if(fr){ s+='<path d="M60 96 V76" stroke="#8FB86A" stroke-width="2"/>'; [[60,74],[56,79],[64,79],[58,84],[62,84]].forEach(q=>{ s+=`<ellipse cx="${q[0]}" cy="${q[1]}" rx="4" ry="3" fill="#FBF3D0" stroke="#D9C98A" stroke-width=".5"/>`; }); s+='<path d="M44 108 q4 -6 10 -4 q4 -4 9 0 q6 -3 10 3 q-14 5 -29 1z" fill="#E08A1E" stroke="#A85A16" stroke-width=".8"/><path d="M52 105 v3 M61 104 v4 M68 105 v3" stroke="#A85A16" stroke-width=".6"/>'; }
+      return s; }
+    ,fei:fr=>{ let s='<path d="M55 110 Q56 82 58 54 L63 54 Q65 82 65 110Z" fill="#6E8F4E"/><path d="M57 108 Q58 82 60 56" stroke="#8FB36A" stroke-width="1.4" fill="none"/>';
+      [[60,58,-84,30,9],[60,58,82,30,9],[60,56,-50,42,11],[60,56,48,42,11],[60,54,-16,48,12],[60,54,20,46,12]].forEach((q,i)=>{ s+=leaf(q[0],q[1],q[3],q[4],q[2],i%2?'#3C9958':'#2F8A50'); });
+      if(fr){ s+='<path d="M61 56 Q70 50 72 40" stroke="#5E7A2E" stroke-width="3" fill="none" stroke-linecap="round"/>'; [[66,44,-30],[70,42,-12],[74,42,8],[78,44,26],[68,36,-20],[72,34,0],[76,36,20]].forEach(q=>{ s+=`<ellipse cx="${q[0]}" cy="${q[1]}" rx="2.6" ry="6.4" transform="rotate(${q[2]} ${q[0]} ${q[1]+6})" fill="#F08A2B" stroke="#B55A12" stroke-width=".6"/>`; }); }
+      return s; }
+    ,autex:fr=>D.aute(fr).split('#E5343F').join('#F58A1F').split('#A91D2A').join('#C8402F').split('#8E1322').join('#E0303A')
+    ,tipax:fr=>D.tipanie(fr).split('#FFFBF0').join('#F9B8CF').split('#E9D9B0').join('#D9799E')
+    ,vix:fr=>D.vi(fr).split('#F5A23B').join('#F6CF3C').split('#C8552F').join('#E4583F')
+    ,mati:fr=>{ let s=trunk(60,9,66)+canopy(60,48,32,['#1E6A3D','#2C8A4E','#56B16A']); if(fr) [[44,60],[58,68],[72,62],[66,50],[50,48]].forEach(q=>{ [[0,0],[4,2],[1,5]].forEach(d=>{ s+=`<circle cx="${q[0]+d[0]}" cy="${q[1]+d[1]}" r="2.6" fill="#E0622B" stroke="#A8401A" stroke-width=".5"/>`; }); }); return s; }
+    ,tou:fr=>{ let s=trunk(60,11,62)+canopy(60,44,35,['#2B6E4A','#3A8A5C','#63B37C']); if(fr) [[40,52],[56,38],[74,46],[82,60],[60,62]].forEach(q=>{ s+=`<circle cx="${q[0]}" cy="${q[1]}" r="4.8" fill="#F58A1F" stroke="#C4620E" stroke-width=".6"/><circle cx="${q[0]}" cy="${q[1]}" r="1.8" fill="#FFD08A"/>`; }); return s; }
+    ,tiairi:fr=>{ let s=trunk(60,12,60)+canopy(60,42,36,['#5E8F6A','#7FAE86','#B5D3B0']); if(fr) [[42,58],[58,66],[74,58],[66,46]].forEach(q=>{ s+=`<circle cx="${q[0]}" cy="${q[1]}" r="4.6" fill="#8C7A55" stroke="#5E4E30" stroke-width=".7"/><circle cx="${q[0]-1.4}" cy="${q[1]-1.6}" r="1.4" fill="#fff" opacity=".3"/>`; }); return s; }
+  };
+  let b='';
+  if(p && D[p]){
+    if(stage===0) b='<ellipse cx="60" cy="106" rx="7" ry="4.4" fill="#5A3A1E"/><ellipse cx="58" cy="105" rx="2.4" ry="1.2" fill="#8A6238"/><path d="M60 102 q1 -4 4 -5" stroke="#7DBF6B" stroke-width="1.6" fill="none" stroke-linecap="round"/>';
+    else if(stage===1) b='<path d="M60 108 Q59 96 60 84" stroke="#4E9A52" stroke-width="2.8" fill="none" stroke-linecap="round"/>'+leaf(60,88,20,7.5,-58,G.l)+leaf(60,88,20,7.5,58,G.m)+leaf(60,84,13,5,0,G.h);
+    else if(stage===2) b=`<g transform="translate(60 110) scale(.66) translate(-60 -110)">${D[p](false)}</g>`;
+    else b=D[p](true);
+  }
+  return `<svg viewBox="0 0 120 126" aria-hidden="true">${defs}${soil}${b}</svg>`; }
+
+/* ---------- faʻaʻapu: plant, harvest, make ---------- */
+Object.assign(W,{
+  faapu:{r:'faʻaʻapu', en:'garden, plantation', ph:'fah-AH-ah-poo', g:'craft'},
+  vavai:{r:'vavai', en:'cotton', ph:'vah-VAH-ee', g:'craft'},
+  rea:{r:'rēʻa', en:'turmeric (yellow dye)', ph:'REH-ah', g:'craft'},
+  aute:{r:'ʻaute', en:'hibiscus', ph:'ah-OO-teh', g:'craft'},
+  mati:{r:'mati', en:'a fig whose fruit dyes red-brown', ph:'MAH-tee', g:'craft'},
+  fara:{r:'fara', en:'pandanus', ph:'FAH-rah', g:'craft'},
+  tiairi:{r:'tiʻaʻiri', en:'candlenut (black dye)', ph:'tee-AH-ee-ree', g:'craft'},
+  pareu:{r:'pāreu', en:'wrap cloth', ph:'PAH-reh-oo', g:'craft'},
+  taupoo:{r:'tāupoʻo', en:'hat', ph:'TAH-oo-poh-oh', g:'craft'},
+  hei:{r:'hei', en:'garland, crown or necklace', ph:'HAY', g:'craft'},
+  poe:{r:'poe', en:'pearl', ph:'POH-eh', g:'craft'},
+  pupu:{r:'pūpū', en:'shell', ph:'POO-poo', g:'craft'},
+  tapa:{r:'tapa', en:'cloth of beaten bark', ph:'TAH-pah', g:'craft'},
+  ie:{r:'ʻiʻe', en:'grooved tapa beater', ph:'EE-eh', g:'craft'},
+  ora:{r:'ʻōrā', en:'banyan tree', ph:'OH-rah', g:'craft'},
+  marama:{r:'marama', en:'moon', ph:'mah-RAH-mah', g:'sky'},
+  aai:{r:'ʻāʻai', en:'legend, story', ph:'AH-ah-ee', g:'greet'}
+});
+WGROUPS.splice(4,0,['craft','Garden and crafts']);
+
+const PL={
+  tiare:{min:2, give:{tiare:2}, use:'A flower for a hat band.'},
+  aute:{min:2, give:{aute:2}, use:'Its flowers dye violet, or trim a hat.'},
+  rea:{min:3, give:{rea:2}, use:'Its root dyes yellow.'},
+  vavai:{min:3, give:{vavai:2}, use:'Cotton for a pāreu.'},
+  mati:{min:4, give:{mati:2}, use:'Its small figs dye red-brown.'},
+  fara:{min:4, give:{fara:3}, use:'Long leaves to weave a hat.'},
+  tiairi:{min:5, give:{tiairi:2}, use:'Burnt, its nuts give a black dye.'},
+  painapo:{min:4, give:{painapo:1}, food:1, taste:'Moʻorea’s small, sweet pineapples are at their best around January.'},
+  vi:{min:5, give:{vi:3}, food:1, taste:'Mango season peaks in December, when markets overflow with them.'},
+  haari:{min:6, give:{haari:2}, food:1, taste:'Ask for a fresh green coconut: the water inside is cool and sweet. Look for its three “eyes”.'},
+  uru:{min:6, give:{uru:1,bark:1}, food:1, taste:'ʻUru is roasted whole over the fire until the skin is black, or cooked in an earth oven.'}
+};
+const BAGN={tiare:'tiare',aute:'ʻaute',rea:'rēʻa',vavai:'vavai',mati:'mati',fara:'fara',tiairi:'tiʻaʻiri',painapo:'painapo',vi:'vī',haari:'haʻari',uru:'ʻuru',bark:'ʻuru bark',pupu:'pūpū'};
+const BAGEN={tiare:'flower',aute:'hibiscus',rea:'turmeric',vavai:'cotton',mati:'red dye fig',fara:'pandanus',tiairi:'candlenut',painapo:'pineapple',vi:'mango',haari:'coconut',uru:'breadfruit',bark:'for tapa',pupu:'shell'};
+const SEEDPOOL=['tiare','tiare','aute','rea','rea','vavai','vavai','mati','fara','fara','tiairi','painapo','vi','haari','uru'];
+const PEARLS=[['#2B3036','black'],['#3E5B57','peacock green'],['#4A3B4F','aubergine'],['#7D868C','silver grey'],['#2F4A5E','deep blue']];
+const GDEF={plots:[null,null,null,null,null,null], seeds:{tiare:2,vavai:1,rea:1,fara:1,uru:1}, bag:{vavai:2,rea:1,fara:3,pupu:2}, pearls:[], oysters:null, starter:true};
+function G(){ if(!S.garden||!Array.isArray(S.garden.plots)) S.garden=JSON.parse(JSON.stringify(GDEF)); return S.garden; }
+function addSeeds(n,kind){ const g=G(), got=[]; for(let i=0;i<n;i++){ const k=kind||pick(SEEDPOOL); g.seeds[k]=(g.seeds[k]||0)+1; got.push(k); } save(); return got; }
+function bagAdd(o){ const g=G(); Object.keys(o).forEach(k=>{ g.bag[k]=(g.bag[k]||0)+o[k]; }); save(); }
+function has(o){ const g=G(); return Object.keys(o).every(k=>(g.bag[k]||0)>=o[k]); }
+function take(o){ const g=G(); Object.keys(o).forEach(k=>{ g.bag[k]=Math.max(0,(g.bag[k]||0)-o[k]); }); save(); }
+
+/* moon and season: real dates, so the garden follows the visitor’s own stay */
+function moonAge(t){ const syn=29.530588853, ep=Date.UTC(2000,0,6,18,14); return (((t-ep)/864e5)%syn+syn)%syn; }
+function waxing(t){ const a=moonAge(t||Date.now()); return a>=1 && a<14.77; }
+function season(d){ d=d||new Date(); const m=d.getMonth(), day=d.getDate(); const ab=(m===10&&day>=20)||m===11||m<=3||(m===4&&day<20);
+  const now={10:'uru',11:'vi',0:'painapo',1:'tiare'}[m]||null;
+  let until=0; if(!ab){ const y=d.getFullYear(); const nx=new Date(y,10,20); until=Math.ceil((nx-d)/864e5); }
+  return {ab, now, until}; }
+function moonSVG(age){ const p=age/29.530588853, rx=Math.abs(Math.cos(p*2*Math.PI))*10, gib=Math.abs(p-.5)<.25, wax=p<.5;
+  const d = wax ? `M0 -10 A10 10 0 0 0 0 10 A${rx.toFixed(2)} 10 0 0 ${gib?0:1} 0 -10Z` : `M0 -10 A10 10 0 0 1 0 10 A${rx.toFixed(2)} 10 0 0 ${gib?1:0} 0 -10Z`;
+  return `<svg viewBox="-12 -12 24 24" width="30" height="30" aria-hidden="true" style="flex:none"><circle r="10" fill="#1E3555"/><path d="${d}" fill="#FFF3C4"/></svg>`; }
+
+/* plots */
+function plotStage(pl){ const f=(Date.now()-pl.t)/pl.d; return f>=1?3:f>=.55?2:f>=.15?1:0; }
+function leftTxt(pl){ const ms=pl.t+pl.d-Date.now(); if(ms<=0) return 'Ready!'; const s=Math.ceil(ms/1000); return s>=60?`${Math.ceil(s/60)} min`:`${s} s`; }
+function plant(i,k){ const g=G(); if(!(g.seeds[k]>0)) return; const sn=season(); let d=PL[k].min*60000; const wx=waxing(); if(wx) d*=.75; if(sn.now===k) d*=.5; g.plots[i]={p:k,t:Date.now(),d,wx,ins:sn.now===k}; g.seeds[k]--; save(); sfx('tap'); learn(k==='rea'?'rea':k,true); }
+function harvest(i){ const g=G(), pl=g.plots[i]; if(!pl||plotStage(pl)<3) return; const give=Object.assign({},PL[pl.p].give); const sn=season();
+  if(PL[pl.p].food && sn.ab) Object.keys(give).forEach(k=>{ if(k!=='bark') give[k]++; }); if(pl.ins) Object.keys(give).forEach(k=>{ if(k!=='bark') give[k]++; });
+  bagAdd(give); g.plots[i]=null; let seed=''; if(Math.random()<.6){ addSeeds(1,pl.p); seed=' and a seed'; } save(); sfx('good');
+  const txt=Object.keys(give).map(k=>`${give[k]} ${BAGN[k]}`).join(', ');
+  toast(`Harvest: <b>${esc(txt)}</b>${seed}`); }
+
+/* shells on the beach: tap to collect */
+function shellState(){ if(!S.shell) S.shell={at:0,n:0}; if(Date.now()>=S.shell.at && S.shell.n===0){ S.shell.n=2; S.shell.seed=Math.floor(Math.random()*1e6); } return S.shell; }
+function renderShells(){ const box=$('#pins'); $$('.shell',box).forEach(e=>e.remove()); const sh=shellState(); if(!sh.n) return; const g=geom(); const r=seeded(sh.seed+S.island.length*31);
+  for(let i=0;i<sh.n;i++){ const vx=(i?200:40)+r()*120, vy=574+r()*40; const b=document.createElement('button'); b.className='shell'; b.setAttribute('aria-label','A shell on the sand'); b.innerHTML='<svg viewBox="0 0 30 30" aria-hidden="true"><path d="M15 4 C24 6 27 16 22 24 Q15 28 8 24 C3 16 6 6 15 4Z" fill="#F7E3D0" stroke="#C99A7A" stroke-width="1.2"/><path d="M15 6 V25 M11 7 Q10 16 11 24 M19 7 Q20 16 19 24" stroke="#D9A88A" stroke-width="1" fill="none"/></svg>';
+    b.style.left=clamp(g.vx(vx),20,g.W-20)+'px'; b.style.top=clamp(g.vy(vy),20,g.H-20)+'px';
+    b.onclick=()=>{ ac(); const s=shellState(); s.n=Math.max(0,s.n-1); if(!s.n) s.at=Date.now()+180000; bagAdd({pupu:1}); learn('pupu',true); sfx('good'); b.remove(); toast(`<b>Pūpū!</b> A shell for a hei (${G().bag.pupu}).`); save(); };
+    box.appendChild(b); } }
+
+/* pearl line in the lagoon */
+const PEARL_MS=5*60000;
+function oysters(){ const g=G(); if(!g.oysters && (S.visited.includes('bora')||(S.legends&&S.legends.oro))){ const n=Date.now(); g.oysters=[n,n+60000,n+120000]; save(); } return g.oysters; }
+function openOyster(i){ const g=G(), o=oysters(); if(!o) return; if(Date.now()-o[i]<PEARL_MS) return; const p=pick(PEARLS); g.pearls.push(p[0]); o[i]=Date.now(); save(); learn('poe',true); sfx('stamp'); toast(`A <b>${p[1]}</b> pearl! <span class="reo">Poe</span> (${g.pearls.length}).`); }
+
+/* the garden screen */
+let GPICK=null;
+function openGarden(){ const g=G(); learn('faapu',true);
+  openFull(`<div class="fhead"><div><div class="eyebrow">Faʻaʻapu · Your garden</div><h2>Plant, harvest, make</h2></div>${XBTN}</div><div class="fbody" id="gb"></div>`);
+  if(g.starter){ g.starter=false; save(); later(()=>toast('A starter basket: cotton, turmeric, pandanus and two shells. Enough for a first pāreu and hat!',4200),300); }
+  GPICK=null; renderGarden(); every(tickGarden,1000); }
+function plotHTML(i){ const pl=G().plots[i]; if(!pl) return `<button class="plot empty${GPICK===i?' on':''}" data-p="${i}" aria-label="Empty plot. Plant a seed"><span class="pl-plus">+</span><span class="small">Plant</span></button>`;
+  const st=plotStage(pl); return `<button class="plot${st===3?' ripe':''}" data-p="${i}" data-st="${st}" aria-label="${BAGN[pl.p]}${st===3?', ready to harvest':''}">${plantSVG(pl.p,st)}<b>${BAGN[pl.p]}</b><span class="small t">${leftTxt(pl)}</span></button>`; }
+function renderGarden(){ const g=G(), el=$('#gb'); if(!el) return; const sn=season(), age=moonAge(Date.now()), wx=waxing();
+  const seedKeys=Object.keys(PL).filter(k=>g.seeds[k]>0);
+  const o=oysters();
+  const foods=Object.keys(g.bag).filter(k=>g.bag[k]>0 && PL[k] && PL[k].food);
+  const mats=Object.keys(g.bag).filter(k=>g.bag[k]>0 && !(PL[k]&&PL[k].food));
+  el.innerHTML=`<div class="card flat gsky"><div class="row" style="flex-wrap:nowrap">${moonSVG(age)}<p class="small"><b>${wx?'Waxing moon':'Waning moon'}.</b> ${wx?'Seeds planted now grow faster: growers here replant while the moon is waxing.':'Plants grow at a normal pace until the next new moon.'}</p></div>
+      <div class="row" style="flex-wrap:nowrap"><span class="seasonic" aria-hidden="true">${sn.ab?'✦':'○'}</span><p class="small">${sn.ab?`<b>Matariʻi i niʻa</b>, the season of abundance. Fruit gives more.`:`<b>Matariʻi i raro</b>, the cooler, drier season. The season of abundance returns on 20 November, in ${sn.until} days.`}${sn.now?` <b>In season now: ${BAGN[sn.now]}</b> grows twice as fast.`:''}</p></div></div>
+    <div class="plots" id="gPlots">${g.plots.map((_,i)=>plotHTML(i)).join('')}</div>
+    ${GPICK!==null?`<div class="card" id="gPick"><div class="row" style="justify-content:space-between"><b>Plant in this plot</b><button class="btn sm ghost" id="gPickX">Cancel</button></div>${seedKeys.length?`<div class="seeds">${seedKeys.map(k=>`<button class="seed" data-k="${k}"><span class="sthumb">${plantSVG(k,3)}</span><b>${BAGN[k]}</b><span class="small muted">×${g.seeds[k]} · ${PL[k].min} min${sn.now===k?' · in season':''}</span></button>`).join('')}</div>`:'<p class="small muted">No seeds left. Finish activities and hear legends to win more.</p>'}</div>`:''}
+    <div class="card"><div class="row" style="justify-content:space-between"><h3>Pearl line</h3><span class="small muted">${g.pearls.length} pearl${g.pearls.length===1?'':'s'}</span></div>
+      ${o?`<div class="oysters">${o.map((t,i)=>{ const f=clamp((Date.now()-t)/PEARL_MS,0,1); return `<button class="oyster${f>=1?' ripe':''}" data-o="${i}" aria-label="${f>=1?'Open the oyster':'Oyster growing a pearl'}"><svg viewBox="0 0 60 40" aria-hidden="true"><ellipse cx="30" cy="22" rx="22" ry="14" fill="#5A5048"/><path d="M8 22 Q30 2 52 22" fill="#6E645A"/><path d="M12 22 Q30 10 48 22" fill="none" stroke="#8A7E70" stroke-width="1.4"/>${f>=1?'<circle cx="30" cy="22" r="6" fill="#3E5B57" stroke="#C9D6D2" stroke-width="1.2"/>':''}</svg><span class="small">${f>=1?'Open':Math.ceil((PEARL_MS-(Date.now()-t))/60000)+' min'}</span></button>`; }).join('')}</div><p class="small muted">Black-lipped oysters on a line in the lagoon. A real Tahitian pearl takes about 18 months to 3 years; here time runs faster.</p>`
+        :'<p class="small muted">Sail to Porapora, or hear the legend of ʻOro there, to start your own pearl line.</p>'}
+      ${g.pearls.length?`<div class="row">${g.pearls.map(c=>`<span class="pearl" style="background:${c}"></span>`).join('')}</div>`:''}</div>
+    <div class="card"><h3>Basket</h3>${mats.length||foods.length?'':'<p class="small muted">Empty for now. Harvest your plants and pick up shells on the beaches.</p>'}
+      ${mats.length?`<div class="chips">${mats.map(k=>`<span class="wchip"><b>${BAGN[k]}</b><span>${BAGEN[k]} ×${g.bag[k]}</span></span>`).join('')}</div>`:''}
+      ${foods.length?`<div class="stack" style="gap:6px">${foods.map(k=>`<div class="row" style="justify-content:space-between;flex-wrap:nowrap"><span><b class="reo">${BAGN[k]}</b> <span class="small muted">${BAGEN[k]} ×${g.bag[k]}</span></span><button class="btn sm" data-taste="${k}">Taste</button></div>`).join('')}</div>`:''}</div>
+    <div class="stack"><h3>Make by hand</h3><div class="crafts">${Object.keys(CRAFTS).map(id=>craftTile(id)).join('')}</div></div>
+    <div class="stack"><h3>Legends of the garden</h3><div class="crafts">${['ruataata','hinamoon'].map(id=>`<button class="ctile" data-leg="${id}"><b>${LEGENDS[id].t}</b><span class="small muted">${LEGENDS[id].sub}${S.legends&&S.legends[id]?' · heard':''}</span></button>`).join('')}</div></div>
+    <p class="small muted">Seeds come from activities, legends and harvests. Progress is saved on this phone only.</p>`;
+  $$('#gPlots .plot').forEach(b=>b.onclick=()=>{ const i=+b.dataset.p, pl=G().plots[i]; ac();
+    if(!pl){ GPICK=GPICK===i?null:i; renderGarden(); const pk=$('#gPick'); if(pk) pk.scrollIntoView({behavior:RM?'auto':'smooth',block:'nearest'}); return; }
+    if(plotStage(pl)===3){ harvest(i); renderGarden(); } else toast(`<b>${BAGN[pl.p]}</b>: ${leftTxt(pl)} left${pl.wx?' (planted on a waxing moon)':''}. ${PL[pl.p].use||''}`); });
+  if($('#gPickX')) $('#gPickX').onclick=()=>{ GPICK=null; renderGarden(); };
+  $$('#gPick .seed').forEach(b=>b.onclick=()=>{ plant(GPICK,b.dataset.k); GPICK=null; renderGarden(); });
+  $$('#gb .oyster').forEach(b=>b.onclick=()=>{ openOyster(+b.dataset.o); renderGarden(); });
+  $$('#gb [data-taste]').forEach(b=>b.onclick=()=>{ const k=b.dataset.taste; take({[k]:1}); sfx('uke'); sayWord(k); renderGarden(); openSheet(`<div class="shead"><div><div class="eyebrow">Taste it for real</div><h2><span class="reo">${BAGN[k]}</span> · ${BAGEN[k]}</h2></div>${XBTN}</div><div class="birdbox">${birdSVG(S,'ts')}</div><p>${PL[k].taste}</p><p class="small muted">Your manu loved it. Māuruuru!</p>`); });
+  $$('#gb [data-craft]').forEach(b=>b.onclick=()=>{ if(!b.disabled) openCraft(b.dataset.craft); });
+  $$('#gb [data-leg]').forEach(b=>b.onclick=()=>openLegend(b.dataset.leg,true)); }
+let GTICK=0;
+function tickGarden(){ const g=G(); let changed=(++GTICK%20===0) && GPICK===null; $$('#gPlots .plot').forEach(b=>{ const pl=g.plots[+b.dataset.p]; if(!pl) return; const st=plotStage(pl); if(String(st)!==b.dataset.st) changed=true; else { const t=b.querySelector('.t'); if(t) t.textContent=leftTxt(pl); } });
+  const o=g.oysters; if(o && o.some(t=>Date.now()-t>=PEARL_MS && !$(`#gb .oyster.ripe[data-o="${o.indexOf(t)}"]`))) changed=true;
+  if(changed) { const y=$('#gb').scrollTop; renderGarden(); $('#gb').scrollTop=y; } }
+
+/* ---------- crafts: pāreu, tāupoʻo, hei poe, tapa ---------- */
+const DYES={rea:{c:'#E2A12A',en:'yellow'},aute:{c:'#8E4FB0',en:'violet'},mati:{c:'#A8432C',en:'red-brown'},tiairi:{c:'#2A2A2E',en:'black'}};
+const CRAFTS={
+  pareu:{r:'Pāreu', en:'Sun-printed pāreu', need:{vavai:2}, any:['rea','aute','mati'], txt:'2 vavai and 1 dye (rēʻa, ʻaute or mati)',
+    fact:'A pāreu is one length of cloth, tied in dozens of ways. Some painters make sun prints: leaves laid on wet, freshly painted cloth leave a pale shape once the sun has dried it.',
+    real:'Look for hand-painted pāreu at Papeete market and in craft shops on every island.'},
+  hat:{r:'Tāupoʻo', en:'Woven hat', need:{fara:3}, txt:'3 fara (pandanus)',
+    fact:'Hats are woven from pandanus leaves (fara, paeʻore), coconut leaflets (nīʻau) and other fibres, strip over strip. The Austral Islands are famous for their weaving, and each island has its own patterns.',
+    real:'Woven hats are sold at Papeete market and at craft fairs. Buying from the weaver supports the craft.'},
+  hei:{r:'Hei poe', en:'Pearl and shell necklace', txt:'1 pearl and 3 pūpū', ok:()=>G().pearls.length>=1 && (G().bag.pupu||0)>=3,
+    fact:'A hei is a garland for the head or neck, made of flowers or shells. A shell necklace is often given to visitors when they leave, as a sign of protection. Tahitian pearls grow in the black-lipped oyster; their dark greens, blues and greys are natural.',
+    real:'Pearl farms in the lagoons of the Tuamotu and Gambier islands welcome visitors.'},
+  tapa:{r:'Tapa', en:'Beaten bark cloth', need:{bark:2}, any:['tiairi','mati','rea'], txt:'2 ʻuru bark and 1 dye (tiʻaʻiri, mati or rēʻa)',
+    fact:'Tapa is cloth made of beaten bark: ʻuru, banyan (ʻōrā) or paper mulberry. Women beat it with a grooved beater, the ʻiʻe, on a wooden anvil until it is four or five times wider. Plants give the colours: rēʻa for yellow, mati and tou for red-brown, tiʻaʻiri for black.',
+    real:'On Fatu Hiva, in the Marquesas, tapa is still made by hand.'}
+};
+function craftOK(id){ const C=CRAFTS[id]; if(C.ok) return C.ok(); return has(C.need) && (!C.any || C.any.some(k=>(G().bag[k]||0)>0)); }
+function craftTile(id){ const C=CRAFTS[id], ok=craftOK(id), made=S.crafts&&S.crafts[id]; return `<button class="ctile" data-craft="${id}" ${ok?'':'disabled'}><span class="cth">${craftThumb(id,!made)}</span><b class="reo">${C.r}</b><span>${C.en}</span><span class="small muted">${ok?'Ready to make':'Needs '+C.txt}${made?' · made':''}</span></button>`; }
+function openCraft(id){ const C=CRAFTS[id]; ac();
+  openFull(`<div class="fhead"><div><div class="eyebrow">Make by hand · ${C.en}</div><h2 class="reo">${C.r}</h2></div>${XBTN}</div><div class="fbody" id="cb"></div>`,'',()=>openGarden());
+  ({pareu:craftPareu,hat:craftHat,hei:craftHei,tapa:craftTapa})[id]($('#cb')); }
+function finishCraft(id,extra){ const C=CRAFTS[id]; clearRun(); sfx('stamp'); learn(({pareu:['pareu'],hat:['taupoo','fara'],hei:['hei','poe','pupu'],tapa:['tapa','ie','ora']})[id],true); save();
+  const cb=$('#cb'); cb.scrollTop=0; const r=document.createElement('div'); r.className='result';
+  r.innerHTML=`<div class="eyebrow" style="text-align:center;margin-top:8px">Made by hand</div><h2 style="text-align:center"><span class="reo">${C.r}</span> · ${C.en}</h2>
+    <div class="cbig">${craftThumb(id)}</div>${extra?`<p style="text-align:center">${extra}</p>`:''}
+    ${id!=='tapa'?`<div class="card" style="align-items:center;text-align:center"><div class="birdbox">${birdSVG(S,'cr')}</div><p class="small">Your manu is wearing it. Change what it wears in <b>My manu</b>.</p></div>`:'<p class="small muted" style="text-align:center">Your tapa hangs in your Passport.</p>'}
+    <div class="card flat"><div class="eyebrow">Did you know?</div><p class="small">${C.fact}</p></div>
+    <div class="card flat"><div class="eyebrow">See it for real</div><p class="small">${C.real}</p></div>
+    <div class="row"><button class="btn primary" id="crBack" style="flex:1">Back to the garden</button><button class="btn ghost" id="crShow">Show my manu</button></div>`;
+  cb.appendChild(r); renderBird(); $('#crBack').onclick=()=>closeFull(); $('#crShow').onclick=()=>{ FULL_ON_CLOSE=null; closeFull(); later(()=>bubble(W.mauruuru.r,'Do you like it?'),400); }; }
+
+/* shapes */
+const URU_LEAF='M0 24 C-4 16 -16 14 -18 6 C-12 6 -10 2 -14 -4 C-8 -4 -6 -8 -10 -14 C-4 -12 -2 -16 0 -24 C2 -16 4 -12 10 -14 C6 -8 8 -4 14 -4 C10 2 12 6 18 6 C16 14 4 16 0 24Z';
+function leafG(k,fill){ if(k==='uru') return `<path d="${URU_LEAF}" fill="${fill}"/>`;
+  if(k==='fern'){ let s=`<rect x="-1" y="-24" width="2" height="48" fill="${fill}"/>`; for(let i=0;i<9;i++){ const y=-20+i*5, w=9-Math.abs(i-4)*1.1; s+=`<ellipse cx="${(-w/2-1).toFixed(1)}" cy="${y}" rx="${(w/2+1).toFixed(1)}" ry="2.2" transform="rotate(-18 ${(-w/2-1).toFixed(1)} ${y})" fill="${fill}"/><ellipse cx="${(w/2+1).toFixed(1)}" cy="${y}" rx="${(w/2+1).toFixed(1)}" ry="2.2" transform="rotate(18 ${(w/2+1).toFixed(1)} ${y})" fill="${fill}"/>`; } return s; }
+  if(k==='niho') return `<path d="M-20 8 L-15 -8 L-10 8Z M-10 8 L-5 -8 L0 8Z M0 8 L5 -8 L10 8Z M10 8 L15 -8 L20 8Z" fill="${fill}"/>`;
+  if(k==='honu') return `<ellipse cx="0" cy="0" rx="10" ry="13" fill="${fill}"/><circle cx="0" cy="-16" r="4" fill="${fill}"/><ellipse cx="-11" cy="-7" rx="6" ry="3" transform="rotate(-30 -11 -7)" fill="${fill}"/><ellipse cx="11" cy="-7" rx="6" ry="3" transform="rotate(30 11 -7)" fill="${fill}"/><ellipse cx="-9" cy="10" rx="5" ry="2.5" transform="rotate(30 -9 10)" fill="${fill}"/><ellipse cx="9" cy="10" rx="5" ry="2.5" transform="rotate(-30 9 10)" fill="${fill}"/>`;
+  if(k==='wave') return `<path d="M-20 -8 q5 -5 10 0 t10 0 t10 0 t10 0 M-20 0 q5 -5 10 0 t10 0 t10 0 t10 0 M-20 8 q5 -5 10 0 t10 0 t10 0 t10 0" fill="none" stroke="${fill}" stroke-width="2.4" stroke-linecap="round"/>`;
+  return [0,60,120,180,240,300].map(a=>`<ellipse cx="0" cy="-9" rx="5" ry="10" transform="rotate(${a+15})" fill="${fill}"/>`).join('')+`<circle r="4" fill="${fill}"/>`; }
+const LEAFN={uru:'ʻuru leaf',fern:'fern',tiare:'tiare'};
+const MOTIFN={fern:'fern print',niho:'niho (teeth)',honu:'honu (turtle)',wave:'waves'};
+function svgPoint(svg,e,w,h){ const r=svg.getBoundingClientRect(); return [(e.clientX-r.left)/r.width*w,(e.clientY-r.top)/r.height*h]; }
+function hatSVG(c,band){ const bc=band==='aute'?'#E0303A':band==='tiare'?'#FFFDF5':'#C8402F'; const fl=band==='tiare'?`<g transform="translate(73 27.5)">${[0,72,144,216,288].map(a=>`<circle cx="${(3*Math.cos(a*Math.PI/180)).toFixed(1)}" cy="${(3*Math.sin(a*Math.PI/180)).toFixed(1)}" r="2.4" fill="#FFFDF5" stroke="#E2D6B8" stroke-width=".4"/>`).join('')}<circle r="1.4" fill="#F2C94C"/></g>`:band==='aute'?`<g transform="translate(73 27.5)">${[0,72,144,216,288].map(a=>`<circle cx="${(3*Math.cos(a*Math.PI/180)).toFixed(1)}" cy="${(3*Math.sin(a*Math.PI/180)).toFixed(1)}" r="2.6" fill="#E0303A"/>`).join('')}<circle r="1.3" fill="#8E1420"/></g>`:'';
+  return `<g><ellipse cx="82" cy="31" rx="24" ry="5.5" fill="#E2C27A" stroke="#B8934A" stroke-width="1"/><path d="M68 31 Q70 13 82 13 Q94 13 96 31 Z" fill="#EBD08E" stroke="#B8934A" stroke-width="1"/><path d="M69 27 Q82 31.5 95 27" fill="none" stroke="${bc}" stroke-width="3"/><path d="M73 17 L91 17 M71 22 L93 22 M76 14 L78 30 M82 13 L82 30 M88 14 L86 30" stroke="#B8934A" stroke-width=".6" fill="none"/>${fl}</g>`; }
+function neckSVG(beads){ const n=beads.length; return beads.map((b,i)=>{ const t=i/(n-1||1), x=60+t*32, y=60+Math.sin(t*Math.PI)*6.5+t*2; return b.t==='p'?`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.5" fill="${b.c}" stroke="#C9D6D2" stroke-width=".5"/><circle cx="${(x-.7).toFixed(1)}" cy="${(y-.8).toFixed(1)}" r=".8" fill="#fff" opacity=".75"/>`:`<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="2" ry="2.6" fill="#F7E3D0" stroke="#C99A7A" stroke-width=".6"/>`; }).join(''); }
+function craftThumb(id,ghost){ const cr=(S.crafts||{})[id];
+  if(id==='pareu'){ const c=cr?cr.c:'#9DB4BC'; return `<svg viewBox="0 0 120 80" aria-hidden="true"><rect x="6" y="6" width="108" height="68" rx="3" fill="${ghost?'none':c}" stroke="${ghost?'#9DB4BC':shade(c,.7)}" stroke-width="2" ${ghost?'stroke-dasharray="4 4"':''}/>${cr&&!ghost?cr.m.map(m=>`<g transform="translate(${(m.x*.36+6).toFixed(1)} ${(m.y*.34+6).toFixed(1)}) rotate(${m.r}) scale(.45)">${leafG(m.k,'rgba(255,255,255,.55)')}</g>`).join(''):''}</svg>`; }
+  if(id==='hat'){ return `<svg viewBox="62 6 40 30" aria-hidden="true" ${ghost?'opacity=".35"':''}>${hatSVG(null,cr?cr.band:'plain')}</svg>`; }
+  if(id==='hei'){ const beads=cr&&!ghost?cr.beads:[{t:'s'},{t:'p',c:'#2B3036'},{t:'s'},{t:'p',c:'#3E5B57'},{t:'s'}]; return `<svg viewBox="55 54 42 20" aria-hidden="true" ${ghost?'opacity=".35"':''}><path d="M58 59 Q76 74 94 61" fill="none" stroke="#8A6A4A" stroke-width=".6"/>${neckSVG(beads)}</svg>`; }
+  const c=cr?cr.c:'#8A6A4A'; return `<svg viewBox="0 0 120 80" aria-hidden="true"><rect x="8" y="6" width="104" height="68" rx="2" fill="${ghost?'none':'#E8D6B0'}" stroke="${ghost?'#9DB4BC':'#C9B48A'}" stroke-width="2" ${ghost?'stroke-dasharray="4 4"':''}/>${cr&&!ghost?cr.st.map(m=>`<g transform="translate(${(m.x*.4+8).toFixed(1)} ${(m.y*.4+6).toFixed(1)}) scale(.45)">${leafG(m.k,m.c||c)}</g>`).join(''):''}</svg>`; }
+
+/* --- pāreu: sun print --- */
+function craftPareu(el){ const g=G(); const dyes=CRAFTS.pareu.any.filter(k=>(g.bag[k]||0)>0); let dye=dyes[0], leaf='uru'; const marks=[]; let printed=false;
+  el.innerHTML=`<div class="card"><b class="small">1. Choose a dye</b><div class="row" id="pDyes">${dyes.map(k=>`<button class="btn sm ${k===dye?'primary':'ghost'}" data-d="${k}"><span class="dot" style="background:${DYES[k].c}"></span>${BAGN[k]} · ${DYES[k].en}</button>`).join('')}</div></div>
+    <div class="art" style="background:#F4E7CF"><svg viewBox="0 0 300 200" id="pSvg" role="img" aria-label="A length of cotton cloth, freshly dyed"><rect x="0" y="0" width="300" height="200" fill="#F4E7CF"/><rect id="pCloth" x="14" y="14" width="272" height="172" rx="3" fill="${DYES[dye].c}" style="transition:fill 1.2s"/>${Array.from({length:12},(_,i)=>`<path d="M${14+i*24} 186 v8 M${22+i*24} 14 v-8" stroke="${shade(DYES[dye].c,.8)}" stroke-width="2" class="fringe"/>`).join('')}<g id="pMarks" style="opacity:0;transition:opacity 1s"></g><g id="pLeaves" style="transition:opacity 1s"></g><rect id="pSun" width="300" height="200" fill="#FFF3C4" style="opacity:0;transition:opacity .9s"/></svg></div>
+    <div class="card"><b class="small">2. Lay leaves on the wet cloth</b><div class="row" id="pLeafs">${Object.keys(LEAFN).map(k=>`<button class="btn sm ${k===leaf?'primary':'ghost'}" data-l="${k}">${LEAFN[k]}</button>`).join('')}</div><p class="small muted" id="pN">Tap the cloth to lay a leaf (0 of 8).</p></div>
+    <button class="btn sun" id="pGo" disabled>3. Let the sun print it</button>`;
+  const svg=$('#pSvg');
+  const setDye=k=>{ dye=k; $('#pCloth').setAttribute('fill',DYES[k].c); $$('#pSvg .fringe').forEach(f=>f.setAttribute('stroke',shade(DYES[k].c,.8))); $$('#pDyes .btn').forEach(b=>b.className='btn sm '+(b.dataset.d===k?'primary':'ghost')); };
+  $$('#pDyes .btn').forEach(b=>b.onclick=()=>{ if(!printed) setDye(b.dataset.d); });
+  $$('#pLeafs .btn').forEach(b=>b.onclick=()=>{ leaf=b.dataset.l; $$('#pLeafs .btn').forEach(x=>x.className='btn sm '+(x===b?'primary':'ghost')); });
+  svg.addEventListener('pointerdown',e=>{ if(printed||marks.length>=8) return; const [x,y]=svgPoint(svg,e,300,200); if(x<28||x>272||y<28||y>172) return; const m={k:leaf,x:Math.round(x),y:Math.round(y),r:Math.round(rnd(-40,40))}; marks.push(m); sfx('tap');
+    const tr=`translate(${m.x} ${m.y}) rotate(${m.r}) scale(1.3)`; $('#pMarks').insertAdjacentHTML('beforeend',`<g transform="${tr}">${leafG(m.k,'rgba(255,255,255,.58)')}</g>`); $('#pLeaves').insertAdjacentHTML('beforeend',`<g transform="${tr}">${leafG(m.k,m.k==='tiare'?'#FFFDF5':m.k==='fern'?'#2F7D4C':'#3B8C58')}</g>`);
+    $('#pN').textContent=`Tap the cloth to lay a leaf (${marks.length} of 8).`; $('#pGo').disabled=marks.length<2; });
+  $('#pGo').onclick=()=>{ if(printed) return; printed=true; $('#pGo').disabled=true; $('#pGo').textContent='The sun is printing…'; sfx('uke'); $('#pSun').style.opacity='.55';
+    later(()=>{ $('#pSun').style.opacity='0'; $('#pCloth').setAttribute('fill',shade(DYES[dye].c,.88)); },1000);
+    later(()=>{ $('#pLeaves').style.opacity='0'; $('#pMarks').style.opacity='1'; },1900);
+    later(()=>{ take(Object.assign({vavai:2},{[dye]:1})); S.crafts=S.crafts||{}; S.crafts.pareu={c:shade(DYES[dye].c,.88),m:marks}; S.acc.pareu=true; save(); finishCraft('pareu',`Dyed with <span class="reo">${BAGN[dye]}</span>, printed by the sun.`); },3300); }; }
+
+/* --- tāupoʻo: weave over and under --- */
+const WEAVE={plain:{n:'Plain',rows:['OUOUOU','UOUOUO','OUOUOU','UOUOUO']}, twill:{n:'Twill',rows:['OOUUOO','UOOUUO','UUOOUU','OUUOOU']}, diamond:{n:'Diamond',rows:['UUOOUU','UOUUOU','OUUUUO','UOUUOU']}};
+function craftHat(el){ let pat=null, i=0;
+  el.innerHTML=`<div class="card"><b class="small">1. Choose a weave</b><div class="row" id="hPats">${Object.keys(WEAVE).map(k=>`<button class="btn sm ghost" data-w="${k}">${WEAVE[k].n}</button>`).join('')}</div><p class="small muted">Each fara strip goes over (O) or under (U) the strip it crosses.</p></div>
+    <div class="art" style="background:#F2E6CC"><svg viewBox="0 0 240 160" id="hSvg" role="img" aria-label="A pandanus mat being woven"><rect width="240" height="160" fill="#F2E6CC"/><g id="hCells"></g><rect id="hCur" x="12" y="12" width="36" height="34" fill="none" stroke="#D9562E" stroke-width="3" rx="3" opacity="0"/></svg></div>
+    <div class="card"><div class="row" style="justify-content:space-between"><span class="fb" id="hFb" aria-live="polite">Choose a weave to start.</span><b id="hN">0 / 24</b></div><div class="row" id="hRow" style="gap:4px;font-family:var(--display);font-weight:600"></div></div>
+    <div class="pad"><button class="btn primary" id="hO" disabled>Over</button><button class="btn primary" id="hU" disabled>Under</button></div><div id="hBand"></div>`;
+  const cell=(r,c,v)=>{ const x=12+c*36, y=12+r*34; return v==='O'?`<rect x="${x}" y="${y}" width="36" height="34" fill="#EBD08E" stroke="#B8934A" stroke-width=".8"/><path d="M${x} ${y+11} h36 M${x} ${y+23} h36" stroke="#C9A35E" stroke-width=".8"/>`:`<rect x="${x}" y="${y}" width="36" height="34" fill="#C9A35E" stroke="#9A7A44" stroke-width=".8"/><path d="M${x+12} ${y} v34 M${x+24} ${y} v34" stroke="#A8864A" stroke-width=".8"/>`; };
+  const showRow=()=>{ if(!pat) return; const r=Math.floor(i/6); $('#hRow').innerHTML=r<4?`<span class="small muted" style="font-family:var(--body);font-weight:400">Row ${r+1}:</span>`+WEAVE[pat].rows[r].split('').map((v,c)=>`<span class="wv ${r*6+c<i?'done':''} ${r*6+c===i?'cur':''}">${v}</span>`).join(''):''; const cur=$('#hCur'); if(i<24){ cur.setAttribute('x',12+(i%6)*36); cur.setAttribute('y',12+r*34); cur.setAttribute('opacity','1'); } else cur.setAttribute('opacity','0'); };
+  $$('#hPats .btn').forEach(b=>b.onclick=()=>{ if(i>0) return; pat=b.dataset.w; $$('#hPats .btn').forEach(x=>x.className='btn sm '+(x===b?'primary':'ghost')); $('#hO').disabled=false; $('#hU').disabled=false; $('#hFb').textContent='Follow the row: over or under?'; showRow(); });
+  const press=v=>{ if(!pat||i>=24) return; const r=Math.floor(i/6), c=i%6, want=WEAVE[pat].rows[r][c];
+    if(v===want){ $('#hCells').insertAdjacentHTML('beforeend',cell(r,c,v)); i++; sfx('tap'); $('#hN').textContent=`${i} / 24`; $('#hFb').className='fb good'; $('#hFb').textContent=i%6?'Good':'Row done!'; showRow(); if(i>=24) bandStep(); }
+    else { sfx('bad'); $('#hFb').className='fb bad'; $('#hFb').textContent=`This strip goes ${want==='O'?'over':'under'}.`; const b=$(v==='O'?'#hO':'#hU'); b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); } };
+  $('#hO').onclick=()=>press('O'); $('#hU').onclick=()=>press('U');
+  const bandStep=()=>{ $('#hO').disabled=true; $('#hU').disabled=true; const g=G(); const opts=[['plain','Red band',true],['tiare','Tiare band',(g.bag.tiare||0)>0],['aute','ʻAute band',(g.bag.aute||0)>0]];
+    $('#hBand').innerHTML=`<div class="card"><b class="small">Last step: a band for your tāupoʻo</b><div class="row">${opts.map(o=>`<button class="btn sm ghost" data-b="${o[0]}" ${o[2]?'':'disabled'}>${o[1]}${o[0]!=='plain'?` (${o[2]?'uses 1':'none in basket'})`:''}</button>`).join('')}</div></div>`;
+    $('#hBand').scrollIntoView({behavior:RM?'auto':'smooth',block:'nearest'});
+    $$('#hBand .btn').forEach(b=>b.onclick=()=>{ const band=b.dataset.b; const use={fara:3}; if(band!=='plain') use[band]=1; take(use); S.crafts=S.crafts||{}; S.crafts.hat={band,pat}; S.acc.hat=true; S.acc.hei=false; save(); finishCraft('hat',`A ${WEAVE[pat].n.toLowerCase()} weave of fara, with a ${band==='plain'?'red':BAGN[band]} band.`); }); }; }
+
+/* --- hei poe: string pearls and shells --- */
+function craftHei(el){ const g=G(); const beads=[]; const used=new Set(); const N=7;
+  const slots=Array.from({length:N},(_,i)=>{ const t=(i+1)/(N+1); const x=(1-t)*(1-t)*20+2*(1-t)*t*150+t*t*280, y=(1-t)*(1-t)*24+2*(1-t)*t*134+t*t*24; return [x,y]; });
+  el.innerHTML=`<div class="art" style="background:#123A55"><svg viewBox="0 0 300 120" role="img" aria-label="A cord for the necklace"><rect width="300" height="120" fill="#123A55"/><path d="M20 24 Q150 134 280 24" fill="none" stroke="#C9A35E" stroke-width="2"/><g id="kB">${slots.map(s=>`<circle cx="${s[0].toFixed(1)}" cy="${s[1].toFixed(1)}" r="10" fill="none" stroke="#ffffff" stroke-opacity=".35" stroke-dasharray="3 3"/>`).join('')}</g></svg></div>
+    <div class="card"><b class="small">Tap a pearl or a shell to thread it (7 in all, at least one pearl)</b><div class="row" id="kPal"></div><div class="row"><button class="btn sm ghost" id="kUndo">Undo</button><span class="small muted" id="kN">0 / 7</span></div></div>
+    <button class="btn sun" id="kGo" disabled>Tie the hei</button>`;
+  const draw=()=>{ $('#kB').innerHTML=slots.map((s,i)=>{ const b=beads[i]; if(!b) return `<circle cx="${s[0].toFixed(1)}" cy="${s[1].toFixed(1)}" r="10" fill="none" stroke="#ffffff" stroke-opacity=".35" stroke-dasharray="3 3"/>`; return b.t==='p'?`<circle cx="${s[0].toFixed(1)}" cy="${s[1].toFixed(1)}" r="10" fill="${b.c}" stroke="#C9D6D2" stroke-width="1.2"/><circle cx="${(s[0]-3).toFixed(1)}" cy="${(s[1]-3.5).toFixed(1)}" r="3" fill="#fff" opacity=".7"/>`:`<g transform="translate(${s[0].toFixed(1)} ${s[1].toFixed(1)})"><path d="M0 -11 C8 -9 10 -1 7 6 Q0 10 -7 6 C-10 -1 -8 -9 0 -11Z" fill="#F7E3D0" stroke="#C99A7A" stroke-width="1"/><path d="M0 -9 V8 M-3.5 -8 Q-4.5 0 -3.5 7 M3.5 -8 Q4.5 0 3.5 7" stroke="#D9A88A" stroke-width=".8" fill="none"/></g>`; }).join('');
+    const shellsLeft=(g.bag.pupu||0)-beads.filter(b=>b.t==='s').length;
+    $('#kPal').innerHTML=g.pearls.map((c,i)=>`<button class="bead" data-p="${i}" ${used.has(i)||beads.length>=N?'disabled':''} aria-label="Pearl"><span class="pearl" style="background:${c}"></span></button>`).join('')+`<button class="bead" data-s="1" ${shellsLeft<=0||beads.length>=N?'disabled':''} aria-label="Shell"><svg viewBox="-12 -12 24 24" width="26" height="26"><path d="M0 -11 C8 -9 10 -1 7 6 Q0 10 -7 6 C-10 -1 -8 -9 0 -11Z" fill="#F7E3D0" stroke="#C99A7A"/></svg><span class="small">×${shellsLeft}</span></button>`;
+    $$('#kPal .bead').forEach(b=>b.onclick=()=>{ if(b.dataset.p!==undefined){ const i=+b.dataset.p; used.add(i); beads.push({t:'p',c:g.pearls[i],i}); } else beads.push({t:'s'}); sfx('tap'); draw(); });
+    $('#kN').textContent=`${beads.length} / ${N}`; $('#kGo').disabled=!(beads.length===N && beads.some(b=>b.t==='p')); };
+  $('#kUndo').onclick=()=>{ const b=beads.pop(); if(b&&b.t==='p') used.delete(b.i); draw(); };
+  $('#kGo').onclick=()=>{ const shells=beads.filter(b=>b.t==='s').length; g.pearls=g.pearls.filter((_,i)=>!used.has(i)); take({pupu:shells}); S.crafts=S.crafts||{}; S.crafts.hei={beads:beads.map(b=>b.t==='p'?{t:'p',c:b.c}:{t:'s'})}; S.acc.necklace=true; save(); finishCraft('hei',`${N-shells} pearl${N-shells>1?'s':''} and ${shells} shell${shells===1?'':'s'} on a cord.`); };
+  draw(); }
+
+/* --- tapa: beat, dry, decorate --- */
+function craftTapa(el){ const g=G(); const dyes=CRAFTS.tapa.any.filter(k=>(g.bag[k]||0)>0); let dye=dyes[0], motif='fern', beats=0; const st=[]; let phase='beat';
+  el.innerHTML=`<div class="art" style="background:#5A3A1E"><svg viewBox="0 0 300 180" id="tSvg" role="img" aria-label="Bark on a wooden anvil"><rect width="300" height="180" fill="#3E5A3A"/><rect x="20" y="118" width="260" height="30" rx="8" fill="#6B4426"/><rect x="20" y="118" width="260" height="6" rx="3" fill="#8A5A2B"/><rect id="tBark" x="130" y="40" width="40" height="80" rx="3" fill="#E8D6B0" stroke="#C9B48A" stroke-width="1.5"/><g id="tSt"></g><g id="tStones"></g><g id="tIe" style="transform-box:fill-box;transform-origin:100% 50%;transition:transform .09s"><rect x="186" y="12" width="70" height="16" rx="4" fill="#5A3A1E"/>${Array.from({length:7},(_,i)=>`<path d="M${190+i*7} 14 v12" stroke="#3A2412" stroke-width="1.2"/>`).join('')}<rect x="250" y="16" width="34" height="8" rx="4" fill="#7A5230"/></g></svg></div>
+    <div class="card" id="tCard"><p class="small">Soak the <span class="reo">ʻuru</span> bark, then beat it with the <span class="reo">ʻiʻe</span> to make it wider and thinner.</p><div class="meter"><div class="f" id="tM"></div></div><span class="fb" id="tFb" aria-live="polite">0 / 24 beats</span></div>
+    <button class="btn sun" id="tGo" style="min-height:66px;font-size:1.1rem">Beat with the ʻiʻe</button><div id="tDeco"></div>`;
+  const svg=$('#tSvg');
+  $('#tGo').onclick=()=>{ if(phase!=='beat') return; beats++; const w=40+beats*(220/24); const b=$('#tBark'); b.setAttribute('width',w.toFixed(1)); b.setAttribute('x',(150-w/2).toFixed(1)); $('#tM').style.width=(beats/24*100)+'%'; $('#tFb').textContent=`${beats} / 24 beats`;
+    const ie=$('#tIe'); ie.style.transform='rotate(-14deg) translate(-'+(beats%2?20:40)+'px,34px)'; setTimeout(()=>{ ie.style.transform=''; },110); if(S.sound){ const a=ac(); if(a) drum(a.currentTime+.01); }
+    if(beats>=24){ phase='dry'; $('#tGo').disabled=true; $('#tGo').textContent='Drying in the shade…'; $('#tFb').className='fb good'; $('#tFb').textContent='Four or five times wider!'; $('#tStones').innerHTML=[[42,44],[258,44],[42,114],[258,114]].map(p=>`<ellipse cx="${p[0]}" cy="${p[1]}" rx="8" ry="6" fill="#8A9BA6"/>`).join(''); later(decorate,1500); } };
+  const decorate=()=>{ phase='deco'; $('#tGo').hidden=true; $('#tCard').innerHTML='<p class="small">Dry and soft. Now decorate it: choose a colour and a motif, then tap the tapa to print.</p>';
+    $('#tDeco').innerHTML=`<div class="card"><div class="row" id="tDyes">${dyes.map(k=>`<button class="btn sm ${k===dye?'primary':'ghost'}" data-d="${k}"><span class="dot" style="background:${DYES[k].c}"></span>${BAGN[k]}</button>`).join('')}</div><div class="row" id="tMot">${Object.keys(MOTIFN).map(k=>`<button class="btn sm ${k===motif?'primary':'ghost'}" data-m="${k}">${MOTIFN[k]}</button>`).join('')}</div><p class="small muted" id="tN">0 of 10 prints</p></div><button class="btn sun" id="tDone" disabled style="width:100%;margin-top:12px">Finish the tapa</button>`;
+    $$('#tDyes .btn').forEach(b=>b.onclick=()=>{ dye=b.dataset.d; $$('#tDyes .btn').forEach(x=>x.className='btn sm '+(x===b?'primary':'ghost')); });
+    $$('#tMot .btn').forEach(b=>b.onclick=()=>{ motif=b.dataset.m; $$('#tMot .btn').forEach(x=>x.className='btn sm '+(x===b?'primary':'ghost')); });
+    $('#tDone').onclick=()=>{ const used=[...new Set(st.map(s=>s.d))]; const use={bark:2}; used.forEach(d=>{ use[d]=1; }); take(use); S.crafts=S.crafts||{}; S.crafts.tapa={c:DYES[st[0].d].c, st:st.map(s=>({k:s.k,x:s.x,y:s.y,c:DYES[s.d].c}))}; save(); finishCraft('tapa',`Beaten from ʻuru bark and printed with ${used.map(d=>BAGN[d]).join(' and ')}.`); }; };
+  svg.addEventListener('pointerdown',e=>{ if(phase!=='deco'||st.length>=10) return; const [x,y]=svgPoint(svg,e,300,180); if(x<30||x>270||y<44||y>116) return; st.push({k:motif,x:Math.round(x),y:Math.round(y),d:dye}); sfx('tap');
+    $('#tSt').insertAdjacentHTML('beforeend',`<g transform="translate(${Math.round(x)} ${Math.round(y)}) scale(.8)">${leafG(motif,DYES[dye].c)}</g>`); $('#tN').textContent=`${st.length} of 10 prints`; $('#tDone').disabled=st.length<3; }); }
+
+/* ---------- ʻāʻai: legends ---------- */
+const LEGENDS={
+  hina:{isl:'tahiti', at:[178,300], t:'Hina and the eel', sub:'How the coconut palm was born',
+    art:()=>`<svg viewBox="0 0 360 200" aria-hidden="true"><defs>${vgrad('lgH','#8ED0EE','#DFF3EE',0,120)}</defs><rect width="360" height="200" fill="url(#lgH)"/><path d="M0 120 L60 60 L110 100 L170 40 L230 96 L300 50 L360 110 V200 H0Z" fill="#4F9E72"/><path d="M-10 170 Q90 140 180 160 T370 150 V200 H-10Z" fill="#3E8FB0"/><path d="M40 168 q20 -10 40 0 t40 0 t40 0" stroke="#2B4A3A" stroke-width="6" fill="none" stroke-linecap="round"/><circle cx="162" cy="166" r="3" fill="#2B4A3A"/>${palmG(250,190,.8,false)}<g transform="translate(300 150)"><circle r="22" fill="#7A5230" stroke="#5A3A1E" stroke-width="2"/><circle cx="-7" cy="-5" r="3.6" fill="#3A2412"/><circle cx="7" cy="-5" r="3.6" fill="#3A2412"/><circle cx="0" cy="6" r="3.6" fill="#3A2412"/></g></svg>`,
+    pages:['Long ago, Hina was promised to the Prince of Eels, the ruler of the rivers. She did not want him, and ran to Hiro for help.',
+      'Hiro caught the eel in the river and cut off its head. He wrapped it in leaves and told Hina: “Do not put the basket on the ground until you are home.” But the day was hot. Hina set the basket down by the river and went to bathe.',
+      'When she came back, the head had become a tall tree with long leaves like hair: the first coconut palm. Look at a coconut: its three dark spots are the eel’s two eyes and mouth. Years later, in a dry season, Hina drank from a coconut, and so she kissed the eel after all.'],
+    reward:()=>{ addSeeds(2,'haari'); return '2 haʻari (coconut) seeds for your faʻaʻapu'; }, words:['haari','aai'],
+    src:'A Tahitian telling recorded in Arue (USC Digital Folklore Archives). Many versions are told across Polynesia.'},
+  pai:{isl:'moorea', at:[240,226], t:'Pai and the pierced mountain', sub:'Why Mouaputa has a hole',
+    art:()=>`<svg viewBox="0 0 360 200" aria-hidden="true"><defs>${vgrad('lgP','#0B1834','#2C4E7A',0,150)}</defs><rect width="360" height="200" fill="url(#lgP)"/><circle cx="300" cy="44" r="16" fill="#FFF3C4"/>${[[40,30],[90,60],[150,24],[220,50],[260,90]].map(s=>`<circle cx="${s[0]}" cy="${s[1]}" r="1.4" fill="#FFF6D8"/>`).join('')}<path d="M120 160 L170 70 L196 40 L214 72 L250 160Z" fill="#2E5A45"/><circle cx="200" cy="68" r="8" fill="#5A80B0"/><circle cx="200" cy="68" r="8" fill="none" stroke="#FFD08A" stroke-width="1" opacity=".6"/><path d="M10 120 Q100 40 196 66" stroke="#FFD08A" stroke-width="2" stroke-dasharray="5 5" fill="none"/><path d="M-10 160 H370 V200 H-10Z" fill="#14324A"/><path d="M0 150 L30 120 L70 150Z" fill="#1E3F30"/></svg>`,
+    pages:['One night, Hiro and his companions sailed from Raiatea to steal Mount Rotui, the sacred mountain of Moʻorea. They tied long vines around its peak and began to pull.',
+      'Part of the mountain broke away: the legend says this is how Moʻorea’s two bays were made. Across the water on Tahiti, the warrior Pai woke up, climbed a hill and threw his spear of hibiscus wood.',
+      'The spear went straight through a mountain and left a hole: Mouaputa, the pierced mountain. The blow woke the roosters, and they crowed. Thinking dawn had come, the thieves ran away. You can still see the hole in Mouaputa today.'],
+    reward:()=>{ addSeeds(2,'aute'); return '2 ʻaute (hibiscus) seeds, the wood of Pai’s spear'; }, words:['aute','aai'],
+    src:'As told by Tahiti Tourisme. The mountain’s older name is said to be Mouʻa Tapu, the sacred mountain.'},
+  oro:{isl:'bora', at:[234,290], t:'ʻOro and the rainbow', sub:'A god on Mount Pahia',
+    art:()=>`<svg viewBox="0 0 360 200" aria-hidden="true"><defs>${vgrad('lgO','#6FA8D8','#FCD9B4',0,150)}</defs><rect width="360" height="200" fill="url(#lgO)"/>${['#E4583F','#F0A23A','#F2C94C','#3B8C58','#1AA3B1','#5B6FB8'].map((c,i)=>`<path d="M${70+i*6} 170 A${110-i*6} ${120-i*6} 0 0 1 ${290-i*6} 170" fill="none" stroke="${c}" stroke-width="6" opacity=".55"/>`).join('')}<path d="M110 170 L130 90 L150 70 L170 76 L176 120 L190 170Z" fill="#46765D"/><path d="M180 170 L210 110 L224 100 L238 112 L262 170Z" fill="#4E8466"/><path d="M-10 168 H370 V200 H-10Z" fill="#22BCC2"/><ellipse cx="240" cy="182" rx="40" ry="7" fill="#7FDDD8"/><circle cx="240" cy="180" r="7" fill="#2B3036" stroke="#C9D6D2" stroke-width="1.5"/><circle cx="237.5" cy="177.5" r="2" fill="#fff" opacity=".7"/></svg>`,
+    pages:['ʻOro, god of war and of peace, lived with his sisters on Mount Pahia, the peak beside Otemanu. He wished for a wife, and came down to earth on a rainbow, disguised as a warrior.',
+      'His sisters saw Vairaumati bathing in a pool at Vaitape. Every morning ʻOro came down the rainbow to meet her, and every evening he went back up to Pahia. His brothers brought red feathers as wedding gifts.',
+      'Some say ʻOro also gave her a black pearl as a token of his love. Pearls are farmed in Polynesia’s lagoons to this day.'],
+    reward:()=>{ const g=G(); g.pearls.push('#2B3036'); oysters(); save(); return 'Your first black pearl, and a pearl line in your faʻaʻapu'; }, words:['poe','aai'],
+    src:'After Teuira Henry, Ancient Tahiti. The pearl is a later addition to the story.'},
+  ruataata:{garden:true, t:'Ruataʻata and the ʻuru', sub:'The tree that saved a family',
+    art:()=>`<svg viewBox="0 0 360 200" aria-hidden="true"><defs>${vgrad('lgR','#1D2A4A','#5A4A6A',0,200)}</defs><rect width="360" height="200" fill="url(#lgR)"/><circle cx="70" cy="50" r="18" fill="#FFF3C4"/><path d="M0 180 Q180 160 360 180 V200 H0Z" fill="#2E4A3A"/><g transform="translate(118 26) scale(1.3)">${plantSVG('uru',3).replace('<svg ','<svg width="120" height="126" ')}</g><g transform="translate(270 150)"><path d="M-24 0 L0 -22 L24 0Z" fill="#9A6A3A"/><rect x="-20" y="0" width="40" height="24" fill="#E9D3A8"/></g></svg>`,
+    pages:['A great famine struck Raiatea. Ruataʻata, his wife Rumauariʻi and their children had nothing left to eat but mountain ferns.',
+      'Exhausted, Ruataʻata wished to become a tree that could feed his children: his hands would be its leaves, his body the trunk and branches, his head the fruit, and his tongue its heart.',
+      'In the morning, his wife found a breadfruit tree full of ripe fruit beside the house. The family was saved. That is why the ʻuru is called a tree of life.'],
+    reward:()=>{ addSeeds(1,'uru'); bagAdd({bark:1}); return '1 ʻuru seed and 1 strip of ʻuru bark'; }, words:['uru','aai'],
+    src:'A legend of Raiatea, as retold by Welcome Tahiti.'},
+  hinamoon:{garden:true, t:'Hina in the moon', sub:'The woman who beats tapa',
+    art:()=>`<svg viewBox="0 0 360 200" aria-hidden="true"><defs>${vgrad('lgM','#050D24','#22406A',0,200)}</defs><rect width="360" height="200" fill="url(#lgM)"/><circle cx="200" cy="80" r="56" fill="#FFF3C4"/><g fill="#D9CC9E" opacity=".9"><path d="M186 120 Q184 96 196 80 Q186 74 176 78 Q186 70 198 74 Q200 60 212 56 Q206 70 210 78 Q222 72 232 78 Q220 82 210 86 Q212 100 214 120Z"/></g><path d="M-10 160 Q180 150 370 160 V200 H-10Z" fill="#14324A"/><g transform="translate(70 158)"><path d="M-18 0 Q0 5 18 0 L14 4 Q0 8 -14 4Z" fill="#7A5230"/><path d="M0 -1 V-16 L10 -4Z" fill="#EADBB8"/></g></svg>`,
+    pages:['Hina loved to discover. She sailed with her brother Ru to find the islands, keeping watch from the bow for land.',
+      'One full-moon evening she set off in her canoe to visit the moon. She stepped onto it, and her canoe drifted away, never to be seen again. She stayed: the woman in the moon, who watches over travellers and beats tapa.',
+      'The shadows on the moon are a banyan tree, the ʻōrā. One of its branches fell to ʻŌpoa, on Raiatea, and became the first banyan on earth. Its bark, like the ʻuru’s, can be beaten into tapa.'],
+    reward:()=>{ bagAdd({bark:1}); addSeeds(1,'tiairi'); return '1 strip of bark and 1 tiʻaʻiri seed for a black dye'; }, words:['ora','marama','tapa','aai'],
+    src:'After Teuira Henry, Ancient Tahiti (Hōkūleʻa archive).'}
+};
+function openLegend(id,fromGarden){ const L=LEGENDS[id]; let p=0; ac();
+  openFull(`<div class="fhead"><div><div class="eyebrow">ʻĀʻai · Legend${L.isl?' of '+ISL[L.isl].r:''}</div><h2>${L.t}</h2></div>${XBTN}</div><div class="fbody" id="lb"></div>`,'',fromGarden?()=>openGarden():null);
+  const draw=()=>{ const last=p===L.pages.length-1; const first=!(S.legends&&S.legends[id]);
+    $('#lb').innerHTML=`<div class="art">${L.art()}</div><div class="card"><p>${L.pages[p]}</p><div class="row" style="justify-content:space-between"><span class="prog">${prog(p+1,L.pages.length)}</span><span class="small muted">${p+1} of ${L.pages.length}</span></div></div>
+      ${last?`<div class="card flat"><p class="small muted">${L.src}</p></div>`:''}
+      <div class="row">${p>0?'<button class="btn ghost" id="lBack">Back</button>':''}<button class="btn ${last?'sun':'primary'}" id="lNext" style="flex:1">${last?(first?'Receive a gift':'Close'):'Next'}</button></div>`;
+    if($('#lBack')) $('#lBack').onclick=()=>{ p--; draw(); };
+    $('#lNext').onclick=()=>{ if(!last){ p++; sfx('tap'); draw(); $('#lb').scrollTop=0; return; }
+      if(!first){ closeFull(); return; }
+      S.legends=S.legends||{}; S.legends[id]=true; const gift=L.reward(); learn(L.words,true); save(); sfx('stamp');
+      $('#lb').innerHTML=`<div class="art">${L.art()}</div><div class="card" style="align-items:center;text-align:center"><div class="eyebrow">A gift from the legend</div><h3>${gift}</h3><div class="birdbox">${birdSVG(S,'lg')}</div><p class="small">${Object.keys(LEGENDS).filter(k=>S.legends[k]).length} of ${Object.keys(LEGENDS).length} legends heard.</p></div><button class="btn primary" id="lDone">${fromGarden?'Back to the garden':L.isl?'Back to '+ISL[L.isl].en:'Close'}</button>`;
+      $('#lDone').onclick=()=>closeFull(); }; };
+  draw(); }
+
 /* ---------- start ---------- */
 $('#dMap').onclick=()=>{ ac(); MAPSEL=null; openMap(); };
 $('#dWords').onclick=()=>{ ac(); openWords(); };
 $('#dPass').onclick=()=>{ ac(); openPassport(); };
 $('#dManu').onclick=()=>{ ac(); openManu(); };
+$('#dGarden').onclick=()=>{ ac(); openGarden(); };
 $('#infoBtn').onclick=openInfo;
 $('#soundBtn').onclick=()=>{ S.sound=!S.sound; save(); renderHeader(); if(S.sound){ ac(); sfx('tap'); } else { try{ speechSynthesis.cancel(); }catch(e){} } };
 renderAll();
 B.y=groundY(); { const [a,b]=walkRange(); B.x=(a+b)/2; } place();
 requestAnimationFrame(loop);
 let rT=null; window.addEventListener('resize',()=>{ clearTimeout(rT); rT=setTimeout(()=>{ renderPins(); const [a,b]=walkRange(); B.x=clamp(B.x,a,b); if(B.state!=='fly') B.y=groundY(); },120); });
-if(location.hash==='#dev') window.MT={state:()=>S, openAct, finishAct, startVoyage, openMap, openWords, openPassport, openManu, openInfo, closeFull, island:i=>{ S.island=i; if(!S.visited.includes(i)) S.visited.push(i); save(); closeFull(); renderAll(); }};
+if(location.hash==='#dev') window.MT={state:()=>S, openAct, finishAct, startVoyage, openMap, openWords, openPassport, openManu, openInfo, closeFull, openGarden, openCraft, openLegend, G, addSeeds, bagAdd, island:i=>{ S.island=i; if(!S.visited.includes(i)) S.visited.push(i); save(); closeFull(); renderAll(); }};
 if(!S.onboarded) openWelcome();
 else later(()=>bubble(W.iaorana.r+'!','Welcome back to '+ISL[S.island].en+'.'),900);
 

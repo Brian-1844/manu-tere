@@ -2,7 +2,7 @@
 
 A voyaging bird that takes visitors around the islands of French Polynesia. It is in English, with Reo Māʻohi words throughout, and is a sister app to Manu Ora.
 
-**Prototype, version 0.1.** Three islands (Tahiti, Moʻorea, Porapora / Bora Bora), a star-navigation voyage between them, nine activities, a passport and a word list.
+**Prototype, version 0.2.** Three islands (Tahiti, Moʻorea, Porapora / Bora Bora), a star-navigation voyage between them, nine activities, five legends, a faʻaʻapu with four crafts, a passport and a word list.
 
 ## Put it online (GitHub Pages)
 
@@ -23,6 +23,9 @@ There is no service worker yet, so an update shows up after a normal reload.
 
 - **Voyages:** keep the guide star (or the sun) above the mast. Matariʻi sets toward Porapora and ʻAna-mua rises toward Tahiti. The day crossing to Moʻorea follows the sun.
 - **Rewards:** finishing all three activities on an island unlocks an item for the bird: a hei, a pāreu, sunglasses.
+- **Faʻaʻapu (garden):** six plots, with plants ready in a few minutes so a visitor can harvest during a stay. The real moon speeds up growth while it is waxing. The real season does too: Matariʻi i niʻa, the season of abundance from 20 November, gives more fruit, and the fruit in season each month (ʻuru, mango, pineapple, tiare) grows twice as fast. Food can be "tasted" for a tip on where to try it. Shells wash up on the beaches, and a pearl line in the lagoon opens after Porapora.
+- **Crafts:** a sun-printed pāreu (cotton and a plant dye), a woven tāupoʻo (pandanus, over-and-under weaving), a hei poe (pearls and shells) and a tapa (beat ʻuru bark with the ʻiʻe, then print motifs). The bird wears what you make, and every craft says where to see the real thing.
+- **ʻĀʻai (legends):** Hina and the eel (Tahiti), Pai and the pierced mountain (Moʻorea), ʻOro and the rainbow (Porapora), and two garden legends: Ruataʻata and the ʻuru, and Hina in the moon. Each legend gives seeds or materials.
 - **Saving:** progress is saved on the phone only (localStorage). There are no accounts and nothing is sent anywhere.
 
 ## Before a public launch
@@ -31,3 +34,4 @@ There is no service worker yet, so an update shows up after a normal reload.
 - Replace the computer voice with real recordings. It is an approximation and does not pronounce the ʻeta.
 - Check the travel information (ferry and flight times) with the operators, and add partner links (for example Tahiti Tourisme) if a partnership happens.
 - Show sacred places such as Taputapuātea, which is planned for Raiatea, with the guardians' agreement.
+- Have the legends checked by a storyteller or the Maison de la Culture. Each legend exists in several versions, and the app says which version it follows.
